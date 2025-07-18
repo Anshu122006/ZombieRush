@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e45c5f800037dd42bf1d96c8ce6281c, type: 3}
+  m_Name: Pistol
+  m_EditorClassIdentifier: 
+  gunType: 0
+  effectPref: {fileID: 0}
+  particlePref: {fileID: 0}
+  visual: {fileID: 475219584, guid: f5de53fd3daa1fc48924568f5faacafb, type: 3}
+  curLevel: 1
+  maxLevel: 50
+  damage:
+    init: 4
+    final: 10
+    pow: 1
+  accuracy:
+    init: 4
+    final: 10
+    pow: 1
+  maxAmmo:
+    init: 0
+    final: 0
+    pow: 1
+  particlesPerShot:
+    init: 1
+    final: 1
+    pow: 1
+  range:
+    init: 6
+    final: 8
+    pow: 1
+  deviation:
+    init: 1
+    final: 0.4
+    pow: 1
+  reloadTime:
+    init: 1
+    final: 0.6
+    pow: 1
+  particleSpeed:
+    init: 0
+    final: 0
+    pow: 0
+  dischargeRate:
+    init: 0
+    final: 0
+    pow: 0
+  rechargeRate:
+    init: 0
+    final: 0
+    pow: 0
+  weight:
+    init: 0
+    final: 0
+    pow: 0

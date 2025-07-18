@@ -2,7 +2,7 @@ using Pathfinding;
 using UnityEngine;
 using Game.Utils;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public abstract class MovementBase : MonoBehaviour {
     // Needed for the MoveRandom function to work properly
@@ -20,9 +20,10 @@ public abstract class MovementBase : MonoBehaviour {
     protected float pathLength;
 
     // Final separation between from the target
-    [SerializeField] protected float endSep = 0.3f;
+    [SerializeField] protected float endSep = 0.1f;
 
-
+    public bool canMove;
+    public bool targetReached;
 
     /// <summary>Makes the object move randomly within a range</summary>>
     /// <param name="centre">Centre about which we want the object to move, set to tranform.position for free movement</param>
@@ -32,6 +33,7 @@ public abstract class MovementBase : MonoBehaviour {
     protected void MoveRandom(Vector3 centre, float radius, float waitTime, string waitTimerName = "WaitTimer") {
         if (agent.reachedEndOfPath) {
             agent.SetPath(null);
+            agent.canMove = false;
 
             float time = Random.Range(waitTime, waitTime + 1);
             time = waitTime == 0 ? 0 : time;
@@ -50,15 +52,23 @@ public abstract class MovementBase : MonoBehaviour {
     /// <summary>To continuosly move to a target as it's position keeps changing</summary>
     ///<param name="target">Transform of the target</param>
     ///<param name="updateTime">recalculates path after every updateTime seconds</param>
-    ///<param name="timer">Timer to control update ra`te</param>
+    ///<param name="timer">Timer to control update rate</param>
     ///<param name="timerName">Nmae of the timer for more control ovet it</param>
     protected void MoveToTarget(Transform target, float updateTime, ref FunctionTimer timer, string timerName = "MoveTimer") {
-        if (timer == null || timer.TimeLeft() < 0) {
-            timer = FunctionTimer.CreateSceneTimer(() => {
-                Vector3 targetPos = target.position;
-                seeker.StartPath(transform.position, targetPos, UpdatePathData);
-            }, updateTime, timerName);
-        }
+        if (timer != null && timer.TimeLeft() > 0) return;
+
+        timer = FunctionTimer.CreateSceneTimer(() => {
+            Vector3 targetPos = target.position;
+            seeker.StartPath(transform.position, targetPos, UpdatePathData);
+        }, updateTime, timerName);
+
+    }
+
+    /// <summary>To force a new path to a target</summary>
+    ///<param name="target">Transform of the target</param>
+    protected void ForceNewPath(Transform target) {
+        Vector3 targetPos = target.position;
+        seeker.StartPath(transform.position, targetPos, UpdatePathData);
     }
 
 
@@ -117,31 +127,32 @@ public abstract class MovementBase : MonoBehaviour {
 
     /// <summary>To check is a target is present in a paricular direction and angular range</summary>
     ///<param name="start">position of the current object</param>
-    ///<param name="dir">DIrection in which you want to check for the target</param>
-    ///<param name="spread">Angular spread of the valid runaway zone in degrees</param>
     ///<param name="radius">Radius of the search zone</param>
-    ///<param name="findTag">Tag of the object you want to find</param>
-    ///<param name="blockTag">Tage of walls that block the sight, set to empty string if you want to see throuh walls</param>
-    /// <returns>A run away target</returns>
-    protected bool CheckForTarget(Vector3 start, Vector3 dir, float spread, float radius, string searchTag, string blockTag = "Obstacle") {
-        for (float a = -spread * 0.5f; a <= spread * 0.5f; a += 0.5f) {
-            Vector3 checkDir = Quaternion.Euler(0, 0, a) * dir;
-            RaycastHit2D[] hits = Physics2D.RaycastAll(start, checkDir, radius);
-            Vector3 end = start + checkDir * radius;
+    ///<param name="searchLayer">Layer of the target</param>
+    ///<param name="ostacleLayer">Layer of obstacles</param>
+    ///<param name="dir">DIrection in which you want to check for the target</param>
+    ///<param name="angularSpread">Angular spread of the valid runaway zone in degrees</param>
+    /// <returns>Position of the target if present, null otherwise</returns>
+    protected Vector2? CheckForTarget(Vector2 start, float radius, string searchLayer, string obstacleLayer = null, Vector2 dir = new Vector2(), float angularSpread = 360) {
+        int player = LayerMask.GetMask(searchLayer);
+        Collider2D hit = Physics2D.OverlapCircle(start, radius, player);
 
-            foreach (RaycastHit2D hit in hits) {
-                Collider2D collider = hit.collider;
-                if (collider != null) {
-                    if (blockTag != "" && collider.CompareTag(blockTag))
-                        break;
-                    if (collider != null && collider.CompareTag(searchTag))
-                        return true;
-                }
-            }
-            // Debug.DrawLine(start, end, Color.white, 0.5f);
+        if (hit == null) return null;
+
+        Vector2 d = ((Vector2)hit.transform.position - start).normalized;
+        float r = ((Vector2)hit.transform.position - start).magnitude;
+
+        int layer = obstacleLayer != null ? LayerMask.GetMask(obstacleLayer) : 0;
+        RaycastHit2D obstacle = Physics2D.Raycast(start, d, r, layer);
+        if (obstacle.collider != null) return null;
+
+        if (dir != Vector2.zero) {
+            angularSpread = Mathf.Clamp(angularSpread, 0, 360);
+            float angle = Vector2.Angle(dir, d);
+            if (angle > angularSpread / 2) return null;
         }
 
-        return false;
+        return hit.transform.position;
     }
 
 
@@ -149,7 +160,6 @@ public abstract class MovementBase : MonoBehaviour {
     ///<param name="p">The path to be checked, usually recieved from the seeker when the path is calculated</param>
     ///<param name="length">Max length of the path</param>
     protected void ValidatePathLength(Path p, float length) {
-        agent.canMove = false;
         if (!p.error) {
             List<Vector3> newPath = new List<Vector3>(p.vectorPath);
             float dist = p.GetTotalLength();
@@ -162,6 +172,8 @@ public abstract class MovementBase : MonoBehaviour {
                 dist -= d;
             }
 
+            agent.destination = newPath[newPath.Count - 1];
+            agent.canMove = true;
             seeker.StartPath(newPath[0], newPath[newPath.Count - 1], (Path p) => { agent.canMove = true; UpdatePathData(p); });
         }
     }
@@ -186,7 +198,7 @@ public abstract class MovementBase : MonoBehaviour {
         agent.maxAcceleration = float.PositiveInfinity;
         agent.slowdownDistance = endSep;
         agent.endReachedDistance = endSep;
-        agent.radius = 1f;
+        agent.radius = 0.5f;
         agent.enableRotation = false;
         agent.pickNextWaypointDist = 1;
         agent.orientation = OrientationMode.YAxisForward;
@@ -197,15 +209,32 @@ public abstract class MovementBase : MonoBehaviour {
 
         seeker.StartPath(transform.position, transform.position);
         hasStarted = true;
+        canMove = true;
     }
 
     /// <summary>To get the current move direction of the object</summary>
     ///<returns>Current move direction of the object</returns>
     public Vector2 GetMoveDir() {
-        if (agent != null) {
-            Vector3 moveDir = agent.desiredVelocity.normalized;
-            return moveDir;
+        if (agent != null && agent.hasPath) {
+            Vector3 dir = agent.desiredVelocity;
+            if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y)) dir.y = 0;
+            else dir.x = 0;
+
+            if (dir.magnitude < 0.3) return Vector2.zero;
+            else return dir.normalized;
         }
         return Vector2.zero;
+    }
+
+    /// <summary>To disable movement</summary>
+    public void DisableMovement() {
+        canMove = false;
+        agent.canMove = false;
+    }
+
+    /// <summary>To enable movement</summary>
+    public void EnableMovement() {
+        canMove = true;
+        agent.canMove = true;
     }
 }

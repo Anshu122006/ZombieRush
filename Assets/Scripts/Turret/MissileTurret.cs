@@ -104,7 +104,7 @@ public class MissileTurret : MonoBehaviour {
                 }
                 Missile missile = Instantiate(bulletPref).GetComponent<Missile>();
                 missile.transform.position = firePoint.position;
-                missile.Setup(curTarget, 1, 8, missileRange);
+                missile.Setup(curTarget, 2, 10, missileRange, damage, accuracy, false);
                 curAmmo--;
                 isReloaded = true;
             }, reloadSpeed);

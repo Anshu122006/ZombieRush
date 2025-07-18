@@ -241,8 +241,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c9e0aed2-7afb-4c46-bf02-1855fdd6940e"",
-                    ""path"": """",
+                    ""id"": ""af81c416-f1fa-4cff-939f-5eaa980e2cd5"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -252,8 +252,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""af81c416-f1fa-4cff-939f-5eaa980e2cd5"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""2c1e0cb4-991e-4fe2-863e-c8a5130798e9"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

@@ -6,5 +6,7 @@ public class GunListSO : ScriptableObject {
     public GunSO Pistol;
     public GunSO Smg;
     public GunSO Shotgun;
-    public GunSO Bozuca;
+    public GunSO MiniGun;
+    public GunSO Bazuca;
+    public GunSO LaserGun;
 }

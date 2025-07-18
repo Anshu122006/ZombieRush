@@ -44,9 +44,15 @@ public class GameInputManager : MonoBehaviour {
         return inputVector;
     }
 
+    public Vector2 GetMousePosition() {
+        Vector2 screenPos = Mouse.current.position.ReadValue();
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+
+        return worldPos;
+    }
+
     public bool IsShooting() {
         float isShooting = inputActions.Player.Shoot.ReadValue<float>();
-
         return isShooting > 0.3f;
     }
 
