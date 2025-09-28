@@ -42,34 +42,6 @@ public class EnemyAnimation : MonoBehaviour {
         }
     }
 
-    public void PlaySlashAnimation(float waitTime) {
-        enemyMovement.DisableMovement();
-        float animTime = 0;
-        Vector2 dir = enemyMovement.GetMoveDir();
-
-        if (dir == Vector2.right) {
-            newAnimation = animationData.SlashRight.name;
-            animTime = animationData.SlashRight.length;
-        }
-        else if (dir == Vector2.left) {
-            newAnimation = animationData.SlashLeft.name;
-            animTime = animationData.SlashLeft.length;
-        }
-        else if (dir == Vector2.down) {
-            newAnimation = animationData.SlashDown.name;
-            animTime = animationData.SlashDown.length;
-        }
-        else if (dir == Vector2.up) {
-            newAnimation = animationData.SlashUp.name;
-            animTime = animationData.SlashUp.length;
-        }
-
-        FunctionTimer.CreateSceneTimer(() => {
-            enemyMovement.EnableMovement();
-            // enemyMovement.targetReached = false;
-        }, animTime + waitTime);
-    }
-
     private void UpdateAnimation() {
         if (newAnimation != currAnimation) {
             currAnimation = newAnimation;

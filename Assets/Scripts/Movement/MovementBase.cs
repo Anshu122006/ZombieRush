@@ -216,6 +216,8 @@ public abstract class MovementBase : MonoBehaviour {
     ///<returns>Current move direction of the object</returns>
     public Vector2 GetMoveDir() {
         if (agent != null && agent.hasPath) {
+            if (!agent.canMove) return Vector2.zero;
+
             Vector3 dir = agent.desiredVelocity;
             if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y)) dir.y = 0;
             else dir.x = 0;

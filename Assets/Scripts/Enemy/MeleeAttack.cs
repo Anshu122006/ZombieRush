@@ -23,6 +23,6 @@ public class MeleeAttack : AttackBase {
         int layerMask = LayerMask.GetMask("Player");
 
         // PerformSlash(dir, spread, layerMask);
-        anim.PlaySlashAnimation(waitTime);
+        // anim.PlaySlashAnimation(waitTime);
     }
 }

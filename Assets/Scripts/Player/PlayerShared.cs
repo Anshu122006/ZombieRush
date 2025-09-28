@@ -7,14 +7,14 @@ public class PlayerShared : MonoBehaviour {
     public Collider2D collider2d;
     public Animator animator;
 
-    public Movement playerMove;
-    public Animations playerAnim;
+    public PlayerMovement move;
+    public PlayerAnimation anim;
     public PlayerAttack attack;
 
 
     private void Start() {
-        playerMove = GetComponent<Movement>();
-        playerAnim = GetComponent<Animations>();
+        move = GetComponent<PlayerMovement>();
+        anim = GetComponent<PlayerAnimation>();
         attack = GetComponent<PlayerAttack>();
     }
 }

@@ -22,10 +22,19 @@ namespace Game.Utils {
             return randomVector;
         }
 
-        public static float GetDistance(Vector3 pointOne, Vector3 pointTwo) {
-            Vector2 pointonePos = pointOne;
-            Vector2 pointtwoPos = pointTwo;
-            return (pointtwoPos - pointonePos).magnitude;
+        public static Vector2 ClampVector(Vector2 baseDir, Vector2 clampDir, float angularRange) {
+            Vector2 anticlockwiseOffset = Quaternion.Euler(0, 0, -angularRange) * baseDir;
+            Vector2 clockwiseOffset = Quaternion.Euler(0, 0, angularRange) * baseDir;
+
+            float angularSep = Vector2.Angle(baseDir, clampDir);
+            if (angularSep < angularRange) {
+                return clampDir;
+            }
+            else {
+                float cross = baseDir.x * clampDir.y - baseDir.y * clampDir.x;
+                if (cross > 0) return clockwiseOffset;
+                else return anticlockwiseOffset;
+            }
         }
     }
 }

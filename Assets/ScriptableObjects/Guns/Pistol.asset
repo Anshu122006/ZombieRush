@@ -43,8 +43,8 @@ MonoBehaviour:
     final: 0.4
     pow: 1
   reloadTime:
-    init: 1
-    final: 0.6
+    init: 0.3
+    final: 0.1
     pow: 1
   particleSpeed:
     init: 0

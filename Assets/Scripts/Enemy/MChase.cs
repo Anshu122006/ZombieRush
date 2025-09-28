@@ -56,7 +56,7 @@ public class MChase : MovementBase {
     }
 
     private void UpdateState() {
-        float dist = VectorHandler.GetDistance(transform.position, player.position);
+        float dist = Vector2.Distance(transform.position, player.position);
 
         if (dist < chaseRadius && moveState != MoveState.Chasing) {
             agent.maxSpeed = chaseSpeed;
