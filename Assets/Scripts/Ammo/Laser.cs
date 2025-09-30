@@ -19,8 +19,8 @@ public class Laser : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collider) {
         if (collider.CompareTag("Enemy")) {
-            IStats enemy = collider.GetComponent<IStats>();
-            enemy.TakeDamage(damage, accuracy);
+            IStatsManager enemy = collider.GetComponent<IStatsManager>();
+            // enemy.TakeDamage(damage);
         }
     }
 

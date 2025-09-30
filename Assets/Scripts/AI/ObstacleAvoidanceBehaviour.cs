@@ -15,8 +15,8 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour {
 
             float weight = distanceToObstacle <= agentColliderSize ? 1 : (radius - distanceToObstacle) / radius;
 
-            for (int i = 0; i < Directions.eightDirections.Length; i++) {
-                float result = Vector2.Dot(Directions.eightDirections[i], directionToObstacleNormalised);
+            for (int i = 0; i < Directions.directions.Length; i++) {
+                float result = Vector2.Dot(Directions.directions[i], directionToObstacleNormalised);
                 float valueToPutIn = result * weight;
 
                 if (valueToPutIn > danger[i]) {
@@ -35,7 +35,7 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour {
         if (Application.isPlaying && dangerResultTemp != null) {
             Gizmos.color = Color.red;
             for (int i = 0; i < dangerResultTemp.Length; i++) {
-                Gizmos.DrawRay(transform.position, Directions.eightDirections[i] * dangerResultTemp[i]);
+                Gizmos.DrawRay(transform.position, Directions.directions[i] * dangerResultTemp[i]);
             }
         }
         else {

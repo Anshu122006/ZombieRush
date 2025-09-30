@@ -36,7 +36,7 @@ public class SeekBehaviour : SteeringBehaviour {
 
         Vector2 directionToTarget = targetPositionCached - (Vector2)transform.position;
         for (int i = 0; i < interest.Length; i++) {
-            float result = Vector2.Dot(directionToTarget.normalized, Directions.eightDirections[i]);
+            float result = Vector2.Dot(directionToTarget.normalized, Directions.directions[i]);
             if (result > 0) {
                 interest[i] = result;
             }
@@ -52,7 +52,7 @@ public class SeekBehaviour : SteeringBehaviour {
         if (Application.isPlaying && interestTemp != null) {
             Gizmos.color = Color.green;
             for (int i = 0; i < interestTemp.Length; i++) {
-                Gizmos.DrawRay(transform.position, Directions.eightDirections[i] * interestTemp[i]);
+                Gizmos.DrawRay(transform.position, Directions.directions[i] * interestTemp[i]);
             }
         }
         if (reachedLastTarget == false) {
@@ -62,15 +62,15 @@ public class SeekBehaviour : SteeringBehaviour {
     }
 }
 
-public static class Directions {
-    public static Vector2[] eightDirections = {
-        new Vector2(1,0).normalized,
-        new Vector2(-1,0).normalized,
-        new Vector2(0,1).normalized,
-        new Vector2(0,-1).normalized,
-        new Vector2(1,1).normalized,
-        new Vector2(-1,-1).normalized,
-        new Vector2(1,-1).normalized,
-        new Vector2(-1,1).normalized,
-     };
-}
+// public static class Directions {
+//     public static Vector2[] eightDirections = {
+//         new Vector2(1,0).normalized,
+//         new Vector2(-1,0).normalized,
+//         new Vector2(0,1).normalized,
+//         new Vector2(0,-1).normalized,
+//         new Vector2(1,1).normalized,
+//         new Vector2(-1,-1).normalized,
+//         new Vector2(1,-1).normalized,
+//         new Vector2(-1,1).normalized,
+//      };
+// }

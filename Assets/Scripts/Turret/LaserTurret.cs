@@ -111,8 +111,8 @@ public class LaserTurret : MonoBehaviour {
                 if (curTarget == null) return;
 
                 MeshHandler.DrawLineMesh(firePoint.position, curTarget.position, reloadSpeed + 0.01f, 0.007f, 0.007f, laserMaterial);
-                IStats enemy = curTarget.GetComponent<IStats>();
-                enemy.TakeDamage(damage, accuracy);
+                IStatsManager enemy = curTarget.GetComponent<IStatsManager>();
+                // enemy.TakeDamage(damage);
                 currCharge -= dischargeRate;
             }, reloadSpeed);
         }

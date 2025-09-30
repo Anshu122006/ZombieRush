@@ -1,8 +1,7 @@
 using Game.Utils;
 using UnityEngine;
 
-public class Missile : MonoBehaviour
-{
+public class Missile : MonoBehaviour {
     private Rigidbody2D rb;
     private Transform target;
     private bool followTarget;
@@ -14,32 +13,26 @@ public class Missile : MonoBehaviour
     private float elapsed;
     private float duration;
 
-    private void Awake()
-    {
+    private void Awake() {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() {
         DestroySelf();
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.CompareTag("Enemy"))
-        {
-            IStats enemy = collider.GetComponent<IStats>();
-            enemy.TakeDamage(damage, accuracy);
+    void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.CompareTag("Enemy")) {
+            IStatsManager enemy = collider.GetComponent<IStatsManager>();
+            // enemy.TakeDamage(damage);
             Destroy(gameObject);
         }
-        else if (collider.CompareTag("BlockBullet"))
-        {
+        else if (collider.CompareTag("BlockBullet")) {
             Destroy(gameObject);
         }
     }
 
-    public void Setup(Transform target, float u, float v, float d, int damage, int accuracy, bool followTarget)
-    {
+    public void Setup(Transform target, float u, float v, float d, int damage, int accuracy, bool followTarget) {
         this.followTarget = followTarget;
         this.target = target;
         this.damage = damage;
@@ -50,8 +43,7 @@ public class Missile : MonoBehaviour
         elapsed = 0;
         duration = (v - u) / a + 0.75f * d / v;
         Vector2 dir = (target.position - transform.position).normalized;
-        if (!followTarget)
-        {
+        if (!followTarget) {
             Destroy(target.gameObject);
             target = null;
         }
@@ -61,29 +53,23 @@ public class Missile : MonoBehaviour
         rb.AddForce(force, ForceMode2D.Impulse);
     }
 
-    private void Acclerate()
-    {
-        if (rb.linearVelocity.magnitude < v)
-        {
+    private void Acclerate() {
+        if (rb.linearVelocity.magnitude < v) {
             float forceMag = rb.mass * a;
             rb.AddForce(rb.linearVelocity.normalized * forceMag, ForceMode2D.Force);
         }
-        if (followTarget)
-        {
+        if (followTarget) {
             Vector2 dir = (target.position - transform.position).normalized;
             transform.rotation = VectorHandler.RotationFromVector(dir);
             rb.linearVelocity = dir * rb.linearVelocity.magnitude;
         }
     }
 
-    private void DestroySelf()
-    {
-        if (elapsed >= duration)
-        {
+    private void DestroySelf() {
+        if (elapsed >= duration) {
             Destroy(gameObject);
         }
-        else
-        {
+        else {
             elapsed += Time.fixedDeltaTime;
             Acclerate();
         }

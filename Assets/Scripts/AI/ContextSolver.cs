@@ -21,8 +21,8 @@ public class ContextSolver : MonoBehaviour {
 
         interestGizmos = interest;
         Vector2 outputDir = Vector2.zero;
-        for (int i = 0; i < Directions.eightDirections.Length; i++) {
-            outputDir += Directions.eightDirections[i] * interest[i];
+        for (int i = 0; i < Directions.directions.Length; i++) {
+            outputDir += Directions.directions[i] * interest[i];
         }
         outputDir = outputDir.normalized;
         return outputDir;

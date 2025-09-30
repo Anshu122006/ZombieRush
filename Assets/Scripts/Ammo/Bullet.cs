@@ -20,8 +20,8 @@ public class Bullet : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collider) {
         if (collider.CompareTag("Enemy")) {
-            IStats enemy = collider.GetComponent<IStats>();
-            enemy.TakeDamage(damage, accuracy);
+            IStatsManager enemy = collider.GetComponent<IStatsManager>();
+            // enemy.TakeDamage(damage);
             Destroy(gameObject);
         }
         else if (collider.CompareTag("BlockBullet")) {

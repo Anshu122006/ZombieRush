@@ -87,8 +87,8 @@ public class ElectricTurret : MonoBehaviour {
                 foreach (Transform target in curTargets) {
                     Transform enemyElec = Instantiate(enemyEffect, target);
                     enemyElec.localPosition = new Vector3(0, 0, -6);
-                    IStats enemy = target.GetComponent<IStats>();
-                    enemy.TakeDamage(damage, accuracy);
+                    IStatsManager enemy = target.GetComponent<IStatsManager>();
+                    // enemy.TakeDamage(damage);
                     curCharges--;
                 }
 

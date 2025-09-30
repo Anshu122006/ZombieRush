@@ -5,7 +5,7 @@ public class SonicRing : MonoBehaviour {
     private int accuracy;
     private float pushBackForce;
     private void OnTriggerEnter2D(Collider2D collider) {
-        IStats enemy = collider.GetComponent<IStats>();
+        IStatsManager enemy = collider.GetComponent<IStatsManager>();
         Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
         Debug.Log("Hit");
         Vector2 dir = collider.transform.position - transform.position;
@@ -14,7 +14,7 @@ public class SonicRing : MonoBehaviour {
             return;
         }
 
-        enemy.TakeDamage(damage, accuracy);
+        // enemy.TakeDamage(damage);
         rb.AddForce(dir * pushBackForce, ForceMode2D.Impulse);
     }
 
