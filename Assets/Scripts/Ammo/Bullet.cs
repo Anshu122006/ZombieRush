@@ -3,10 +3,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
     private Rigidbody2D rb;
-    private Vector2 dir;
     private int damage;
     private int accuracy;
-    private float u;
     private float elapsed;
     private float duration;
 
@@ -21,7 +19,7 @@ public class Bullet : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D collider) {
         if (collider.CompareTag("Enemy")) {
             IStatsManager enemy = collider.GetComponent<IStatsManager>();
-            // enemy.TakeDamage(damage);
+            enemy.TakeDamage(damage, accuracy);
             Destroy(gameObject);
         }
         else if (collider.CompareTag("BlockBullet")) {
@@ -30,8 +28,6 @@ public class Bullet : MonoBehaviour {
     }
 
     public void Setup(Vector3 dir, float u, float d, int damage, int accuracy) {
-        this.dir = dir;
-        this.u = u;
         this.damage = damage;
         this.accuracy = accuracy;
 

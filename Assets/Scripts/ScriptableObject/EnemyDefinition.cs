@@ -18,6 +18,7 @@ public class EnemyDefinition : ScriptableObject {
     public StatField<int, int> def;
     public StatField<int, int> atk;
     public StatField<int, int> atkRate;
+    public StatField<int, int> agi;
     public StatField<int, int> luck;
     public StatField<int, int> baseSpeed;
 }

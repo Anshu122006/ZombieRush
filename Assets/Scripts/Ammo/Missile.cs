@@ -5,8 +5,6 @@ public class Missile : MonoBehaviour {
     private Rigidbody2D rb;
     private Transform target;
     private bool followTarget;
-    private int damage;
-    private int accuracy;
     private float u;
     private float v;
     private float a;
@@ -35,8 +33,6 @@ public class Missile : MonoBehaviour {
     public void Setup(Transform target, float u, float v, float d, int damage, int accuracy, bool followTarget) {
         this.followTarget = followTarget;
         this.target = target;
-        this.damage = damage;
-        this.accuracy = accuracy;
         this.u = u == 0 ? 0.2f : u;
         this.v = v;
         a = 2 * (v * v - u * u) / d;

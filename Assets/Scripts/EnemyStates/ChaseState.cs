@@ -16,7 +16,7 @@ public class ChaseState : EnemyState {
     private FastNoiseLite noise;
 
     // Constructor
-    public ChaseState(DummyAI enemy, ChaseStateConfig config) : base(enemy) {
+    public ChaseState(EnemyAI enemy, ChaseStateConfig config) : base(enemy) {
         this.config = config;
     }
 
@@ -36,8 +36,6 @@ public class ChaseState : EnemyState {
         currentSpeed += config.acceleration * Time.deltaTime;
         currentSpeed = Mathf.Clamp(currentSpeed, 0, statsData.BASESPEED * config.speedFactor);
         enemy.rb2d.linearVelocity = targetDir * currentSpeed * Random.Range(0.9f, 1);
-
-        Debug.Log(statsData.BASESPEED);
     }
 
     public override void Exit() {

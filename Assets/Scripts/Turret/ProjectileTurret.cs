@@ -4,118 +4,87 @@ using UnityEditor;
 using UnityEngine;
 
 public class ProjectileTurret : MonoBehaviour {
-    private bool isReloaded;
-    private bool searched;
-    private bool isturning;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject bulletPref;
+    [SerializeField] private ProjectileTurretDefinition data;
+
+    private int curLevel;
+    private int maxLevel;
     private int curAmmo;
-    private float searchRate;
-    [SerializeField] Transform firePoint;
-    [SerializeField] GameObject bulletPref;
-
     private Transform curTarget;
-    private TurretType turretType;
+    private Coroutine shootCoroutine;
 
-    private bool seeThroughWalls;
-    private int particlesPerShot;
-    private int maxAmmo;
-    private int damage;
-    private int accuracy;
-    private float deviation;
-    private float reloadSpeed;
-    private float range;
-    private float turnTime;
+    public float ReloadRate => data.reloadRate.EvaluateStat(curLevel, maxLevel);
+    public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
+    public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
+    public int MaxAmmo => data.maxAmmo.EvaluateStat(curLevel, maxLevel);
+    public float Range => data.range.EvaluateStat(curLevel, maxLevel);
+    public float ShootDelay => data.shootDelay.EvaluateStat(curLevel, maxLevel);
+    public float FireDelay => data.fireDelay.EvaluateStat(curLevel, maxLevel);
+    public float ProjectileSpeed => data.projectileSpeed.EvaluateStat(curLevel, maxLevel);
+    public int PelletsPerShot => data.pelletsPerShot.EvaluateStat(curLevel, maxLevel);
+
+
 
     private void Start() {
-        seeThroughWalls = true;
-        isReloaded = true;
-        searched = false;
-        isturning = false;
-        searchRate = 0.1f;
-        reloadSpeed = 0.4f;
-        maxAmmo = 30;
-        curAmmo = 30;
-        particlesPerShot = 3;
-        damage = 6;
-        deviation = 1;
-        range = 6;
-        turnTime = 0.5f;
+        curLevel = 1;
+        maxLevel = data.maxLevel;
+        curAmmo = MaxAmmo;
+        InvokeRepeating("SearchForEnemies", 0, data.searchRate);
+        InvokeRepeating("ReloadAmmo", 0, ReloadRate);
     }
 
     private void Update() {
-        if (curTarget != null)
-            Shoot();
-
-        SearchForEnemies();
+        if (shootCoroutine == null && curTarget != null && curAmmo > 0)
+            shootCoroutine = StartCoroutine(Shoot());
+        AimAtTarget();
     }
+
     public void SearchForEnemies() {
-        if (maxAmmo != 0 && curAmmo < 1) return;
+        if (curAmmo < 1) return;
 
-        if (!searched) {
-            FunctionTimer.CreateSceneTimer(() => {
-                Transform prevTarget = curTarget;
-                Vector2 centre = transform.position;
-                int layerMask = seeThroughWalls ? LayerMask.GetMask("Enemy") : LayerMask.GetMask("Enemy", "BlockBullets");
+        Vector2 centre = transform.position;
 
-                Collider2D hit = Physics2D.OverlapCircle(centre, range, layerMask);
+        int layerMask = data.seeThroughWalls ? LayerMask.GetMask("Enemy") : LayerMask.GetMask("Enemy", "BlockBullets");
+        Collider2D hit = Physics2D.OverlapCircle(centre, Range, layerMask);
 
-                if (hit != null && hit.CompareTag("Enemy")) curTarget = hit.transform;
-                else curTarget = null;
-
-                if (prevTarget == null && curTarget != null) {
-                    isturning = true;
-                    StartCoroutine(TurnTowardsTarget(curTarget.position));
-                }
-                searched = false;
-            }, searchRate);
-            searched = true;
-        }
-
-        if (!isturning) AimAtTarget();
+        if (hit != null && (LayerMask.GetMask("Enemy") & (1 << hit.gameObject.layer)) != 0) curTarget = hit.transform;
+        else curTarget = null;
     }
 
     private void AimAtTarget() {
-        if (curTarget == null) return;
-        Quaternion rot = VectorHandler.RotationFromVector(curTarget.position - transform.position);
-        if (transform.rotation != rot)
-            transform.rotation = rot;
+        if (curTarget == null || curAmmo <= 0) return;
+        Vector2 dir = (curTarget.position - transform.position).normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, data.rotationSpeed * Time.deltaTime);
     }
 
-    private IEnumerator TurnTowardsTarget(Vector3 target) {
-        float elapsed = 0;
-        float angle = VectorHandler.AngleFromVector(target);
-        float duration = angle / 360 * turnTime;
+    private IEnumerator Shoot() {
+        int n = Mathf.Min(PelletsPerShot, curAmmo);
 
-        while (elapsed < duration) {
-            float t = elapsed / duration;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, angle), t);
-            elapsed += Time.deltaTime;
-            yield return null;
+        for (int i = 0; i < n; i++) {
+            if (curTarget == null) {
+                shootCoroutine = null;
+                yield break;
+            }
+
+            Vector2 dir = (curTarget.position - transform.position).normalized;
+            Bullet bullet = Instantiate(bulletPref).GetComponent<Bullet>();
+            bullet.transform.position = firePoint.position;
+            bullet.Setup(dir, 8, Range * 1.2f, Damage, Accuracy);
+
+            curAmmo--;
+            yield return new WaitForSeconds(FireDelay);
         }
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-        isturning = false;
+
+        yield return new WaitForSeconds(ShootDelay);
+        shootCoroutine = null;
     }
 
-    private void Shoot() {
-        if (maxAmmo != 0 && curAmmo < 1) return;
-
-        if (isReloaded) {
-            float time = reloadSpeed;
-            if (curAmmo % particlesPerShot > 0)
-                time = 0.1f * reloadSpeed;
-            FunctionTimer.CreateSceneTimer(() => {
-                if (curTarget == null) {
-                    isReloaded = true;
-                    return;
-                }
-
-                Vector2 dir = VectorHandler.GenerateRandomDir(curTarget.position - transform.position, deviation);
-                Bullet bullet = Instantiate(bulletPref).GetComponent<Bullet>();
-                bullet.transform.position = firePoint.position;
-                bullet.Setup(dir, 8, range * 1.2f, damage, accuracy);
-                curAmmo -= maxAmmo > 0 ? 1 : 0;
-                isReloaded = true;
-            }, time);
-            isReloaded = false;
-        }
+    private void ReloadAmmo() {
+        if (curAmmo < MaxAmmo)
+            curAmmo++;
     }
 }

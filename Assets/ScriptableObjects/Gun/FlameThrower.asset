@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: FlameThrower
+  m_EditorClassIdentifier: Assembly-CSharp::FlameThrowerDefinition
+  gunName: Flame Thrower
+  effectPref: {fileID: 0}
+  particlePref: {fileID: 0}
+  visual: {fileID: 0}
+  startLevel: 1
+  maxLevel: 99
+  expThreshold:
+    init: 5
+    final: 20
+    pow: 1
+  damage:
+    init: 1
+    final: 3
+    pow: 1
+  accuracy:
+    init: 1
+    final: 4
+    pow: 1
+  range:
+    init: 1
+    final: 15
+    pow: 1
+  fireDelay:
+    init: 0.2
+    final: 0.2
+    pow: 1
+  weight:
+    init: 8
+    final: 6
+    pow: 1
+  burnDamage:
+    init: 2
+    final: 3
+    pow: 1
+  fuelConsumptionRate:
+    init: 14
+    final: 10
+    pow: 1
+  fuelReplenishRate:
+    init: 3
+    final: 6
+    pow: 1
+  burnDuration:
+    init: 1
+    final: 2
+    pow: 1

@@ -1,40 +1,56 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class EnemyAI : MonoBehaviour {
-    [SerializeField] private List<SteeringBehaviour> steerings;
+    // FInite State Machine
+    public EnemyFSM FSM { get; private set; }
+    public WanderState wanderState { get; private set; }
+    public ChaseState chaseState { get; private set; }
+    public AttackState attackState { get; private set; }
+
+    // Data required by the states
+    public Rigidbody2D rb2d;
+    public AIData aiData;
+    public EnemyStatsData statsData;
+    public EnemyStatsManager statsManager;
+
+    //Configs for each state
+    [SerializeField] private WanderStateConfig wanderStateConfig;
+    [SerializeField] private ChaseStateConfig chaseStateConfig;
+    [SerializeField] private AttackStateConfig attackStateConfig;
+
+    // Detection delay
     [SerializeField] private List<Detector> detectors;
-    [SerializeField] private AIData aiData;
+    [SerializeField] private float detectionDelay = 0.05f;
 
-    [SerializeField] private float detectionDelay = 0.05f, aiUpdateDelay = 0.06f, attackDelay = 1f;
-    [SerializeField] private float attackRange = 1f;
 
-    [SerializeField] private Vector2 movementInput;
-    [SerializeField] private ContextSolver contextSolver;
+    private void Awake() {
+        FSM = new EnemyFSM();
 
-    public UnityEvent<Vector2> OnMovementInput, OnPointerInput;
+        wanderState = new WanderState(this, wanderStateConfig);
+        chaseState = new ChaseState(this, chaseStateConfig);
+        attackState = new AttackState(this, attackStateConfig);
 
-    private bool following = false;
+        chaseState.transitions = new List<StateTransition>{
+            new StateTransition(wanderState, () => !CanChase()),
+            new StateTransition(attackState, () => CanChase() && CanAttack())
+        };
 
-    private void Start() {
+        wanderState.transitions = new List<StateTransition>{
+            new StateTransition(chaseState, () => CanChase())
+        };
+
+        attackState.transitions = new List<StateTransition>{
+            new StateTransition(chaseState, () => CanChase() && !CanAttack()),
+            new StateTransition(wanderState, () => !CanChase() && !CanAttack())
+        };
+
+        FSM.SetState(wanderState, wanderState.transitions);
         InvokeRepeating("PerformDetection", 0, detectionDelay);
-        InvokeRepeating("PerformDirection", 0, aiUpdateDelay);
     }
 
     private void Update() {
-        if (aiData.currentTarget != null) {
-            OnPointerInput?.Invoke(aiData.currentTarget.position);
-            if (following == false) {
-                following = true;
-            }
-        }
-        else if (aiData.GetTargetCount() > 0) {
-            aiData.currentTarget = aiData.targets[0];
-        }
-        OnMovementInput?.Invoke(movementInput);
+        FSM.Update();
     }
 
     private void PerformDetection() {
@@ -43,12 +59,10 @@ public class EnemyAI : MonoBehaviour {
         }
     }
 
-    private void PerformDirection() {
-        Vector2 bestDir = contextSolver.GetDirToMove(steerings, aiData);
-        float randomAngle = Random.Range(-60f, 60f);
-        Quaternion rot = Quaternion.Euler(0, 0, randomAngle);
-        movementInput = (rot * bestDir).normalized;
+    public bool CanChase() => aiData.GetTargetCount() > 0 || aiData.currentTarget != null;
+    public bool CanAttack() {
+        if (aiData.currentTarget == null) return false;
+        float dist = Vector2.Distance(aiData.currentTarget.position, transform.position);
+        return dist < attackStateConfig.attackRange;
     }
-
-
 }

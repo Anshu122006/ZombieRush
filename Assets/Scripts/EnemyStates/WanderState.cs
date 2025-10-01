@@ -15,7 +15,7 @@ public class WanderState : EnemyState {
     private FastNoiseLite noise;
 
     // Constructor
-    public WanderState(DummyAI enemy, WanderStateConfig config) : base(enemy) {
+    public WanderState(EnemyAI enemy, WanderStateConfig config) : base(enemy) {
         this.config = config;
     }
 
@@ -36,8 +36,6 @@ public class WanderState : EnemyState {
             UpdateTargetDirection();
             stepCoroutine = enemy.StartCoroutine(MoveStep());
         }
-
-        Debug.Log(currentSpeed);
     }
 
     public override void Exit() {

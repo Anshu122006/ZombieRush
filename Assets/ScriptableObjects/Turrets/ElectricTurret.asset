@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: ElectricTurret
+  m_EditorClassIdentifier: Assembly-CSharp::ElectricTurretDefinition
+  effectPref: {fileID: 0}
+  maxLevel: 6
+  searchRate: 0.3
+  rotationSpeed: 720
+  seeThroughWalls: 0
+  damage:
+    init: 4
+    final: 6
+    pow: 1
+  accuracy:
+    init: 4
+    final: 6
+    pow: 1
+  range:
+    init: 6
+    final: 8
+    pow: 1
+  maxCharge:
+    init: 10
+    final: 40
+    pow: 1
+  chargesPerShot:
+    init: 3
+    final: 6
+    pow: 1
+  reloadTime:
+    init: 2
+    final: 1
+    pow: 1
+  shootDelay:
+    init: 2
+    final: 1
+    pow: 1

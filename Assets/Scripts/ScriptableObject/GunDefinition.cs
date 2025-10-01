@@ -1,5 +1,4 @@
 using UnityEngine;
-[CreateAssetMenu(menuName = "Definitions/Gun Definition", fileName = "GunDefinition")]
 public abstract class GunDefinition : ScriptableObject {
     [Header("Base Properties")]
     public string gunName;
@@ -16,52 +15,50 @@ public abstract class GunDefinition : ScriptableObject {
     public StatField<int, int> damage;
     public StatField<int, int> accuracy;
     public StatField<int, int> range;
+    public StatField<float, int> fireDelay;
     public StatField<float, int> weight;
 }
 
-[CreateAssetMenu(fileName = "PistolDefinition", menuName = "Scriptable Objects/Guns/Pistol")]
+[CreateAssetMenu(fileName = "Pistol", menuName = "Guns/Pistol")]
 public class PistolDefinition : GunDefinition {
-    public StatField<int, int> maxAmmo;
-    public StatField<float, int> reloadTime;
-    public StatField<float, int> fireRate;
+    public StatField<float, int> spreadAngle;
 }
 
-[CreateAssetMenu(fileName = "SMGDefinition", menuName = "Scriptable Objects/Guns/SMG")]
-public class SMGDefinition : GunDefinition {
+[CreateAssetMenu(fileName = "SMG", menuName = "Guns/SMG")]
+public class SmgDefinition : GunDefinition {
     public StatField<int, int> maxAmmo;
-    public StatField<float, int> reloadTime;
-    public StatField<float, int> fireRate;
+    public StatField<float, int> spreadAngle;
 }
 
-[CreateAssetMenu(fileName = "ShotgunDefinition", menuName = "Scriptable Objects/Guns/Shotgun")]
+[CreateAssetMenu(fileName = "Shotgun", menuName = "Guns/Shotgun")]
 public class ShotgunDefinition : GunDefinition {
     public StatField<int, int> maxAmmo;
-    public StatField<float, int> reloadTime;
     public StatField<int, int> pelletsPerShot;
     public StatField<float, int> spreadAngle;
 }
 
-[CreateAssetMenu(fileName = "BazookaDefinition", menuName = "Scriptable Objects/Guns/Bazooka")]
+[CreateAssetMenu(fileName = "Bazooka", menuName = "Guns/Bazooka")]
 public class BazookaDefinition : GunDefinition {
     public StatField<int, int> maxAmmo;
-    public StatField<float, int> reloadTime;
+    public StatField<float, int> projectileRange;
     public StatField<float, int> projectileSpeed;
-    public StatField<float, int> explosionRadius;
 }
 
-[CreateAssetMenu(fileName = "MinigunDefinition", menuName = "Scriptable Objects/Guns/Minigun")]
+[CreateAssetMenu(fileName = "Minigun", menuName = "Guns/Minigun")]
 public class MinigunDefinition : GunDefinition {
     public StatField<int, int> maxAmmo;
-    public StatField<float, int> reloadTime;
+    public StatField<int, int> ammoPerSpin;
+    public StatField<float, int> projectileSpeed;
     public StatField<float, int> spinUpTime;
-    public StatField<float, int> fireRate;
+    public float offset;
 }
 
-[CreateAssetMenu(fileName = "LaserGunDefinition", menuName = "Scriptable Objects/Guns/LaserGun")]
-public class LaserGunDefinition : GunDefinition {
-    public StatField<float, int> rechargeRate;
-    public StatField<float, int> dischargeRate;
-    public StatField<float, int> maxBeamDuration;
+[CreateAssetMenu(fileName = "FlameThrower", menuName = "Guns/FlameThrower")]
+public class FlameThrowerDefinition : GunDefinition {
+    public StatField<int, int> burnDamage;
+    public StatField<float, int> fuelConsumptionRate;
+    public StatField<float, int> fuelReplenishRate;
+    public StatField<float, int> burnDuration;
 }
 
 

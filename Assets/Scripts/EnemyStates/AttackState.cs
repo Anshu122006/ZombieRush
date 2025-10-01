@@ -7,7 +7,7 @@ public class AttackState : EnemyState {
     private EnemyStatsManager statsManager;
     private AIData aiData;
     private Coroutine attackCoroutine;
-    public AttackState(DummyAI enemy, AttackStateConfig config) : base(enemy) {
+    public AttackState(EnemyAI enemy, AttackStateConfig config) : base(enemy) {
         this.config = config;
     }
 
@@ -43,7 +43,7 @@ public class AttackState : EnemyState {
         foreach (var hit in hits) {
             IStatsManager target = hit.GetComponent<IStatsManager>();
             if (target != null) {
-                target.TakeDamage(statsData.ATK, statsManager);
+                target.TakeDamage(statsData.ATK, statsData.LUCK);
             }
         }
 

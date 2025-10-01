@@ -5,7 +5,10 @@ using UnityEngine;
 public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
     [SerializeField] private ShotgunDefinition data;
     [SerializeField] private Transform firePoint;
-    private Coroutine reloadCoroutine;
+
+    private CharacterStatsData charStatData;
+    private CharacterStatsManager charStatManager;
+    private Coroutine delayShootCoroutine;
     private int maxLevel;
 
     // Runtime values
@@ -16,15 +19,19 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
     // getters
     public Transform FirePoint => firePoint;
     public bool CanShoot => curAmmo > 0;
-    public int ExpThreshold => (int)(data.expThreshold.init + (data.expThreshold.final - data.expThreshold.init) * Mathf.Pow((float)curLevel / maxLevel, data.expThreshold.pow));
-    public int Damage => (int)(data.damage.init + (data.damage.final - data.damage.init) * Mathf.Pow((float)curLevel / maxLevel, data.damage.pow));
-    public int Accuracy => (int)(data.accuracy.init + (data.accuracy.final - data.accuracy.init) * Mathf.Pow((float)curLevel / maxLevel, data.accuracy.pow));
-    public float Range => (int)(data.range.init + (data.range.final - data.range.init) * Mathf.Pow((float)curLevel / maxLevel, data.range.pow));
-    public float Weight => (int)(data.weight.init + (data.weight.final - data.weight.init) * Mathf.Pow((float)curLevel / maxLevel, data.weight.pow));
-    public int MaxAmmo => (int)(data.maxAmmo.init + (data.maxAmmo.final - data.maxAmmo.init) * Mathf.Pow((float)curLevel / maxLevel, data.maxAmmo.pow));
-    public float ReloadTime => data.reloadTime.init + (data.reloadTime.final - data.reloadTime.init) * Mathf.Pow((float)curLevel / maxLevel, data.reloadTime.pow);
-    public int PelletsPerShot => (int)(data.pelletsPerShot.init + (data.pelletsPerShot.final - data.pelletsPerShot.init) * Mathf.Pow((float)curLevel / maxLevel, data.pelletsPerShot.pow));
-    public float SpreadAngle => data.spreadAngle.init + (data.spreadAngle.final - data.spreadAngle.init) * Mathf.Pow((float)curLevel / maxLevel, data.spreadAngle.pow);
+
+    public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
+    public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
+    public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
+    public float Range => data.range.EvaluateStat(curLevel, maxLevel);
+    public float Weight => data.weight.EvaluateStat(curLevel, maxLevel);
+    public int MaxAmmo => data.maxAmmo.EvaluateStat(curLevel, maxLevel);
+    public float FireDelay => data.fireDelay.EvaluateStat(curLevel, maxLevel);
+    public int PelletsPerShot => data.pelletsPerShot.EvaluateStat(curLevel, maxLevel);
+    public float SpreadAngle => data.spreadAngle.EvaluateStat(curLevel, maxLevel);
+
+    public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
+    public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
 
     public void Start() {
         exp = 0;
@@ -33,23 +40,25 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
         curAmmo = MaxAmmo;
     }
 
-    public void Shoot(Vector2 dir, IStatsManager player) {
-        if (MaxAmmo > 0 && curAmmo < 1) return;
-        if (reloadCoroutine == null) {
+    public void Shoot(Vector2 dir) {
+        if (curAmmo < 1) return;
+        if (delayShootCoroutine == null) {
             Debug.Log("canShoot");
             int n = PelletsPerShot;
             if (MaxAmmo > 0) n = curAmmo > n ? n : curAmmo;
 
             for (int i = 0; i < n; i++) {
-                RaycastBullet(dir, player);
+                RaycastBullet(dir);
                 curAmmo--;
             }
-            if (MaxAmmo > 0 && curAmmo < 0) curAmmo = 0;
-            reloadCoroutine = StartCoroutine(Reload());
+            curAmmo = Mathf.Clamp(curAmmo, 0, MaxAmmo);
+            delayShootCoroutine = StartCoroutine(DelayShoot());
         }
     }
 
-    private void RaycastBullet(Vector2 dir, IStatsManager player) {
+    public void AbortShoot() { }
+
+    private void RaycastBullet(Vector2 dir) {
         dir = VectorHandler.GenerateRandomDir(dir, SpreadAngle);
         Vector2 start = (Vector2)firePoint.position + dir * 0.1f;
         int layerMask = LayerMask.GetMask("BlockBullet", "Enemy");
@@ -63,7 +72,7 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
 
             IStatsManager enemy = collider.GetComponent<IStatsManager>();
             if (enemy != null) {
-                enemy.TakeDamage(Damage, player);
+                enemy.TakeDamage(Damage, charStatData.LUCK + Accuracy, charStatManager);
                 AddExp(enemy.ExpDrop);
             }
         }
@@ -73,10 +82,10 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
         }
     }
 
-    private IEnumerator Reload() {
-        yield return new WaitForSeconds(ReloadTime);
-        reloadCoroutine = null;
-        Debug.Log("Reload complete");
+    private IEnumerator DelayShoot() {
+        yield return new WaitForSeconds(FireDelay);
+        delayShootCoroutine = null;
+        Debug.Log("DelayShoot complete");
     }
 
     public void AddExp(int exp) {

@@ -15,5 +15,7 @@ public class CharacterDefinition : ScriptableObject {
     public StatField<int, int> expThreshold;
     public StatField<int, int> mhp;
     public StatField<int, int> def;
+    public StatField<int, int> agi;
+    public StatField<int, int> luck;
     public StatField<int, int> baseSpeed;
 }

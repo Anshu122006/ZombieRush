@@ -4,122 +4,79 @@ using Game.Utils;
 using UnityEngine;
 
 public class LaserTurret : MonoBehaviour {
-    private bool isCharged;
-    private bool searched;
-    private bool isturning;
-    private float currCharge;
-    private float searchRate;
-    [SerializeField] Transform firePoint;
-    [SerializeField] Material laserMaterial;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private Material laserMaterial;
+    [SerializeField] private LaserTurretDefinition data;
 
+    private bool isDischarged;
+    private int curLevel;
+    private int maxLevel;
+    private float curcharge;
     private Transform curTarget;
-    private TurretType turretType;
+    private Coroutine shootCoroutine;
 
-    private bool seeThroughWalls;
-    private float maxCharge;
-    private float dischargeRate;
-    private float chargeRate;
-    private float reloadSpeed;
-    private int damage;
-    private int accuracy;
-    private float range;
-    private float turnTime;
+    public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
+    public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
+    public float Range => data.range.EvaluateStat(curLevel, maxLevel);
+    public float FireDelay => data.fireDelay.EvaluateStat(curLevel, maxLevel);
+    public float RechargeRate => data.rechargeRate.EvaluateStat(curLevel, maxLevel);
+    public float DischargeRate => data.dischargeRate.EvaluateStat(curLevel, maxLevel);
+
 
     private void Start() {
-        seeThroughWalls = true;
-        isCharged = true;
-        searched = false;
-        isturning = false;
-        searchRate = 0.1f;
-        maxCharge = 100;
-        currCharge = 100;
-        dischargeRate = 2;
-        chargeRate = 0.5f;
-        reloadSpeed = 0.01f;
-        accuracy = 100;
-        damage = 4;
-        range = 6;
-        turnTime = 3;
+        curLevel = 1;
+        maxLevel = data.maxLevel;
+        InvokeRepeating("SearchForEnemies", 0, data.searchRate);
+        InvokeRepeating("Recharge", 0, FireDelay);
     }
 
     private void Update() {
-        if (curTarget != null)
-            Shoot();
-        SearchForEnemies();
+        if (shootCoroutine == null && curTarget != null)
+            shootCoroutine = StartCoroutine(Shoot());
+        AimAtTarget();
     }
     public void SearchForEnemies() {
-        if (!isCharged) return;
+        Vector2 centre = transform.position;
 
-        if (!searched) {
-            FunctionTimer.CreateSceneTimer(() => {
-                Transform prevTarget = curTarget;
-                Vector2 centre = transform.position;
-                int layerMask = seeThroughWalls ? LayerMask.GetMask("Enemy") : LayerMask.GetMask("Enemy", "BlockBullets");
+        int layerMask = data.seeThroughWalls ? LayerMask.GetMask("Enemy") : LayerMask.GetMask("Enemy", "BlockBullets");
+        Collider2D hit = Physics2D.OverlapCircle(centre, Range, layerMask);
 
-                Collider2D hit = Physics2D.OverlapCircle(centre, range, layerMask);
-
-                if (hit != null && hit.CompareTag("Enemy")) curTarget = hit.transform;
-                else curTarget = null;
-
-                if (prevTarget == null && curTarget != null) {
-                    isturning = true;
-                    StartCoroutine(TurnTowardsTarget(curTarget.position));
-                }
-                searched = false;
-            }, searchRate);
-            searched = true;
-        }
-
-        if (!isturning) AimAtTarget();
+        if (hit != null && (LayerMask.GetMask("Enemy") & (1 << hit.gameObject.layer)) != 0) curTarget = hit.transform;
+        else curTarget = null;
     }
 
     private void AimAtTarget() {
-        if (curTarget == null || !isCharged)
-            return;
-        Quaternion rot = VectorHandler.RotationFromVector(curTarget.position - transform.position);
-        if (transform.rotation != rot)
-            transform.rotation = rot;
+        if (curTarget == null || isDischarged) return;
+        Vector2 dir = (curTarget.position - transform.position).normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, data.rotationSpeed * Time.deltaTime);
     }
 
-    private IEnumerator TurnTowardsTarget(Vector3 curTarget) {
-        float elapsed = 0;
-        float angle = VectorHandler.AngleFromVector(curTarget);
-        float duration = angle / 360 * turnTime;
-
-        while (elapsed < duration) {
-            float t = elapsed / duration;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, angle), t);
-            elapsed += Time.deltaTime;
-            yield return null;
+    private IEnumerator Shoot() {
+        if (curTarget == null || isDischarged) {
+            shootCoroutine = null;
+            yield break;
         }
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-        isturning = false;
+
+        MeshHandler.DrawLineMesh(firePoint.position, curTarget.position, FireDelay + 0.01f, 0.007f, 0.007f, laserMaterial);
+        IStatsManager enemy = curTarget.GetComponent<IStatsManager>();
+        enemy.TakeDamage(Damage, Accuracy);
+
+        curcharge -= DischargeRate;
+        curcharge = Mathf.Clamp(curcharge, 0, 100);
+        if (curcharge == 0) isDischarged = true;
+
+        yield return new WaitForSeconds(FireDelay);
+        shootCoroutine = null;
     }
 
-    private void Shoot() {
-        if (isCharged && currCharge <= 0) {
-            currCharge = 0;
-            isCharged = false;
-        }
-        else if (!isCharged && currCharge >= maxCharge) {
-            currCharge = maxCharge;
-            isCharged = true;
-        }
-
-        if (isCharged) {
-            FunctionTimer.CreateSceneTimer(() => {
-                if (curTarget == null) return;
-
-                MeshHandler.DrawLineMesh(firePoint.position, curTarget.position, reloadSpeed + 0.01f, 0.007f, 0.007f, laserMaterial);
-                IStatsManager enemy = curTarget.GetComponent<IStatsManager>();
-                // enemy.TakeDamage(damage);
-                currCharge -= dischargeRate;
-            }, reloadSpeed);
-        }
-        else {
-            FunctionTimer.CreateSceneTimer(() => {
-                currCharge += chargeRate;
-            }, reloadSpeed);
+    private void Recharge() {
+        if (isDischarged) {
+            curcharge += RechargeRate;
+            curcharge = Mathf.Clamp(curcharge, 0, 100);
+            if (curcharge == 100) isDischarged = false;
         }
     }
 }
