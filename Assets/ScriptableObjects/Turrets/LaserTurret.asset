@@ -12,32 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: LaserTurret
   m_EditorClassIdentifier: Assembly-CSharp::LaserTurretDefinition
+  turretName: Laser Turret
+  sprite: {fileID: -1135316535992375942, guid: 6831a1605992c95489b37f8c23d29d70, type: 3}
+  turretDesc: 
   effectPref: {fileID: 0}
-  maxLevel: 6
-  searchRate: 0.3
-  rotationSpeed: 720
+  maxLevel: 99
+  cost: 120
+  searchRate: 0
+  rotationSpeed: 0
   seeThroughWalls: 0
   damage:
-    init: 6
-    final: 8
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   accuracy:
-    init: 4
-    final: 6
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   range:
-    init: 6
-    final: 8
+    init: 0
+    final: 0
+    pow: 0
+  upgradeCost:
+    init: 20
+    final: 30
     pow: 1
+  expThreshold:
+    init: 0
+    final: 0
+    pow: 0
   dischargeRate:
-    init: 2
-    final: 0.8
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   rechargeRate:
-    init: 0.8
-    final: 1
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   fireDelay:
-    init: 0.04
-    final: 0.02
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0

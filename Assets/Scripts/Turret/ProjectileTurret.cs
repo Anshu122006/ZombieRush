@@ -3,7 +3,7 @@ using Game.Utils;
 using UnityEditor;
 using UnityEngine;
 
-public class ProjectileTurret : MonoBehaviour {
+public class ProjectileTurret : MonoBehaviour,ITurretBehaviour {
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject bulletPref;
     [SerializeField] private ProjectileTurretDefinition data;
@@ -13,6 +13,10 @@ public class ProjectileTurret : MonoBehaviour {
     private int curAmmo;
     private Transform curTarget;
     private Coroutine shootCoroutine;
+
+    public int CurLevel => curLevel;
+    public int UpgradeCost => data.upgradeCost.EvaluateStat(curLevel, maxLevel);
+    public string Name => data.turretName;
 
     public float ReloadRate => data.reloadRate.EvaluateStat(curLevel, maxLevel);
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
@@ -86,5 +90,12 @@ public class ProjectileTurret : MonoBehaviour {
     private void ReloadAmmo() {
         if (curAmmo < MaxAmmo)
             curAmmo++;
+    }
+
+    public void LevelUp() {
+        if (curLevel < maxLevel) {
+            curLevel++;
+            curAmmo = MaxAmmo;
+        }
     }
 }

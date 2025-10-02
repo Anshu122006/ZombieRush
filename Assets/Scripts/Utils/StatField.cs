@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 [System.Serializable]
 public struct StatField<Tval, Tpow> {

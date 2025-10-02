@@ -3,7 +3,7 @@ using Game.Utils;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SonicTurret : MonoBehaviour {
+public class SonicTurret : MonoBehaviour,ITurretBehaviour {
     [SerializeField] private Transform center;
     [SerializeField] private GameObject ringPref;
     [SerializeField] private SonicTurretDefinition data;
@@ -12,6 +12,10 @@ public class SonicTurret : MonoBehaviour {
     private int maxLevel;
     private Transform curTarget;
     private Coroutine shootCoroutine;
+
+    public int CurLevel => curLevel;
+    public int UpgradeCost => data.upgradeCost.EvaluateStat(curLevel, maxLevel);
+    public string Name => data.turretName;
 
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
     public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
@@ -77,5 +81,10 @@ public class SonicTurret : MonoBehaviour {
         }
 
         Destroy(ring.gameObject);
+    }
+    public void LevelUp() {
+        if (curLevel < maxLevel) {
+            curLevel++;
+        }
     }
 }

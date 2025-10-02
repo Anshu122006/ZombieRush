@@ -12,40 +12,52 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: SonicTurret
   m_EditorClassIdentifier: Assembly-CSharp::SonicTurretDefinition
+  turretName: Sonic Turret
+  sprite: {fileID: -5104675929341920697, guid: 6b045750cc5ee8542b45fa7d85781dbc, type: 3}
+  turretDesc: 
   effectPref: {fileID: 0}
-  maxLevel: 6
-  searchRate: 0.3
-  rotationSpeed: 720
+  maxLevel: 99
+  cost: 30
+  searchRate: 0
+  rotationSpeed: 0
   seeThroughWalls: 0
   damage:
-    init: 5
-    final: 5
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   accuracy:
     init: 0
     final: 0
     pow: 0
   range:
-    init: 6
-    final: 8
+    init: 0
+    final: 0
+    pow: 0
+  upgradeCost:
+    init: 30
+    final: 90
     pow: 1
+  expThreshold:
+    init: 0
+    final: 0
+    pow: 0
   ringsPerBoom:
-    init: 3
-    final: 3
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   ringSpeed:
-    init: 4
-    final: 6
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   fireDelay:
-    init: 0.7
-    final: 0.4
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   shootDelay:
-    init: 1
-    final: 0.7
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   pushbackForce:
-    init: 1
-    final: 2
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0

@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Game.Utils;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class ElectricTurret : MonoBehaviour {
+public class ElectricTurret : MonoBehaviour, ITurretBehaviour {
     [SerializeField] private Transform effect1;
     [SerializeField] private Transform effect2;
     [SerializeField] private Transform enemyEffect;
@@ -17,6 +15,10 @@ public class ElectricTurret : MonoBehaviour {
     private List<Transform> curTargets;
     private Coroutine shootCoroutine;
 
+    public int CurLevel => curLevel;
+    public int UpgradeCost => data.upgradeCost.EvaluateStat(curLevel, maxLevel);
+    public string Name => data.turretName;
+
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
     public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
     public int MaxCharge => data.maxCharge.EvaluateStat(curLevel, maxLevel);
@@ -24,7 +26,6 @@ public class ElectricTurret : MonoBehaviour {
     public float Range => data.range.EvaluateStat(curLevel, maxLevel);
     public float ShootDelay => data.shootDelay.EvaluateStat(curLevel, maxLevel);
     public float ReloadTime => data.reloadTime.EvaluateStat(curLevel, maxLevel);
-
 
     private void Start() {
         curLevel = 1;
@@ -79,5 +80,12 @@ public class ElectricTurret : MonoBehaviour {
     private void ReloadCharges() {
         if (curcharge < MaxCharge)
             curcharge++;
+    }
+
+    public void LevelUp() {
+        if (curLevel < maxLevel) {
+            curLevel++;
+            curcharge = MaxCharge;
+        }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using Game.Utils;
 using UnityEngine;
 
-public class MissileTurret : MonoBehaviour {
+public class MissileTurret : MonoBehaviour,ITurretBehaviour {
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject missilePref;
     [SerializeField] private MissileTurretDefinition data;
@@ -12,7 +12,11 @@ public class MissileTurret : MonoBehaviour {
     private int curAmmo;
     private Transform curTarget;
     private Coroutine shootCoroutine;
-    
+
+    public int CurLevel => curLevel;
+    public int UpgradeCost => data.upgradeCost.EvaluateStat(curLevel, maxLevel);
+    public string Name => data.turretName;
+
     public float ReloadRate => data.reloadRate.EvaluateStat(curLevel, maxLevel);
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
     public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
@@ -72,5 +76,12 @@ public class MissileTurret : MonoBehaviour {
     private void ReloadAmmo() {
         if (curAmmo < MaxAmmo)
             curAmmo++;
+    }
+
+    public void LevelUp() {
+        if (curLevel < maxLevel) {
+            curLevel++;
+            curAmmo = MaxAmmo;
+        }
     }
 }

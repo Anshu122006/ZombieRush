@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 
 public class EmitterThrowerBehaviour : MonoBehaviour, IGunBehaviour {
-    [SerializeField] private float stopDelay = 0.4f;
     [SerializeField] private Transform emitter;
     [SerializeField] private FlameThrowerDefinition data;
 

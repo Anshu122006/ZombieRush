@@ -1,10 +1,14 @@
 using UnityEngine;
 public abstract class TurretDefinition : ScriptableObject {
     [Header("Base Properties")]
+    public string turretName;
+    public Sprite sprite;
+    [TextArea] public string turretDesc;
     public Transform effectPref;
 
     [Header("Progression")]
     public int maxLevel;
+    public int cost;
     public float searchRate;
     public float rotationSpeed;
     public bool seeThroughWalls;
@@ -12,7 +16,9 @@ public abstract class TurretDefinition : ScriptableObject {
     [Header("Core Stats")]
     public StatField<int, int> damage;
     public StatField<int, int> accuracy;
-    public StatField<int, int> range;
+    public StatField<float, int> range;
+    public StatField<int, int> upgradeCost;
+    public StatField<int, int> expThreshold;
 }
 
 [CreateAssetMenu(fileName = "ProjectileTurret", menuName = "Turrets/ProjectileTurret")]

@@ -12,44 +12,56 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: ProjectileTurret
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileTurretDefinition
+  turretName: Projectile Turret
+  sprite: {fileID: 450996202499734881, guid: 6831a1605992c95489b37f8c23d29d70, type: 3}
+  turretDesc: 
   effectPref: {fileID: 0}
-  maxLevel: 6
-  searchRate: 0.3
-  rotationSpeed: 720
+  maxLevel: 99
+  cost: 60
+  searchRate: 0
+  rotationSpeed: 0
   seeThroughWalls: 0
   damage:
-    init: 2
-    final: 7
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   accuracy:
-    init: 3
-    final: 4
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   range:
-    init: 6
-    final: 8
+    init: 0
+    final: 0
+    pow: 0
+  upgradeCost:
+    init: 30
+    final: 90
     pow: 1
+  expThreshold:
+    init: 0
+    final: 0
+    pow: 0
   reloadRate:
-    init: 3
-    final: 1
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   maxAmmo:
-    init: 50
-    final: 300
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   shootDelay:
-    init: 1
-    final: 0.7
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   fireDelay:
-    init: 0.2
-    final: 0.1
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   projectileSpeed:
-    init: 10
-    final: 20
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   pelletsPerShot:
-    init: 2
-    final: 6
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0

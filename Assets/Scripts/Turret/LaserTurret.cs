@@ -3,7 +3,7 @@ using System.Reflection;
 using Game.Utils;
 using UnityEngine;
 
-public class LaserTurret : MonoBehaviour {
+public class LaserTurret : MonoBehaviour, ITurretBehaviour {
     [SerializeField] private Transform firePoint;
     [SerializeField] private Material laserMaterial;
     [SerializeField] private LaserTurretDefinition data;
@@ -14,6 +14,10 @@ public class LaserTurret : MonoBehaviour {
     private float curcharge;
     private Transform curTarget;
     private Coroutine shootCoroutine;
+
+    public int CurLevel => curLevel;
+    public int UpgradeCost => data.upgradeCost.EvaluateStat(curLevel, maxLevel);
+    public string Name => data.turretName;
 
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
     public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
@@ -77,6 +81,13 @@ public class LaserTurret : MonoBehaviour {
             curcharge += RechargeRate;
             curcharge = Mathf.Clamp(curcharge, 0, 100);
             if (curcharge == 100) isDischarged = false;
+        }
+    }
+
+    public void LevelUp() {
+        if (curLevel < maxLevel) {
+            curLevel++;
+            curcharge = 100;
         }
     }
 }

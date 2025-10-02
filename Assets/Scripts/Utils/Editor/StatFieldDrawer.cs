@@ -12,7 +12,7 @@ public class StatFieldDrawerIntInt : PropertyDrawer {
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-        return Drawer.GetProperties(property, label, foldouts);
+        return Drawer.GetProperties(property, foldouts);
     }
 }
 
@@ -27,7 +27,7 @@ public class StatFieldDrawerIntFloat : PropertyDrawer {
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-        return Drawer.GetProperties(property, label, foldouts);
+        return Drawer.GetProperties(property, foldouts);
     }
 }
 
@@ -41,7 +41,7 @@ public class StatFieldDrawerFloatInt : PropertyDrawer {
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-        return Drawer.GetProperties(property, label, foldouts);
+        return Drawer.GetProperties(property, foldouts);
     }
 }
 
@@ -55,7 +55,7 @@ public class StatFieldDrawerFloatFloat : PropertyDrawer {
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-        return Drawer.GetProperties(property, label, foldouts);
+        return Drawer.GetProperties(property, foldouts);
     }
 }
 
@@ -102,7 +102,7 @@ class Drawer {
         EditorGUI.indentLevel--;
     }
 
-    public static float GetProperties(SerializedProperty property, GUIContent label, Dictionary<string, bool> foldouts) {
+    public static float GetProperties(SerializedProperty property, Dictionary<string, bool> foldouts) {
         string key = property.propertyPath;
         if (foldouts.ContainsKey(key) && foldouts[key]) {
             float lineHeight = EditorGUIUtility.singleLineHeight;
