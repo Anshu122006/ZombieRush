@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c9cbd87d2946a479a0ed23f9a728ce, type: 3}
+  m_Name: DustinAnimations
+  m_EditorClassIdentifier: 
+  IdleDown: {fileID: 7400000, guid: 553b7dd03a489f949aad5658220bb34c, type: 2}
+  IdleLeft: {fileID: 7400000, guid: 8157bb40d33a54049b11db6f9be6ad2b, type: 2}
+  IdleRight: {fileID: 7400000, guid: 3ab74950e2b6e96459a58284b1b894f1, type: 2}
+  IdleUp: {fileID: 7400000, guid: f458dd9c625d421499fb5f5d815fa622, type: 2}
+  WalkDown: {fileID: 7400000, guid: b0e8e4b649d675141a5a6f2949baf32e, type: 2}
+  WalkLeft: {fileID: 7400000, guid: d81d2420ab37d014294a30a2ff256477, type: 2}
+  WalkRight: {fileID: 7400000, guid: 47c6c7f85f6ad4242b71fcd357c5d5e7, type: 2}
+  WalkUp: {fileID: 7400000, guid: f596e6ec80532644b8c7fa9383155164, type: 2}
+  RunDown: {fileID: 0}
+  RunLeft: {fileID: 0}
+  RunRight: {fileID: 0}
+  RunUp: {fileID: 0}

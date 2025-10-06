@@ -1,10 +1,14 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BazookaBehaviour : MonoBehaviour, IGunBehaviour {
-    [SerializeField] private Transform firePoint;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Transform firePointS;
+    [SerializeField] private Transform firePointT;
     [SerializeField] private Transform projectilePref;
     [SerializeField] private BazookaDefinition data;
+    [SerializeField] private List<Sprite> sprites;
 
     private CharacterStatsData charStatData;
     private CharacterStatsManager charStatManager;
@@ -17,7 +21,6 @@ public class BazookaBehaviour : MonoBehaviour, IGunBehaviour {
     private int curLevel;
 
     // getters
-    public Transform FirePoint => firePoint;
     public bool CanShoot => curAmmo > 0;
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
@@ -32,6 +35,8 @@ public class BazookaBehaviour : MonoBehaviour, IGunBehaviour {
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
+    public SpriteRenderer Renderer => spriteRenderer;
+    public List<Sprite> Sprites => sprites;
 
     public void Start() {
         exp = 0;
@@ -43,15 +48,18 @@ public class BazookaBehaviour : MonoBehaviour, IGunBehaviour {
     public void Shoot(Vector2 dir) {
         if (curAmmo < 1) return;
         if (delayShootCoroutine == null) {
-            ShootMissile(firePoint, dir);
+            ShootMissile(dir);
             delayShootCoroutine = StartCoroutine(DelayShoot());
         }
     }
 
     public void AbortShoot() { }
 
-    private void ShootMissile(Transform firePoint, Vector2 dir) {
-        Vector2 start = (Vector2)firePoint.position + dir * 0.1f;
+    private void ShootMissile(Vector2 dir) {
+        float a = Vector2.Angle(dir, Vector2.right);
+        if (a > 90) a = 180 - a;
+        Vector2 start = a <= 45 ? firePointS.position : firePointT.position;
+
         Transform target = new GameObject("Target").transform;
         target.position = start + dir * Range;
 

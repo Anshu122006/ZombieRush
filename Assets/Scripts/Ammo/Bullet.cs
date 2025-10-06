@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour {
             enemy.TakeDamage(damage, accuracy);
             Destroy(gameObject);
         }
-        else if (collider.CompareTag("BlockBullet")) {
+        else if ((LayerMask.GetMask("BlockBullet") & (1 << collider.gameObject.layer)) != 0) {
             Destroy(gameObject);
         }
     }

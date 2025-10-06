@@ -1,9 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EmitterThrowerBehaviour : MonoBehaviour, IGunBehaviour {
+public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Transform emitter;
     [SerializeField] private FlameThrowerDefinition data;
+    [SerializeField] private List<Sprite> sprites;
 
     private CharacterStatsData charStatData;
     private CharacterStatsManager charStatManager;
@@ -32,6 +35,8 @@ public class EmitterThrowerBehaviour : MonoBehaviour, IGunBehaviour {
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
+    public SpriteRenderer Renderer => spriteRenderer;
+    public List<Sprite> Sprites => sprites;
 
     public void Start() {
         exp = 0;
@@ -71,7 +76,6 @@ public class EmitterThrowerBehaviour : MonoBehaviour, IGunBehaviour {
 
     private void Refuel() {
         if (curFuel < 100) curFuel = Mathf.Clamp(curFuel + FuelReplenishRate, 0, 100);
-        Debug.Log(curFuel);
     }
 
     public void AddExp(int exp) {

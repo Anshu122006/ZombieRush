@@ -1,10 +1,19 @@
 using System.Collections;
+using System.Collections.Generic;
 using Game.Utils;
 using UnityEngine;
 
 public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private SmgDefinition data;
-    [SerializeField] private Transform firePoint;
+    [SerializeField] private Transform firePointR;
+    [SerializeField] private Transform firePointL;
+    [SerializeField] private Transform firePointT;
+    [SerializeField] private List<Sprite> sprites;
+    [SerializeField] private Transform muzzleFlashPref;
+    [SerializeField] private Material shootMaterial;
+    [SerializeField] private AudioClip shootAudio;
 
     private CharacterStatsData charStatData;
     private CharacterStatsManager charStatManager;
@@ -17,7 +26,6 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
     private int curLevel;
 
     // getters
-    public Transform FirePoint => firePoint;
     public bool CanShoot => curAmmo > 0;
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
@@ -31,6 +39,8 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
+    public SpriteRenderer Renderer => spriteRenderer;
+    public List<Sprite> Sprites => sprites;
 
     public void Start() {
         exp = 0;
@@ -52,8 +62,17 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
     public void AbortShoot() { }
 
     private void RaycastBullet(Vector2 dir) {
+        Vector2 start = Vector2.zero;
+        if (Vector2.Angle(dir, Vector2.right) <= 45) start = firePointR.position;
+        else if (Vector2.Angle(dir, Vector2.left) <= 45) start = firePointL.position;
+        else start = firePointT.position;
+
+        Transform flash = Instantiate(muzzleFlashPref, start, Quaternion.identity);
+        flash.GetComponent<MuzzleFlash>().Setup(0.03f, dir);
+
+        audioSource.PlayOneShot(shootAudio);
+
         dir = VectorHandler.GenerateRandomDir(dir, SpreadAngle);
-        Vector2 start = (Vector2)firePoint.position + dir * 0.1f;
         int layerMask = LayerMask.GetMask("BlockBullet", "Enemy");
 
         RaycastHit2D hit = Physics2D.Raycast(start, dir, Range, layerMask);
@@ -61,7 +80,7 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
 
         if (collider != null) {
             Vector2 end = hit.point;
-            MeshHandler.DrawLineMesh(start, end, 0.1f);
+            MeshHandler.DrawLineMesh(start, end, 0.03f, 0.008f, 0.012f, shootMaterial);
 
             IStatsManager enemy = collider.GetComponent<IStatsManager>();
             if (enemy != null) {
@@ -71,14 +90,13 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
         }
         else {
             Vector2 end = start + dir * Range;
-            MeshHandler.DrawLineMesh(start, end, 0.1f);
+            MeshHandler.DrawLineMesh(start, end, 0.03f, 0.008f, 0.012f, shootMaterial);
         }
     }
 
     private IEnumerator DelayShoot() {
         yield return new WaitForSeconds(FireDelay);
         delayShootCoroutine = null;
-        Debug.Log("DelayShoot complete");
     }
 
     public void AddExp(int exp) {

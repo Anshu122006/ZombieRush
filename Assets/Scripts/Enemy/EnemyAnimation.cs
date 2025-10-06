@@ -10,7 +10,7 @@ public class EnemyAnimation : MonoBehaviour {
     private bool isMoving;
 
     [SerializeField] private Animator animator;
-    [SerializeField] private AnimationsSO animationData;
+    // [SerializeField] private AnimationsSO animationData;
     private void Start() {
         // enemyMovement = GetComponent<MovementBase>();
         prevDir = Vector2.right;

@@ -1,10 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using Game.Utils;
 using UnityEngine;
 
 public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private PistolDefinition data;
-    [SerializeField] private Transform firePoint;
+    [SerializeField] private Transform firePointR;
+    [SerializeField] private Transform firePointL;
+    [SerializeField] private Transform firePointT;
+    [SerializeField] private List<Sprite> sprites;
+    [SerializeField] private Transform muzzleFlashPref;
 
     private CharacterStatsData charStatData;
     private CharacterStatsManager charStatManager;
@@ -16,7 +22,6 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
     private int curLevel;
 
     // getters
-    public Transform FirePoint => firePoint;
     public bool CanShoot => true;
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
@@ -29,6 +34,8 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
+    public SpriteRenderer Renderer => spriteRenderer;
+    public List<Sprite> Sprites => sprites;
 
     public void Start() {
         exp = 0;
@@ -46,8 +53,15 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
     public void AbortShoot() { }
 
     private void RaycastBullet(Vector2 dir) {
+        Vector2 start = Vector2.zero;
+        if (Vector2.Angle(dir, Vector2.right) <= 45) start = firePointR.position;
+        else if (Vector2.Angle(dir, Vector2.left) <= 45) start = firePointL.position;
+        else start = firePointT.position;
+
+        Transform flash = Instantiate(muzzleFlashPref, start, Quaternion.identity);
+        flash.GetComponent<MuzzleFlash>().Setup(0.03f, dir);
+
         dir = VectorHandler.GenerateRandomDir(dir, SpreadAngle);
-        Vector2 start = (Vector2)firePoint.position + dir * 0.1f;
         int layerMask = LayerMask.GetMask("BlockBullet", "Enemy");
 
         RaycastHit2D hit = Physics2D.Raycast(start, dir, Range, layerMask);
@@ -65,14 +79,13 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
         }
         else {
             Vector2 end = start + dir * Range;
-            MeshHandler.DrawLineMesh(start, end, 0.1f);
+            MeshHandler.DrawLineMesh(start, end, 0.03f);
         }
     }
 
     private IEnumerator DelayShoot() {
         yield return new WaitForSeconds(FireDelay);
         delayShootCoroutine = null;
-        Debug.Log("Reload complete");
     }
 
     public void AddExp(int exp) {

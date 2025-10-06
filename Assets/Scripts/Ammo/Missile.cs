@@ -20,12 +20,12 @@ public class Missile : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D collider) {
-        if (collider.CompareTag("Enemy")) {
+        if ((LayerMask.GetMask("Enemy") & (1 << collider.gameObject.layer)) != 0) {
             IStatsManager enemy = collider.GetComponent<IStatsManager>();
             // enemy.TakeDamage(damage);
             Destroy(gameObject);
         }
-        else if (collider.CompareTag("BlockBullet")) {
+        else if ((LayerMask.GetMask("BlockBullet") & (1 << collider.gameObject.layer)) != 0) {
             Destroy(gameObject);
         }
     }

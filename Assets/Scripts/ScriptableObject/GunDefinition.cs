@@ -2,9 +2,6 @@ using UnityEngine;
 public abstract class GunDefinition : ScriptableObject {
     [Header("Base Properties")]
     public string gunName;
-    public Transform effectPref;
-    public Transform particlePref;
-    public Sprite visual;
 
     [Header("Progression")]
     public int startLevel;

@@ -26,6 +26,9 @@ public class CharacterAttack : MonoBehaviour {
         CheckForTarget();
         if (input.IsShooting()) Shoot();
         else gunHandler.Gun.AbortShoot();
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) gunHandler.Previous();
+        if (Input.GetKeyDown(KeyCode.Alpha2)) gunHandler.Next();
     }
 
     private void Shoot() {
@@ -35,8 +38,8 @@ public class CharacterAttack : MonoBehaviour {
     }
 
     private void FollowCursor() {
-        Transform pivot = gunHandler.transform;
         //To make the gun follow the cursor
+        Transform pivot = gunHandler.transform;
         Vector2 pos = input.GetMousePosition();
         Vector2 dir = (pos - (Vector2)transform.position).normalized;
 
@@ -44,17 +47,15 @@ public class CharacterAttack : MonoBehaviour {
         dir = VectorHandler.ClampVector(faceDir, dir, 45);
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
         Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
         pivot.rotation = Quaternion.RotateTowards(pivot.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        // To make the pivot appear above or below player depending on the direction
-        float x = pivot.transform.position.x, y = pivot.transform.position.y, z = 0;
-        if (components.movement.faceDir == Vector2.up) z = 5;
-        pivot.transform.position = new Vector3(x, y, z);
+        gunHandler.AdjustPos(faceDir);
 
-        if (dir.x < 0 && !gunHandler.GunSprite.flipY) gunHandler.GunSprite.flipY = true;
-        if (dir.x > 0 && gunHandler.GunSprite.flipY) gunHandler.GunSprite.flipY = false;
+        // To make the pivot appear above or below player depending on the direction
+        SpriteRenderer spriteRenderer = gunHandler.GunSpriteRenderer;
+        if (faceDir == Vector2.up || faceDir == Vector2.left) spriteRenderer.sortingLayerName = "BelowChar";
+        else spriteRenderer.sortingLayerName = "AboveChar";
     }
 
     private void CheckForTarget() {

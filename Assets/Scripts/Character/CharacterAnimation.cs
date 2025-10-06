@@ -5,7 +5,7 @@ using Game.Utils;
 using UnityEngine;
 
 public class CharacterAnimation : MonoBehaviour {
-    [SerializeField] AnimationsSO playerAnimations;
+    [SerializeField] private CharacterAnimationsSO playerAnimations;
 
     private GameInputManager input;
     private CharacterComponents components;
@@ -18,80 +18,44 @@ public class CharacterAnimation : MonoBehaviour {
     }
 
     private void Update() {
-        HandleMoveAnimation();
+        HandleWalkAnimation();
 
         UpdateAnimation();
     }
 
-    private void HandleMoveAnimation() {
-        // if (!components.movement.canMove) return;
+    private void HandleWalkAnimation() {
+        // if (!components.movement.canWalk) return;
 
         isMoving = input.GetMovementVectorNormalized() != Vector2.zero;
-        Direction dir = ConvertToEnum(components.movement.faceDir);
+        Vector2 dir = components.movement.faceDir;
         if (!isMoving) {
-            switch (dir) {
-                case Direction.Right:
-                    newAnimation = playerAnimations.IdleRight.name;
-                    break;
-                case Direction.Left:
-                    newAnimation = playerAnimations.IdleLeft.name;
-                    break;
-                case Direction.Down:
-                    newAnimation = playerAnimations.IdleDown.name;
-                    break;
-                case Direction.Up:
-                    newAnimation = playerAnimations.IdleUp.name;
-                    break;
+            if (dir == Vector2.right) {
+                newAnimation = playerAnimations.IdleRight.name;
+            }
+            else if (dir == Vector2.left) {
+                newAnimation = playerAnimations.IdleLeft.name;
+            }
+            else if (dir == Vector2.up) {
+                newAnimation = playerAnimations.IdleUp.name;
+            }
+            else if (dir == Vector2.down) {
+                newAnimation = playerAnimations.IdleDown.name;
             }
         }
         else {
-            switch (dir) {
-                case Direction.Right:
-                    newAnimation = playerAnimations.MoveRight.name;
-                    break;
-                case Direction.Left:
-                    newAnimation = playerAnimations.MoveLeft.name;
-                    break;
-                case Direction.Down:
-                    newAnimation = playerAnimations.MoveDown.name;
-                    break;
-                case Direction.Up:
-                    newAnimation = playerAnimations.MoveUp.name;
-                    break;
+            if (dir == Vector2.right) {
+                newAnimation = playerAnimations.WalkRight.name;
+            }
+            else if (dir == Vector2.left) {
+                newAnimation = playerAnimations.WalkLeft.name;
+            }
+            else if (dir == Vector2.up) {
+                newAnimation = playerAnimations.WalkUp.name;
+            }
+            else if (dir == Vector2.down) {
+                newAnimation = playerAnimations.WalkDown.name;
             }
         }
-    }
-
-    public void PlayShootAnimation(float waitTime, Action animDone) {
-        components.movement.DisableMovement();
-        Direction dir = ConvertToEnum(components.movement.faceDir);
-        float animTime = 0;
-
-        switch (dir) {
-            case Direction.Right:
-                newAnimation = playerAnimations.ShootRight.name;
-                animTime = playerAnimations.ShootRight.length;
-                break;
-            case Direction.Left:
-                newAnimation = playerAnimations.ShootLeft.name;
-                animTime = playerAnimations.ShootLeft.length;
-                break;
-            case Direction.Down:
-                newAnimation = playerAnimations.ShootDown.name;
-                animTime = playerAnimations.ShootDown.length;
-                break;
-            case Direction.Up:
-                newAnimation = playerAnimations.ShootUp.name;
-                animTime = playerAnimations.ShootUp.length;
-                break;
-        }
-
-        FunctionTimer.CreateSceneTimer(() => {
-            animDone();
-        }, animTime - 0.12f);
-        FunctionTimer.CreateSceneTimer(() => {
-            components.movement.EnableMovement();
-        }, animTime + waitTime);
     }
 
     private void UpdateAnimation() {

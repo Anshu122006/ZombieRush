@@ -13,40 +13,33 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: Assembly-CSharp::PistolDefinition
   gunName: Pistol
-  effectPref: {fileID: 0}
-  particlePref: {fileID: 0}
-  visual: {fileID: 0}
   startLevel: 1
   maxLevel: 99
   expThreshold:
-    init: 0
-    final: 0
-    pow: 0
+    init: 2
+    final: 6
+    pow: 1
   damage:
-    init: 0
-    final: 0
-    pow: 0
+    init: 2
+    final: 6
+    pow: 1
   accuracy:
-    init: 0
-    final: 0
-    pow: 0
+    init: 2
+    final: 6
+    pow: 1
   range:
-    init: 0
-    final: 0
-    pow: 0
-  reloadTime:
-    init: 0
-    final: 0
-    pow: 0
+    init: 4
+    final: 10
+    pow: 1
+  fireDelay:
+    init: 1
+    final: 0.2
+    pow: 1
   weight:
-    init: 0
-    final: 0
-    pow: 0
-  fireRate:
-    init: 0
-    final: 0
-    pow: 0
+    init: 2
+    final: 0.3
+    pow: 1
   spreadAngle:
-    init: 0
-    final: 0
-    pow: 0
+    init: 3
+    final: 1
+    pow: 1
