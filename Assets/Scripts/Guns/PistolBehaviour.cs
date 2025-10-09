@@ -23,6 +23,7 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
 
     // getters
     public bool CanShoot => true;
+    public string Name => "pistol";
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);

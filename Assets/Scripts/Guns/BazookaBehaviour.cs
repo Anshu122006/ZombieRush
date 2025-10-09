@@ -22,6 +22,7 @@ public class BazookaBehaviour : MonoBehaviour, IGunBehaviour {
 
     // getters
     public bool CanShoot => curAmmo > 0;
+    public string Name => "bazooka";
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);

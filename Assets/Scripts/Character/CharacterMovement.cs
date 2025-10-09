@@ -36,7 +36,7 @@ public class CharacterMovement : MonoBehaviour {
 
     private void HandlePlayerMovement() {
         curDir = input.GetMovementVectorNormalized();
-        float moveDist = 4 * Time.fixedDeltaTime;
+        float moveDist = 8 * Time.fixedDeltaTime;
         // float moveDist = components.stats.BaseSpeed * Time.fixedDeltaTime;
         // if (input.IsShooting() && components.gunHandler.Gun.CanShoot) moveDist *= SpeedDebuff;
 

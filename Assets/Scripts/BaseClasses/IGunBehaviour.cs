@@ -11,6 +11,7 @@ public interface IGunBehaviour {
     public SpriteRenderer Renderer { get; }
     public List<Sprite> Sprites { get; }
     // public Transform FirePoint { get; }
+    public string Name { get; }
     public int Damage { get; }
     public int Accuracy { get; }
     public float Range { get; }

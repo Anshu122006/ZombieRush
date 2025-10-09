@@ -23,6 +23,7 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
 
     // getters
     public bool CanShoot => curAmmo > 0;
+    public string Name => "shotgun";
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
