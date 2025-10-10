@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
-    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Transform emitter;
     [SerializeField] private FlameThrowerDefinition data;
-    [SerializeField] private List<Sprite> sprites;
 
     private CharacterStatsData charStatData;
     private CharacterStatsManager charStatManager;
@@ -19,9 +17,8 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
     private float curFuel;
 
     // getters
-    public Transform FirePoint => transform;
-    public bool CanShoot => curFuel > 0;
     public string Name => "flamethrower";
+    public bool Shooting => GameInputManager.Instance.IsShooting() && curFuel > 0;
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
@@ -36,8 +33,6 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
-    public SpriteRenderer Renderer => spriteRenderer;
-    public List<Sprite> Sprites => sprites;
 
     public void Start() {
         exp = 0;

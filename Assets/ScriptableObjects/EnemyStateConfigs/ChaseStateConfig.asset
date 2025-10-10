@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f17be3d1c73395243942cf07d2947cfe, type: 3}
   m_Name: ChaseStateConfig
   m_EditorClassIdentifier: 
-  chaseSpeed: 1
-  chaseRadius: 3
+  speedFactor: 1.2
+  chaseRadius: 6
+  collisionRadius: 0.6
   targetReachedThreshold: 0.6
-  collisionRadius: 0.5
-  maxSpeed: 2
   acceleration: 50
   deacceleration: 100
   seed: 12345

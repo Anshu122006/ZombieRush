@@ -12,10 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: FlameThrower
   m_EditorClassIdentifier: Assembly-CSharp::FlameThrowerDefinition
-  gunName: Flame Thrower
-  effectPref: {fileID: 0}
-  particlePref: {fileID: 0}
-  visual: {fileID: 0}
+  gunName: flamethrower
   startLevel: 1
   maxLevel: 99
   expThreshold:

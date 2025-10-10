@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BazookaBehaviour : MonoBehaviour, IGunBehaviour {
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Transform firePointS;
-    [SerializeField] private Transform firePointT;
     [SerializeField] private Transform projectilePref;
     [SerializeField] private BazookaDefinition data;
-    [SerializeField] private List<Sprite> sprites;
 
     private CharacterStatsData charStatData;
     private CharacterStatsManager charStatManager;
@@ -21,8 +17,8 @@ public class BazookaBehaviour : MonoBehaviour, IGunBehaviour {
     private int curLevel;
 
     // getters
-    public bool CanShoot => curAmmo > 0;
     public string Name => "bazooka";
+    public bool Shooting => GameInputManager.Instance.IsShooting() && curAmmo > 0;
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
@@ -36,8 +32,6 @@ public class BazookaBehaviour : MonoBehaviour, IGunBehaviour {
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
-    public SpriteRenderer Renderer => spriteRenderer;
-    public List<Sprite> Sprites => sprites;
 
     public void Start() {
         exp = 0;
@@ -57,9 +51,7 @@ public class BazookaBehaviour : MonoBehaviour, IGunBehaviour {
     public void AbortShoot() { }
 
     private void ShootMissile(Vector2 dir) {
-        float a = Vector2.Angle(dir, Vector2.right);
-        if (a > 90) a = 180 - a;
-        Vector2 start = a <= 45 ? firePointS.position : firePointT.position;
+        Vector2 start = transform.position;
 
         Transform target = new GameObject("Target").transform;
         target.position = start + dir * Range;

@@ -4,12 +4,7 @@ using Game.Utils;
 using UnityEngine;
 
 public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
-    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private PistolDefinition data;
-    [SerializeField] private Transform firePointR;
-    [SerializeField] private Transform firePointL;
-    [SerializeField] private Transform firePointT;
-    [SerializeField] private List<Sprite> sprites;
     [SerializeField] private Transform muzzleFlashPref;
 
     private CharacterStatsData charStatData;
@@ -22,8 +17,8 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
     private int curLevel;
 
     // getters
-    public bool CanShoot => true;
     public string Name => "pistol";
+    public bool Shooting => GameInputManager.Instance.IsShooting();
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
@@ -35,8 +30,6 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
-    public SpriteRenderer Renderer => spriteRenderer;
-    public List<Sprite> Sprites => sprites;
 
     public void Start() {
         exp = 0;
@@ -54,10 +47,7 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
     public void AbortShoot() { }
 
     private void RaycastBullet(Vector2 dir) {
-        Vector2 start = Vector2.zero;
-        if (Vector2.Angle(dir, Vector2.right) <= 45) start = firePointR.position;
-        else if (Vector2.Angle(dir, Vector2.left) <= 45) start = firePointL.position;
-        else start = firePointT.position;
+        Vector2 start = transform.position;
 
         Transform flash = Instantiate(muzzleFlashPref, start, Quaternion.identity);
         flash.GetComponent<MuzzleFlash>().Setup(0.03f, dir);

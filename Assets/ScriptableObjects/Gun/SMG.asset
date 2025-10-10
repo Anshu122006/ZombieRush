@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: SMG
   m_EditorClassIdentifier: Assembly-CSharp::SmgDefinition
-  gunName: SMG
+  gunName: smg
   startLevel: 1
   maxLevel: 99
   expThreshold:

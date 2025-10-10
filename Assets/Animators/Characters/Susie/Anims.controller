@@ -550,11 +550,11 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -550, y: 150, z: 0}
-  m_EntryPosition: {x: -550, y: 110, z: 0}
-  m_ExitPosition: {x: -550, y: 190, z: 0}
+  m_AnyStatePosition: {x: -550, y: 240, z: 0}
+  m_EntryPosition: {x: -550, y: 200, z: 0}
+  m_ExitPosition: {x: -550, y: 280, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 5262609389837726377}
+  m_DefaultState: {fileID: 9182189880645915971}
 --- !u!1102 &6480626210045460464
 AnimatorState:
   serializedVersion: 6

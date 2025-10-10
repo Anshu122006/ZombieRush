@@ -24,6 +24,7 @@ public class ChaseState : EnemyState {
         targetDir = Vector2.right;
         aiData = enemy.aiData;
         statsData = enemy.statsData;
+        aiData.curState = "chase";
 
         noise = new FastNoiseLite(config.seed);
         noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
@@ -39,8 +40,16 @@ public class ChaseState : EnemyState {
     }
 
     public override void Exit() {
+        isExiting = true;
         enemy.rb2d.linearVelocity = Vector2.zero;
+        aiData.curDir = Vector2.zero;
+        enemy.StartCoroutine(ExitDelay());
         Debug.Log("Exited Chase State");
+    }
+
+    private IEnumerator ExitDelay() {
+        yield return new WaitForSeconds(1);
+        isExiting = false;
     }
 
     private void UpdateTargetDirection() {
@@ -60,6 +69,7 @@ public class ChaseState : EnemyState {
             wanderDir += Directions.directions[i] * weight;
         }
         targetDir = wanderDir.normalized;
+        aiData.curDir = wanderDir;
     }
 
     public float[] GetSteering(float[] interest) {

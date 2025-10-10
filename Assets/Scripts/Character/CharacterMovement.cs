@@ -6,18 +6,15 @@ public class CharacterMovement : MonoBehaviour {
     private GameInputManager input;
     private CharacterComponents components;
     private Rigidbody2D rb;
-
-    public Vector2 prevDir;
-    public Vector2 curDir;
     public Vector2 faceDir;
 
     public bool canMove { get; private set; }
-    private float SpeedDebuff => Mathf.Clamp(Mathf.Exp(-components.gunHandler.GunWeight / 15), 0.2f, 1);
+    public float gunWeightDebuff => Mathf.Clamp(Mathf.Exp(-components.gunHandler.GunWeight / 15), 0.2f, 1);
+    public float isShootingDebuff => components.gunHandler.Gun.Shooting ? 0.8f : 1;
+    public float Speed => components.stats.BaseSpeed * gunWeightDebuff * isShootingDebuff;
 
     private void Awake() {
-        prevDir = Vector2.down;
-        curDir = Vector2.down;
-        faceDir = Vector2.down;
+        faceDir = Vector2.right;
         rb = GetComponent<Rigidbody2D>();
         canMove = true;
     }
@@ -35,33 +32,14 @@ public class CharacterMovement : MonoBehaviour {
     }
 
     private void HandlePlayerMovement() {
-        curDir = input.GetMovementVectorNormalized();
-        float moveDist = 8 * Time.fixedDeltaTime;
-        // float moveDist = components.stats.BaseSpeed * Time.fixedDeltaTime;
-        // if (input.IsShooting() && components.gunHandler.Gun.CanShoot) moveDist *= SpeedDebuff;
-
-        rb.MovePosition(rb.position + (curDir * moveDist));
-        // prevDir = curDir;
+        Vector2 dir = input.GetInputDir();
+        float moveDist = Speed * Time.fixedDeltaTime;
+        rb.MovePosition(rb.position + (dir * moveDist));
     }
 
     private void SetFaceDir() {
-        // if (curDir == Vector2.zero) return;
-        Vector2 pos = input.GetMousePosition();
-        Vector2 dir = pos - (Vector2)transform.position;
-        if (Vector2.Angle(Vector2.up, dir) < 45)
-            faceDir = Vector2.up;
-        else if (Vector2.Angle(Vector2.down, dir) < 45)
-            faceDir = Vector2.down;
-        else if (Vector2.Angle(Vector2.right, dir) < 45)
-            faceDir = Vector2.right;
-        else
-            faceDir = Vector2.left;
-
-        // if (curDir.x == 0 || curDir.y == 0) {
-        //     faceDir = curDir;
-        // }
+        Vector2 dir = input.GetInputDir();
+        if (dir == Vector2.zero || dir == faceDir) return;
+        faceDir = dir;
     }
-
-    public void DisableMovement() => canMove = false;
-    public void EnableMovement() => canMove = true;
 }

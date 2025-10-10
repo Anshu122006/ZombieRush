@@ -1,5 +1,4 @@
 using System.Collections;
-using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class WanderState : EnemyState {
@@ -39,19 +38,25 @@ public class WanderState : EnemyState {
     }
 
     public override void Exit() {
+        isExiting = true;
         if (stepCoroutine != null) {
             enemy.StopCoroutine(stepCoroutine);
             stepCoroutine = null;
         }
+        enemy.StartCoroutine(ExitDelay());
         Debug.Log("Exited Wander State");
     }
 
+    private IEnumerator ExitDelay() {
+        yield return new WaitForSeconds(0.1f);
+        isExiting = false;
+    }
 
     // To update the direction the zombies is currently pointing to
     private void UpdateTargetDirection() {
         Vector2 pos = enemy.transform.position;
-        float xNoise = noise.GetNoise(pos.x * 0.1f, pos.y * 0.1f);
-        float yNoise = noise.GetNoise((pos.x + 10) * 0.1f, (pos.y + 10) * 0.1f);
+        float xNoise = noise.GetNoise(pos.x * 0.3f, pos.y * 0.3f);
+        float yNoise = noise.GetNoise((pos.x + 10) * 0.3f, (pos.y + 10) * 0.3f);
         targetDir = (targetDir + new Vector2(xNoise, yNoise)).normalized;
 
         float[] danger = new float[8];
@@ -66,6 +71,7 @@ public class WanderState : EnemyState {
             wanderDir += Directions.directions[i] * weight;
         }
         targetDir = wanderDir.normalized;
+        aiData.curDir = wanderDir;
     }
 
     // To move in steps like a zombie

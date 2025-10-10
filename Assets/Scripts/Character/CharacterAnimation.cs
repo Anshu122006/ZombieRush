@@ -1,74 +1,51 @@
 using System;
-
+using System.Collections.Generic;
 using Game.Utils;
 
 using UnityEngine;
 
 public class CharacterAnimation : MonoBehaviour {
     [SerializeField] private CharacterAnimationsSO playerAnimations;
+    [SerializeField] private float baseMoveAnimationSpeed = 6;
 
-    private GameInputManager input;
+    private Dictionary<string, DirectionAnimation> anims = new();
     private CharacterComponents components;
-    private string currAnimation;
+    private string curAnimation;
     private string newAnimation;
-    private bool isMoving;
+
     private void Start() {
-        input = GameInputManager.Instance;
         components = GetComponent<CharacterComponents>();
+        anims["pistol"] = playerAnimations.pistol;
+        anims["smg"] = playerAnimations.smg;
+        anims["shotgun"] = playerAnimations.shotgun;
+        anims["grenade"] = playerAnimations.grenade;
+        anims["minigun"] = playerAnimations.minigun;
+        anims["flamethrower"] = playerAnimations.flamethrower;
     }
 
     private void Update() {
         HandleWalkAnimation();
-
         UpdateAnimation();
     }
 
     private void HandleWalkAnimation() {
-        // if (!components.movement.canWalk) return;
-
-        isMoving = input.GetMovementVectorNormalized() != Vector2.zero;
         Vector2 dir = components.movement.faceDir;
-        if (!isMoving) {
-            if (dir == Vector2.right) {
-                newAnimation = playerAnimations.IdleRight.name;
-            }
-            else if (dir == Vector2.left) {
-                newAnimation = playerAnimations.IdleLeft.name;
-            }
-            else if (dir == Vector2.up) {
-                newAnimation = playerAnimations.IdleUp.name;
-            }
-            else if (dir == Vector2.down) {
-                newAnimation = playerAnimations.IdleDown.name;
-            }
-        }
-        else {
-            if (dir == Vector2.right) {
-                newAnimation = playerAnimations.WalkRight.name;
-            }
-            else if (dir == Vector2.left) {
-                newAnimation = playerAnimations.WalkLeft.name;
-            }
-            else if (dir == Vector2.up) {
-                newAnimation = playerAnimations.WalkUp.name;
-            }
-            else if (dir == Vector2.down) {
-                newAnimation = playerAnimations.WalkDown.name;
-            }
-        }
+        string gunName = components.gunHandler.Gun.Name;
+
+        AnimationClip clip = anims[gunName].down;
+        if (dir == Vector2.up) clip = anims[gunName].up;
+        else if (dir == Vector2.right) clip = anims[gunName].right;
+        else if (dir == Vector2.left) clip = anims[gunName].left;
+
+        CharacterMovement move = components.movement;
+        components.animator.speed = Mathf.Clamp(move.Speed / baseMoveAnimationSpeed, 0.8f, 1.4f);
+        newAnimation = clip.name;
     }
 
     private void UpdateAnimation() {
-        if (newAnimation != currAnimation) {
-            currAnimation = newAnimation;
-            components.animator.CrossFade(currAnimation, 0.2f, 0);
+        if (newAnimation != curAnimation) {
+            curAnimation = newAnimation;
+            components.animator.CrossFade(curAnimation, 0.2f, 0);
         }
-    }
-
-    private Direction ConvertToEnum(Vector2 dir) {
-        if (dir == Vector2.left) return Direction.Left;
-        else if (dir == Vector2.right) return Direction.Right;
-        else if (dir == Vector2.down) return Direction.Down;
-        else return Direction.Up;
     }
 }

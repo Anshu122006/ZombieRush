@@ -4,13 +4,8 @@ using Game.Utils;
 using UnityEngine;
 
 public class MinigunBehaviour : MonoBehaviour, IGunBehaviour {
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Transform firePointR;
-    [SerializeField] private Transform firePointL;
-    [SerializeField] private Transform firePointT;
     [SerializeField] private Transform bulletPref;
     [SerializeField] private MinigunDefinition data;
-    [SerializeField] private List<Sprite> sprites;
 
     private CharacterStatsData charStatData;
     private CharacterStatsManager charStatManager;
@@ -24,8 +19,8 @@ public class MinigunBehaviour : MonoBehaviour, IGunBehaviour {
     private int curLevel;
 
     // getters
-    public bool CanShoot => curAmmo > 0;
     public string Name => "minigun";
+    public bool Shooting => GameInputManager.Instance.IsShooting() && curAmmo > 0;
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
@@ -41,8 +36,6 @@ public class MinigunBehaviour : MonoBehaviour, IGunBehaviour {
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
-    public SpriteRenderer Renderer => spriteRenderer;
-    public List<Sprite> Sprites => sprites;
 
     public void Start() {
         exp = 0;
@@ -57,10 +50,7 @@ public class MinigunBehaviour : MonoBehaviour, IGunBehaviour {
         if (delayShootCoroutine == null) {
             dir = dir.normalized;
 
-            Vector2 start = Vector2.zero;
-            if (Vector2.Angle(dir, Vector2.right) <= 45) start = firePointR.position;
-            else if (Vector2.Angle(dir, Vector2.left) <= 45) start = firePointL.position;
-            else start = firePointT.position;
+            Vector2 start = transform.position;
 
             Vector2 off = new Vector2(dir.y, -dir.x).normalized * Random.Range(-Offset, Offset);
             Vector2 spawnPoint = start + off;

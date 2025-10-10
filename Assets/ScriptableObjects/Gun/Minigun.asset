@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Minigun
   m_EditorClassIdentifier: Assembly-CSharp::MinigunDefinition
-  gunName: Minigun
+  gunName: minigun
   startLevel: 1
   maxLevel: 99
   expThreshold:
@@ -20,39 +20,39 @@ MonoBehaviour:
     final: 100
     pow: 1
   damage:
-    init: 4
-    final: 10
-    pow: 1
-  accuracy:
-    init: 10
-    final: 12
-    pow: 1
-  range:
-    init: 8
-    final: 12
-    pow: 1
-  fireDelay:
-    init: 0
-    final: 0
-    pow: 0
-  weight:
     init: 6
     final: 10
     pow: 1
+  accuracy:
+    init: 6
+    final: 10
+    pow: 1
+  range:
+    init: 8
+    final: 14
+    pow: 1
+  fireDelay:
+    init: 0.04
+    final: 0.01
+    pow: 1
+  weight:
+    init: 4
+    final: 3
+    pow: 1
   maxAmmo:
     init: 100
-    final: 500
+    final: 1000
     pow: 1
   ammoPerSpin:
-    init: 30
+    init: 40
     final: 100
     pow: 1
   projectileSpeed:
-    init: 16
+    init: 18
     final: 30
     pow: 1
   spinUpTime:
-    init: 2
-    final: 1
+    init: 1.4
+    final: 0.6
     pow: 1
-  offset: 0.07
+  offset: 0.12

@@ -4,13 +4,8 @@ using Game.Utils;
 using UnityEngine;
 
 public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
-    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private SmgDefinition data;
-    [SerializeField] private Transform firePointR;
-    [SerializeField] private Transform firePointL;
-    [SerializeField] private Transform firePointT;
-    [SerializeField] private List<Sprite> sprites;
     [SerializeField] private Transform muzzleFlashPref;
     [SerializeField] private Material shootMaterial;
     [SerializeField] private AudioClip shootAudio;
@@ -26,8 +21,8 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
     private int curLevel;
 
     // getters
-    public bool CanShoot => curAmmo > 0;
     public string Name => "smg";
+    public bool Shooting => GameInputManager.Instance.IsShooting() && curAmmo > 0;
 
     public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
@@ -40,8 +35,6 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
-    public SpriteRenderer Renderer => spriteRenderer;
-    public List<Sprite> Sprites => sprites;
 
     public void Start() {
         exp = 0;
@@ -63,10 +56,7 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
     public void AbortShoot() { }
 
     private void RaycastBullet(Vector2 dir) {
-        Vector2 start = Vector2.zero;
-        if (Vector2.Angle(dir, Vector2.right) <= 45) start = firePointR.position;
-        else if (Vector2.Angle(dir, Vector2.left) <= 45) start = firePointL.position;
-        else start = firePointT.position;
+        Vector2 start = transform.position;
 
         Transform flash = Instantiate(muzzleFlashPref, start, Quaternion.identity);
         flash.GetComponent<MuzzleFlash>().Setup(0.03f, dir);

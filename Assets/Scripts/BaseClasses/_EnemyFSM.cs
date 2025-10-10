@@ -1,28 +1,29 @@
-using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemyFSM {
     private EnemyState currentState;
-    private List<StateTransition> transitions = new List<StateTransition>();
+    private EnemyState targetState;
 
-    public void SetState(EnemyState newState, List<StateTransition> newTransitions = null) {
-        currentState?.Exit();
-
+    public void SetState(EnemyState newState) {
         currentState = newState;
-        transitions = newTransitions ?? newState.transitions;
+        targetState = null;
         currentState.Enter();
     }
 
     public void Update() {
         if (currentState == null) return;
+        if (targetState != null && currentState.isExiting) return;
+        else if (targetState != null && !currentState.isExiting) SetState(targetState);
+        Debug.Log(currentState.isExiting);
 
         // Evaluate transitions
-        foreach (var t in transitions) {
+        foreach (var t in currentState.transitions) {
             if (t.Condition()) {
-                SetState(t.TargetState);
+                targetState = t.TargetState;
+                currentState.Exit();
                 return;
             }
         }
-
         currentState.Update();
     }
 }

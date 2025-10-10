@@ -8,13 +8,12 @@ public interface IGunBehaviour {
     public void LevelUp();
     public CharacterStatsData CharStatData { get; set; }
     public CharacterStatsManager CharStatManager { get; set; }
-    public SpriteRenderer Renderer { get; }
-    public List<Sprite> Sprites { get; }
     // public Transform FirePoint { get; }
     public string Name { get; }
+    public bool Shooting { get; }
+
     public int Damage { get; }
     public int Accuracy { get; }
     public float Range { get; }
     public float Weight { get; }
-    public bool CanShoot { get; }
 }
