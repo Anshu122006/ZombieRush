@@ -3,34 +3,27 @@ using Game.Utils;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SonicTurret : MonoBehaviour,ITurretBehaviour {
+public class SonicTurret : ITurretBehaviour {
     [SerializeField] private Transform center;
     [SerializeField] private GameObject ringPref;
-    [SerializeField] private SonicTurretDefinition data;
+    [SerializeField] private LayerMask losLayers;
+    [SerializeField] private LayerMask targetLayers;
 
-    private int curLevel;
-    private int maxLevel;
     private Transform curTarget;
     private Coroutine shootCoroutine;
 
-    public int CurLevel => curLevel;
-    public int UpgradeCost => data.upgradeCost.EvaluateStat(curLevel, maxLevel);
-    public string Name => data.turretName;
-
-    public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
-    public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
-    public int RingsPerBoom => data.ringsPerBoom.EvaluateStat(curLevel, maxLevel);
-    public float RingSpeed => data.ringSpeed.EvaluateStat(curLevel, maxLevel);
-    public float PushbackForce => data.pushbackForce.EvaluateStat(curLevel, maxLevel);
-    public float Range => data.range.EvaluateStat(curLevel, maxLevel);
-    public float ShootDelay => data.shootDelay.EvaluateStat(curLevel, maxLevel);
-    public float FireDelay => data.fireDelay.EvaluateStat(curLevel, maxLevel);
+    public int RingsPerBoom => ((SonicTurretDefinition)data).ringsPerBoom.EvaluateStat(curLevel, maxLevel);
+    public float RingSpeed => ((SonicTurretDefinition)data).ringSpeed.EvaluateStat(curLevel, maxLevel);
+    public float PushbackForce => ((SonicTurretDefinition)data).pushbackForce.EvaluateStat(curLevel, maxLevel);
+    public float ShootDelay => ((SonicTurretDefinition)data).shootDelay.EvaluateStat(curLevel, maxLevel);
+    public float FireDelay => ((SonicTurretDefinition)data).fireDelay.EvaluateStat(curLevel, maxLevel);
 
 
     private void Start() {
         curLevel = 1;
-        maxLevel = data.maxLevel;
-        InvokeRepeating("SearchForEnemies", 0, data.searchRate);
+        maxLevel = ((SonicTurretDefinition)data).maxLevel;
+        curHp = MHP;
+        InvokeRepeating("SearchForEnemies", 0, ((SonicTurretDefinition)data).searchRate);
     }
 
     private void Update() {
@@ -38,12 +31,10 @@ public class SonicTurret : MonoBehaviour,ITurretBehaviour {
             shootCoroutine = StartCoroutine(Shoot());
     }
     public void SearchForEnemies() {
-        Vector2 center = transform.position;
+        Vector2 center = visual.position;
+        Collider2D hit = Physics2D.OverlapCircle(center, Range, losLayers);
 
-        int layerMask = data.seeThroughWalls ? LayerMask.GetMask("Enemy") : LayerMask.GetMask("Enemy", "BlockBullets");
-        Collider2D hit = Physics2D.OverlapCircle(center, Range, layerMask);
-
-        if (hit != null && (LayerMask.GetMask("Enemy") & (1 << hit.gameObject.layer)) != 0) curTarget = hit.transform;
+        if (hit != null && (targetLayers & (1 << hit.gameObject.layer)) != 0) curTarget = hit.transform;
         else curTarget = null;
     }
 
@@ -82,7 +73,7 @@ public class SonicTurret : MonoBehaviour,ITurretBehaviour {
 
         Destroy(ring.gameObject);
     }
-    public void LevelUp() {
+    public override void LevelUp() {
         if (curLevel < maxLevel) {
             curLevel++;
         }

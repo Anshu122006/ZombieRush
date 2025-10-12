@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: ProjectileTurret
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileTurretDefinition
-  turretName: Projectile Turret
-  sprite: {fileID: 450996202499734881, guid: 6831a1605992c95489b37f8c23d29d70, type: 3}
+  turretName: projectile
+  sprite: {fileID: 0}
   turretDesc: 
   effectPref: {fileID: 0}
   maxLevel: 99
-  cost: 60
-  searchRate: 0
-  rotationSpeed: 0
-  seeThroughWalls: 0
+  cost: 10
+  searchRate: 0.05
+  rotationSpeed: 720
   damage:
     init: 0
     final: 0
@@ -29,14 +28,22 @@ MonoBehaviour:
     init: 0
     final: 0
     pow: 0
+  mhp:
+    init: 0
+    final: 0
+    pow: 0
+  def:
+    init: 0
+    final: 0
+    pow: 0
   range:
     init: 0
     final: 0
     pow: 0
   upgradeCost:
-    init: 30
-    final: 90
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   expThreshold:
     init: 0
     final: 0

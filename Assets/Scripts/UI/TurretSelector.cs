@@ -16,8 +16,11 @@ public class TurretSelector : MonoBehaviour {
     private Coroutine rotateCoroutine;
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.P)) Prev();
-        if (Input.GetKeyDown(KeyCode.N)) Next();
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        bool prev = Input.GetKeyDown(KeyCode.Comma);
+        bool next = Input.GetKeyDown(KeyCode.Greater);
+        if (scroll > 0f || prev) Prev();
+        else if (scroll < 0f || next) Next();
     }
 
     public void Setup(List<string> labels, List<Sprite> sprites, List<Action> onclicks) {

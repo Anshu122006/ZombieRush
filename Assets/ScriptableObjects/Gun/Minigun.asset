@@ -39,20 +39,20 @@ MonoBehaviour:
     init: 4
     final: 3
     pow: 1
-  maxAmmo:
-    init: 100
-    final: 1000
+  maxPackets:
+    init: 3
+    final: 8
     pow: 1
-  ammoPerSpin:
-    init: 40
-    final: 100
+  ammoPerPacket:
+    init: 50
+    final: 150
+    pow: 1
+  reloadTime:
+    init: 1.5
+    final: 1
     pow: 1
   projectileSpeed:
     init: 18
     final: 30
-    pow: 1
-  spinUpTime:
-    init: 1.4
-    final: 0.6
     pow: 1
   offset: 0.12

@@ -14,7 +14,6 @@ public class EnemyFSM {
         if (currentState == null) return;
         if (targetState != null && currentState.isExiting) return;
         else if (targetState != null && !currentState.isExiting) SetState(targetState);
-        Debug.Log(currentState.isExiting);
 
         // Evaluate transitions
         foreach (var t in currentState.transitions) {

@@ -2,37 +2,30 @@ using System.Collections;
 using Game.Utils;
 using UnityEngine;
 
-public class MissileTurret : MonoBehaviour,ITurretBehaviour {
+public class MissileTurret : ITurretBehaviour {
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject missilePref;
-    [SerializeField] private MissileTurretDefinition data;
+    [SerializeField] private LayerMask losLayers;
+    [SerializeField] private LayerMask targetLayers;
 
-    private int curLevel;
-    private int maxLevel;
     private int curAmmo;
     private Transform curTarget;
     private Coroutine shootCoroutine;
 
-    public int CurLevel => curLevel;
-    public int UpgradeCost => data.upgradeCost.EvaluateStat(curLevel, maxLevel);
-    public string Name => data.turretName;
-
-    public float ReloadRate => data.reloadRate.EvaluateStat(curLevel, maxLevel);
-    public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
-    public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
-    public float Range => data.range.EvaluateStat(curLevel, maxLevel);
-    public int MaxAmmo => data.maxAmmo.EvaluateStat(curLevel, maxLevel);
-    public float ShootDelay => data.shootDelay.EvaluateStat(curLevel, maxLevel);
-    public float ProjectileSpeed => data.projectileSpeed.EvaluateStat(curLevel, maxLevel);
-    public float ProjectileRange => data.projectileRange.EvaluateStat(curLevel, maxLevel);
+    public float ReloadRate => ((MissileTurretDefinition)data).reloadRate.EvaluateStat(curLevel, maxLevel);
+    public int MaxAmmo => ((MissileTurretDefinition)data).maxAmmo.EvaluateStat(curLevel, maxLevel);
+    public float ShootDelay => ((MissileTurretDefinition)data).shootDelay.EvaluateStat(curLevel, maxLevel);
+    public float ProjectileSpeed => ((MissileTurretDefinition)data).projectileSpeed.EvaluateStat(curLevel, maxLevel);
+    public float ProjectileRange => ((MissileTurretDefinition)data).projectileRange.EvaluateStat(curLevel, maxLevel);
 
 
 
     private void Start() {
         curLevel = 1;
-        maxLevel = data.maxLevel;
+        maxLevel = ((MissileTurretDefinition)data).maxLevel;
+        curHp = MHP;
         curAmmo = MaxAmmo;
-        InvokeRepeating("SearchForEnemies", 0, data.searchRate);
+        InvokeRepeating("SearchForEnemies", 0, ((MissileTurretDefinition)data).searchRate);
         InvokeRepeating("ReloadAmmo", 0, ReloadRate);
     }
 
@@ -43,23 +36,20 @@ public class MissileTurret : MonoBehaviour,ITurretBehaviour {
     }
     public void SearchForEnemies() {
         if (curAmmo < 1) return;
+        Vector2 center = visual.position;
+        Collider2D hit = Physics2D.OverlapCircle(center, Range, losLayers);
 
-        Vector2 centre = transform.position;
-
-        int layerMask = data.seeThroughWalls ? LayerMask.GetMask("Enemy") : LayerMask.GetMask("Enemy", "BlockBullets");
-        Collider2D hit = Physics2D.OverlapCircle(centre, Range, layerMask);
-
-        if (hit != null && (LayerMask.GetMask("Enemy") & (1 << hit.gameObject.layer)) != 0) curTarget = hit.transform;
+        if (hit != null && (targetLayers & (1 << hit.gameObject.layer)) != 0) curTarget = hit.transform;
         else curTarget = null;
     }
 
     private void AimAtTarget() {
         if (curTarget == null || curAmmo <= 0) return;
-        Vector2 dir = (curTarget.position - transform.position).normalized;
+        Vector2 dir = (curTarget.position - visual.position).normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, data.rotationSpeed * Time.deltaTime);
+        visual.rotation = Quaternion.RotateTowards(visual.rotation, targetRotation, ((ProjectileTurretDefinition)data).rotationSpeed * Time.deltaTime);
     }
 
     private IEnumerator Shoot() {
@@ -78,7 +68,7 @@ public class MissileTurret : MonoBehaviour,ITurretBehaviour {
             curAmmo++;
     }
 
-    public void LevelUp() {
+    public override void LevelUp() {
         if (curLevel < maxLevel) {
             curLevel++;
             curAmmo = MaxAmmo;

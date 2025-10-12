@@ -30,8 +30,8 @@ MonoBehaviour:
   grenade:
     up: {fileID: 7400000, guid: d6af692fec933604d955c558271189fb, type: 2}
     down: {fileID: 7400000, guid: 87683c09f0a48dc4286c8126f47f537a, type: 2}
-    right: {fileID: 7400000, guid: d1521390fcde8874e9f0a956802b6b2a, type: 2}
-    left: {fileID: 7400000, guid: 61c2b9baafcd5f1428dfb2f390b2bdd3, type: 2}
+    right: {fileID: 7400000, guid: 61c2b9baafcd5f1428dfb2f390b2bdd3, type: 2}
+    left: {fileID: 7400000, guid: d1521390fcde8874e9f0a956802b6b2a, type: 2}
   minigun:
     up: {fileID: 7400000, guid: 7323c2da1ab43b244809a4ae91cd2350, type: 2}
     down: {fileID: 7400000, guid: 31431647fdb35c548a252eeda593ab80, type: 2}

@@ -13,19 +13,26 @@ MonoBehaviour:
   m_Name: ElectricTurret
   m_EditorClassIdentifier: Assembly-CSharp::ElectricTurretDefinition
   turretName: Electric Turret
-  sprite: {fileID: 8516675112171164808, guid: 6831a1605992c95489b37f8c23d29d70, type: 3}
+  sprite: {fileID: 21300000, guid: 9f68871bd27b364439eb8d372a624fb8, type: 3}
   turretDesc: 
   effectPref: {fileID: 0}
   maxLevel: 99
   cost: 10
-  searchRate: 0
-  rotationSpeed: 0
-  seeThroughWalls: 0
+  searchRate: 0.05
+  rotationSpeed: 720
   damage:
     init: 0
     final: 0
     pow: 0
   accuracy:
+    init: 0
+    final: 0
+    pow: 0
+  mhp:
+    init: 0
+    final: 0
+    pow: 0
+  def:
     init: 0
     final: 0
     pow: 0

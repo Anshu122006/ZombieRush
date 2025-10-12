@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyStatsManager : MonoBehaviour, IStatsManager {
     [SerializeField] private EnemyStatsData data;
+    [SerializeField] private Healthbar healthbar;
     public int ExpDrop => data.ExpDrop;
 
     public void TakeDamage(int atk, int accuracy, IStatsManager attacker) {
@@ -23,6 +24,10 @@ public class EnemyStatsManager : MonoBehaviour, IStatsManager {
             AddExp(data.ExpGain);
             Destroy(gameObject);
         }
+
+        if (!healthbar.gameObject.activeSelf) healthbar.gameObject.SetActive(true);
+        healthbar.SetFill((float)data.hp / data.MHP);
+        healthbar.Fade();
         Debug.Log(data.hp);
     }
 
@@ -44,6 +49,10 @@ public class EnemyStatsManager : MonoBehaviour, IStatsManager {
             AddExp(data.ExpGain);
             Destroy(gameObject);
         }
+
+        if (!healthbar.gameObject.activeSelf) healthbar.gameObject.SetActive(true);
+        healthbar.SetFill((float)data.hp / data.MHP);
+        healthbar.Fade();
         Debug.Log(data.hp);
     }
 

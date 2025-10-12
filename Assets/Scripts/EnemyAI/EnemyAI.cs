@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour {
@@ -33,7 +34,7 @@ public class EnemyAI : MonoBehaviour {
 
         chaseState.transitions = new List<StateTransition>{
             new StateTransition(wanderState, () => !CanChase()),
-            new StateTransition(attackState, () => CanChase() && CanAttack())
+            new StateTransition(attackState, () => CanAttack())
         };
 
         wanderState.transitions = new List<StateTransition>{
@@ -45,7 +46,8 @@ public class EnemyAI : MonoBehaviour {
             new StateTransition(wanderState, () => !CanChase() && !CanAttack())
         };
 
-        FSM.SetState(wanderState);
+        if (CanChase()) FSM.SetState(chaseState);
+        else FSM.SetState(wanderState);
         InvokeRepeating("PerformDetection", 0, detectionDelay);
     }
 
@@ -54,15 +56,23 @@ public class EnemyAI : MonoBehaviour {
     }
 
     private void PerformDetection() {
-        foreach (Detector detector in detectors) {
+        foreach (Detector detector in detectors)
             detector.Detect(aiData);
-        }
+        // Debug.Log("Detection performed");
     }
 
-    public bool CanChase() => aiData.GetTargetCount() > 0 || aiData.currentTarget != null;
+    public bool CanChase() {
+        aiData.SetCurrentTarget();
+        return aiData.GetTargetCount > 0 || aiData.currentTarget != null;
+    }
     public bool CanAttack() {
         if (aiData.currentTarget == null) return false;
-        float dist = Vector2.Distance(aiData.currentTarget.position, transform.position);
-        return dist < attackStateConfig.attackRange;
+
+        Collider2D col = GetComponent<Collider2D>();
+        if (col == null) return false;
+
+        Vector2 closestPoint = col.ClosestPoint(aiData.currentTarget.position);
+        float dist = Vector2.Distance(closestPoint, aiData.currentTarget.position);
+        return CanChase() && dist < attackStateConfig.attackRange;
     }
 }

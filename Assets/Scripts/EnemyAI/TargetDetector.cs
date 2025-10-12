@@ -11,23 +11,18 @@ public class TargetDetector : Detector {
     private List<Transform> colliders;
 
     public override void Detect(AIData aiData) {
-        Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, detectionRadius, playerLayer);
-
-        if (playerCollider != null) {
-            Vector2 dir = (playerCollider.transform.position - transform.position).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, detectionRadius, losLayer);
-            Debug.Log(hit.collider);
-
-            if (hit.collider != null && (playerLayer & (1 << hit.collider.gameObject.layer)) != 0) {
-                Debug.Log(dir);
-                colliders = new List<Transform> { hit.collider.transform };
+        Collider2D[] targetColliders = Physics2D.OverlapCircleAll(transform.position, detectionRadius, playerLayer);
+        colliders = new();
+        foreach (Collider2D col in targetColliders) {
+            if (col != null) {
+                Vector2 dir = (col.transform.position - transform.position).normalized;
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, detectionRadius, losLayer);
+                if (hit.collider != null && (playerLayer & (1 << hit.collider.gameObject.layer)) != 0)
+                    colliders.Add(col.transform);
             }
             else {
                 colliders = null;
             }
-        }
-        else {
-            colliders = null;
         }
         aiData.targets = colliders;
     }

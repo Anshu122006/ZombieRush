@@ -31,11 +31,6 @@ public class TurretPlatform : MonoBehaviour {
             if (col != null && col.OverlapPoint(mousePos)) {
                 OnPlatformClicked();
             }
-            else {
-                if (turretSelector.gameObject.activeSelf) turretSelector.gameObject.SetActive(false);
-                if (optionSelector.gameObject.activeSelf) optionSelector.gameObject.SetActive(false);
-            }
-
         }
     }
 
@@ -53,37 +48,19 @@ public class TurretPlatform : MonoBehaviour {
         turretSelector.Setup(labels, sprites, onclicks);
     }
 
-    // And in TurretPlatform
+
     private void OnPlatformClicked() {
-        if (!isOccupied) {
-            // if (turretSelector.gameObject.activeSelf) turretSelector.gameObject.SetActive(false);
-            // else
-            ShowTurrets();
-        }
-        else {
-            // if (optionSelector.gameObject.activeSelf) optionSelector.gameObject.SetActive(false);
-            // else
-            ShowOptions();
-        }
-    }
-
-
-    // Called by the list item when turret is selected
-    private void PlaceTurret(string turretName) {
-        if (!CanPlaceTurret(turretName)) return;
-
-        placedTurret = Instantiate(turretPrefDict[turretName], transform.position, Quaternion.identity);
-        isOccupied = true;
-
-        int goldRequired = turretDataDict[turretName].cost;
-        GlobalVariables.Instance.Gold -= goldRequired;
-        turretSelector.gameObject.SetActive(false);
+        if (!isOccupied) ShowTurrets();
+        else ShowOptions();
     }
 
     private void ShowTurrets() {
         if (!turretSelector.gameObject.activeSelf) {
             turretSelector.gameObject.SetActive(true);
             optionSelector.gameObject.SetActive(false);
+        }
+        else {
+            turretSelector.gameObject.SetActive(false);
         }
     }
 
@@ -97,19 +74,34 @@ public class TurretPlatform : MonoBehaviour {
         if (!optionSelector.gameObject.activeSelf) {
             optionSelector.gameObject.SetActive(true);
             turretSelector.gameObject.SetActive(false);
-            optionSelector.UpdateData(upgradeCost, demolishReturn, UpgradeTurret, DemolishTurret);
+            optionSelector.UpdateData(upgradeCost, demolishReturn, RepairTurret, UpgradeTurret, DemolishTurret);
         }
+        else {
+            optionSelector.gameObject.SetActive(false);
+        }
+    }
+
+
+    private void PlaceTurret(string turretName) {
+        if (!CanPlaceTurret(turretName)) return;
+
+        placedTurret = Instantiate(turretPrefDict[turretName], transform.position, Quaternion.identity);
+        isOccupied = true;
+
+        int goldRequired = turretDataDict[turretName].cost;
+        GlobalVariables.Instance.Gold -= goldRequired;
+        turretSelector.gameObject.SetActive(false);
     }
 
     private void UpgradeTurret() {
         ITurretBehaviour turret = placedTurret.GetComponent<ITurretBehaviour>();
-        if (turret == null || !CanUpgradeTurret(turret.Name)) return;
+        if (turret == null) return;
+        if (CanUpgradeTurret(turret.Name, out int upgradeCost)) {
+            GlobalVariables.Instance.Gold -= upgradeCost;
+            turret.LevelUp();
 
-        int goldRequired = placedTurret.GetComponent<ITurretBehaviour>().UpgradeCost;
-        GlobalVariables.Instance.Gold -= goldRequired;
-        turret.LevelUp();
-
-        optionSelector.gameObject.SetActive(false);
+            optionSelector.gameObject.SetActive(false);
+        }
     }
 
     private void DemolishTurret() {
@@ -126,6 +118,16 @@ public class TurretPlatform : MonoBehaviour {
         optionSelector.gameObject.SetActive(false);
     }
 
+    private void RepairTurret() {
+        ITurretBehaviour turret = placedTurret.GetComponent<ITurretBehaviour>();
+        if (CanRepairTurret(turret.Name, out int repairCost)) {
+            turret.HP = turret.MHP;
+            GlobalVariables.Instance.Gold -= repairCost;
+            optionSelector.gameObject.SetActive(false);
+        }
+    }
+
+
     private bool CanPlaceTurret(string turretName) {
         int curGold = GlobalVariables.Instance.Gold;
         int goldRequired = turretDataDict[turretName].cost;
@@ -133,13 +135,20 @@ public class TurretPlatform : MonoBehaviour {
         return !isOccupied && curGold >= goldRequired;
     }
 
-    private bool CanUpgradeTurret(string turretName) {
+    private bool CanRepairTurret(string turretName, out int repairCost) {
         int curGold = GlobalVariables.Instance.Gold;
-        int goldRequired = placedTurret.GetComponent<ITurretBehaviour>().UpgradeCost;
+        repairCost = turretDataDict[turretName].cost;
+
+        return !isOccupied && curGold >= repairCost;
+    }
+
+    private bool CanUpgradeTurret(string turretName, out int upgradeCost) {
+        int curGold = GlobalVariables.Instance.Gold;
+        upgradeCost = placedTurret.GetComponent<ITurretBehaviour>().UpgradeCost;
         int curLevel = placedTurret.GetComponent<ITurretBehaviour>().CurLevel;
         int maxLevel = GlobalTurretData.Instance.curLevel[turretName];
 
-        return isOccupied && curLevel < maxLevel && curGold >= goldRequired;
+        return isOccupied && curLevel < maxLevel && curGold >= upgradeCost;
     }
 }
 

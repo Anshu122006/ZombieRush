@@ -19,34 +19,40 @@ public abstract class GunDefinition : ScriptableObject {
 [CreateAssetMenu(fileName = "Pistol", menuName = "Guns/Pistol")]
 public class PistolDefinition : GunDefinition {
     public StatField<float, int> spreadAngle;
+    public StatField<int, int> ammoPerPacket;
+    public StatField<float, int> reloadTime;
 }
 
 [CreateAssetMenu(fileName = "SMG", menuName = "Guns/SMG")]
 public class SmgDefinition : GunDefinition {
-    public StatField<int, int> maxAmmo;
+    public StatField<int, int> maxPackets;
+    public StatField<int, int> ammoPerPacket;
+    public StatField<float, int> reloadTime;
     public StatField<float, int> spreadAngle;
 }
 
 [CreateAssetMenu(fileName = "Shotgun", menuName = "Guns/Shotgun")]
 public class ShotgunDefinition : GunDefinition {
-    public StatField<int, int> maxAmmo;
+    public StatField<int, int> maxPackets;
+    public StatField<int, int> ammoPerPacket;
+    public StatField<float, int> reloadTime;
     public StatField<int, int> pelletsPerShot;
     public StatField<float, int> spreadAngle;
 }
 
-[CreateAssetMenu(fileName = "Bazooka", menuName = "Guns/Bazooka")]
-public class BazookaDefinition : GunDefinition {
+[CreateAssetMenu(fileName = "Grenade", menuName = "Guns/Grenade")]
+public class GrenadeDefinition : GunDefinition {
     public StatField<int, int> maxAmmo;
-    public StatField<float, int> projectileRange;
     public StatField<float, int> projectileSpeed;
+    public StatField<float, int> explosionRadius;
 }
 
 [CreateAssetMenu(fileName = "Minigun", menuName = "Guns/Minigun")]
 public class MinigunDefinition : GunDefinition {
-    public StatField<int, int> maxAmmo;
-    public StatField<int, int> ammoPerSpin;
+    public StatField<int, int> maxPackets;
+    public StatField<int, int> ammoPerPacket;
+    public StatField<float, int> reloadTime;
     public StatField<float, int> projectileSpeed;
-    public StatField<float, int> spinUpTime;
     public float offset;
 }
 

@@ -28,8 +28,7 @@ public class ChaseState : EnemyState {
 
         noise = new FastNoiseLite(config.seed);
         noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
-
-        Debug.Log("Entered Chase State");
+        UpdateTargetDirection();
     }
 
     public override void Update() {
@@ -44,7 +43,6 @@ public class ChaseState : EnemyState {
         enemy.rb2d.linearVelocity = Vector2.zero;
         aiData.curDir = Vector2.zero;
         enemy.StartCoroutine(ExitDelay());
-        Debug.Log("Exited Chase State");
     }
 
     private IEnumerator ExitDelay() {
@@ -76,8 +74,7 @@ public class ChaseState : EnemyState {
         if (reachedLastTarget) {
             if (TargetOutOfSight()) return interest;
             reachedLastTarget = false;
-            aiData.currentTarget = aiData.targets.OrderBy(target =>
-                    Vector2.Distance(target.position, enemy.transform.position)).FirstOrDefault();
+            aiData.SetCurrentTarget();
         }
 
         if (aiData.currentTarget != null && aiData.targets != null && aiData.targets.Contains(aiData.currentTarget)) {
@@ -96,7 +93,7 @@ public class ChaseState : EnemyState {
     }
 
     public bool TargetOutOfSight() {
-        if (reachedLastTarget && aiData.GetTargetCount() <= 0) {
+        if (reachedLastTarget && aiData.GetTargetCount <= 0) {
             aiData.currentTarget = null;
             return true;
         }

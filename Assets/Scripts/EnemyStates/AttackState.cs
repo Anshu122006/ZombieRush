@@ -1,23 +1,34 @@
 using System.Collections;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public class AttackState : EnemyState {
     private AttackStateConfig config;
     private EnemyStatsData statsData;
-    private EnemyStatsManager statsManager;
     private AIData aiData;
     private Coroutine attackCoroutine;
 
-    private bool isAttacking;
+    private float originalMass;
+    private float originalDrag;
+
     public AttackState(EnemyAI enemy, AttackStateConfig config) : base(enemy) {
         this.config = config;
     }
 
     public override void Enter() {
         statsData = enemy.statsData;
-        statsManager = enemy.statsManager;
         aiData = enemy.aiData;
         aiData.curState = "attack";
+
+        Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
+        if (rb != null) {
+            originalMass = rb.mass;
+            originalDrag = rb.linearDamping;
+
+            rb.mass = originalMass * 20f;
+            rb.linearDamping = originalDrag + 8f;
+        }
+
         Debug.Log("Entered Attack State");
     }
 
@@ -33,56 +44,63 @@ public class AttackState : EnemyState {
     public override void Exit() {
         isExiting = true;
         if (attackCoroutine == null) enemy.StartCoroutine(ExitDelay());
-        Debug.Log("Exited Attack State");
     }
 
     private IEnumerator ExitDelay() {
         yield return new WaitForSeconds(0.1f);
+
+        Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
+        if (rb != null) {
+            rb.mass = originalMass;
+            rb.linearDamping = originalDrag;
+        }
+
         isExiting = false;
+        Debug.Log("Exited Attack State");
     }
 
 
     private IEnumerator PerformAttack() {
-        if (aiData.currentTarget == null) yield return null;
+        if (aiData.currentTarget == null) yield break;
         Vector2 dir = (aiData.currentTarget.position - enemy.transform.position).normalized;
 
-        isAttacking = true;
-        int attackType = 1;
-        int chance = Random.Range(1, 100);
-        if (chance < 20) attackType = 2;
+        int attackType = Random.Range(1, 100) < 20 ? 2 : 1;
         aiData.attackPhase = attackType == 1 ? "attack1" : "attack2";
 
-        // wait for animation to complete
+        // Wait for animation to complete
         yield return new WaitForSeconds(attackType == 1 ? config.clip1.length : config.clip2.length);
 
-
-        // check area infront of the enemy
         Vector2 center = (Vector2)enemy.transform.position + dir * config.attackOffset;
-        Vector2 size = new Vector2(1, 2);
-        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, Vector2.Angle(Vector2.right, dir), LayerMask.GetMask("Player"));
+        Vector2 size = new Vector2(1, 2) * config.attackRange * 1.5f;
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, Vector2.Angle(Vector2.right, dir), config.targetLayers);
+
         foreach (var hit in hits) {
             IStatsManager target = hit.GetComponent<IStatsManager>();
             if (target != null) {
-                target.TakeDamage((int)(statsData.ATK * (attackType == 2 ? 1.6f : 1)), statsData.LUCK);
+                float damageMultiplier = attackType == 2 ? 1.6f : 1f;
+                target.TakeDamage((int)(statsData.ATK * damageMultiplier), statsData.LUCK);
             }
         }
-        aiData.attackPhase = "waiting";
 
-        // wait for some time
-        float elapsed = 0;
+        // Wait for attack delay or interruption
+        aiData.attackPhase = "waiting";
+        float elapsed = 0f;
+        Debug.Log(config.attackDelay);
         while (elapsed <= config.attackDelay) {
             if (isExiting) {
                 enemy.StartCoroutine(ExitDelay());
                 break;
             }
-            else {
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
         }
-        Debug.Log("Attacked");
+
+        aiData.SetCurrentTarget();
         attackCoroutine = null;
     }
+
 
     public bool TargetInAttackRange() {
         if (aiData.currentTarget == null) return false;

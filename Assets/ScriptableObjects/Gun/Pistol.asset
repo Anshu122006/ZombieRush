@@ -43,3 +43,11 @@ MonoBehaviour:
     init: 3
     final: 1
     pow: 1
+  ammoPerPacket:
+    init: 20
+    final: 1
+    pow: 1
+  reloadTime:
+    init: 1
+    final: 0.6
+    pow: 1

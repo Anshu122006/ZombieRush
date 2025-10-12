@@ -18,3 +18,6 @@ MonoBehaviour:
   specialAttackFactor: 1.6
   clip1: {fileID: 7400000, guid: d519d8b1bbd14304f89c8a0254e3c6d1, type: 2}
   clip2: {fileID: 7400000, guid: 2cad3f46887d85b499df86600caf875a, type: 2}
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 8448

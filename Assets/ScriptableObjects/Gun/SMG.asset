@@ -39,9 +39,17 @@ MonoBehaviour:
     init: 0
     final: 0
     pow: 0
-  maxAmmo:
-    init: 100
-    final: 500
+  maxPackets:
+    init: 4
+    final: 10
+    pow: 1
+  ammoPerPacket:
+    init: 30
+    final: 100
+    pow: 1
+  reloadTime:
+    init: 1
+    final: 0.6
     pow: 1
   spreadAngle:
     init: 3

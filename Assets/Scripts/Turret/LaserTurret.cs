@@ -3,34 +3,27 @@ using System.Reflection;
 using Game.Utils;
 using UnityEngine;
 
-public class LaserTurret : MonoBehaviour, ITurretBehaviour {
+public class LaserTurret : ITurretBehaviour {
     [SerializeField] private Transform firePoint;
     [SerializeField] private Material laserMaterial;
-    [SerializeField] private LaserTurretDefinition data;
+    [SerializeField] private LayerMask losLayers;
+    [SerializeField] private LayerMask targetLayers;
 
     private bool isDischarged;
-    private int curLevel;
-    private int maxLevel;
     private float curcharge;
     private Transform curTarget;
     private Coroutine shootCoroutine;
 
-    public int CurLevel => curLevel;
-    public int UpgradeCost => data.upgradeCost.EvaluateStat(curLevel, maxLevel);
-    public string Name => data.turretName;
-
-    public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
-    public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
-    public float Range => data.range.EvaluateStat(curLevel, maxLevel);
-    public float FireDelay => data.fireDelay.EvaluateStat(curLevel, maxLevel);
-    public float RechargeRate => data.rechargeRate.EvaluateStat(curLevel, maxLevel);
-    public float DischargeRate => data.dischargeRate.EvaluateStat(curLevel, maxLevel);
+    public float FireDelay => ((LaserTurretDefinition)data).fireDelay.EvaluateStat(curLevel, maxLevel);
+    public float RechargeRate => ((LaserTurretDefinition)data).rechargeRate.EvaluateStat(curLevel, maxLevel);
+    public float DischargeRate => ((LaserTurretDefinition)data).dischargeRate.EvaluateStat(curLevel, maxLevel);
 
 
     private void Start() {
         curLevel = 1;
-        maxLevel = data.maxLevel;
-        InvokeRepeating("SearchForEnemies", 0, data.searchRate);
+        maxLevel = ((LaserTurretDefinition)data).maxLevel;
+        curHp = MHP;
+        InvokeRepeating("SearchForEnemies", 0, ((LaserTurretDefinition)data).searchRate);
         InvokeRepeating("Recharge", 0, FireDelay);
     }
 
@@ -40,22 +33,20 @@ public class LaserTurret : MonoBehaviour, ITurretBehaviour {
         AimAtTarget();
     }
     public void SearchForEnemies() {
-        Vector2 centre = transform.position;
+        Vector2 center = visual.position;
+        Collider2D hit = Physics2D.OverlapCircle(center, Range, losLayers);
 
-        int layerMask = data.seeThroughWalls ? LayerMask.GetMask("Enemy") : LayerMask.GetMask("Enemy", "BlockBullets");
-        Collider2D hit = Physics2D.OverlapCircle(centre, Range, layerMask);
-
-        if (hit != null && (LayerMask.GetMask("Enemy") & (1 << hit.gameObject.layer)) != 0) curTarget = hit.transform;
+        if (hit != null && (targetLayers & (1 << hit.gameObject.layer)) != 0) curTarget = hit.transform;
         else curTarget = null;
     }
 
     private void AimAtTarget() {
         if (curTarget == null || isDischarged) return;
-        Vector2 dir = (curTarget.position - transform.position).normalized;
+        Vector2 dir = (curTarget.position - visual.position).normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, data.rotationSpeed * Time.deltaTime);
+        visual.rotation = Quaternion.RotateTowards(visual.rotation, targetRotation, ((LaserTurretDefinition)data).rotationSpeed * Time.deltaTime);
     }
 
     private IEnumerator Shoot() {
@@ -84,7 +75,7 @@ public class LaserTurret : MonoBehaviour, ITurretBehaviour {
         }
     }
 
-    public void LevelUp() {
+    public override void LevelUp() {
         if (curLevel < maxLevel) {
             curLevel++;
             curcharge = 100;

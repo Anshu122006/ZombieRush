@@ -19,8 +19,6 @@ public class CharacterAttack : MonoBehaviour {
     }
 
     private void Shoot() {
-        if ((Vector2)gunHandler.transform.right != movement.faceDir)
-            gunHandler.transform.right = movement.faceDir;
         gunHandler.Gun.Shoot(movement.faceDir);
     }
 }

@@ -11,11 +11,12 @@ public abstract class TurretDefinition : ScriptableObject {
     public int cost;
     public float searchRate;
     public float rotationSpeed;
-    public bool seeThroughWalls;
 
     [Header("Core Stats")]
     public StatField<int, int> damage;
     public StatField<int, int> accuracy;
+    public StatField<int, int> mhp;
+    public StatField<int, int> def;
     public StatField<float, int> range;
     public StatField<int, int> upgradeCost;
     public StatField<int, int> expThreshold;

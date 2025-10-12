@@ -5,6 +5,7 @@ using UnityEngine;
 public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
     [SerializeField] private Transform emitter;
     [SerializeField] private FlameThrowerDefinition data;
+    [SerializeField] private GunFirePoint firePoint;
 
     private CharacterStatsData charStatData;
     private CharacterStatsManager charStatManager;
@@ -54,7 +55,8 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
             emitter.GetComponent<Emitter>().StopEmitting();
             return;
         }
-        emitter.GetComponent<Emitter>().StartEmitting();
+        Vector2 start = GetFirePosition(dir);
+        emitter.GetComponent<Emitter>().StartEmitting(start, dir);
         if (delayShootCoroutine == null) {
             curFuel = Mathf.Clamp(curFuel - FuelConsumptionRate, 0, 100);
             delayShootCoroutine = StartCoroutine(DelayShoot());
@@ -95,5 +97,12 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
             curFuel = 100;
             emitter.GetComponent<Emitter>().UpdateStats(Damage, Accuracy, FireDelay, Range);
         }
+    }
+
+    private Vector2 GetFirePosition(Vector2 dir) {
+        if (dir == Vector2.up) return firePoint.up.position;
+        else if (dir == Vector2.down) return firePoint.down.position;
+        else if (dir == Vector2.left) return firePoint.left.position;
+        else return firePoint.right.position;
     }
 }

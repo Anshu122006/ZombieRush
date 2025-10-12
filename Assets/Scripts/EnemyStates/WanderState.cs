@@ -26,7 +26,6 @@ public class WanderState : EnemyState {
 
         noise = new FastNoiseLite(config.seed);
         noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
-
         Debug.Log("Entered Wander State");
     }
 
@@ -44,12 +43,12 @@ public class WanderState : EnemyState {
             stepCoroutine = null;
         }
         enemy.StartCoroutine(ExitDelay());
-        Debug.Log("Exited Wander State");
     }
 
     private IEnumerator ExitDelay() {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0);
         isExiting = false;
+        Debug.Log("Exited Wander State");
     }
 
     // To update the direction the zombies is currently pointing to

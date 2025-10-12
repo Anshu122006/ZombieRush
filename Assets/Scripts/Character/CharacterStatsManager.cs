@@ -1,8 +1,14 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterStatsManager : MonoBehaviour, IStatsManager {
     [SerializeField] private CharacterStatsData data;
+    [SerializeField] private Healthbar healthbar;
     public int ExpDrop => 0;
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.J)) TakeDamage(2, 6);
+    }
 
     public void TakeDamage(int atk, int accuracy, IStatsManager attacker) { }
 
@@ -16,12 +22,12 @@ public class CharacterStatsManager : MonoBehaviour, IStatsManager {
             return;
         }
 
-        if (data.hp - dmg >= 0) {
-            data.hp -= dmg;
-        }
-        else {
-            data.hp = 0;
-        }
+        if (data.hp - dmg >= 0) data.hp -= dmg;
+        else data.hp = 0;
+
+        if (!healthbar.gameObject.activeSelf) healthbar.gameObject.SetActive(true);
+        healthbar.SetFill((float)data.hp / data.MHP);
+        healthbar.Fade();
         Debug.Log(data.hp);
     }
 

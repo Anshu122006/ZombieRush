@@ -8,7 +8,6 @@ public interface IGunBehaviour {
     public void LevelUp();
     public CharacterStatsData CharStatData { get; set; }
     public CharacterStatsManager CharStatManager { get; set; }
-    // public Transform FirePoint { get; }
     public string Name { get; }
     public bool Shooting { get; }
 

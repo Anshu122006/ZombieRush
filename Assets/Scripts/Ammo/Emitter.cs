@@ -48,8 +48,10 @@ public class Emitter : MonoBehaviour {
         offset.x = range * 0.5f;
     }
 
-    public void StartEmitting() {
+    public void StartEmitting(Vector2 start, Vector2 dir) {
         if (!emitting) {
+            transform.position = start;
+            transform.right = dir;
             flameParticles.Play();
             smokeParticles.Play();
 

@@ -1,0 +1,728 @@
+fileFormatVersion: 2
+guid: 513854f19ba89844789a43cf5babc440
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5052260255910455469
+    second: demolish_0
+  - first:
+      213: 906804063190373512
+    second: demolish_1
+  - first:
+      213: -2775805203706578251
+    second: demolish_2
+  - first:
+      213: -4505485810020509934
+    second: demolish_3
+  - first:
+      213: 8090586967461989310
+    second: demolish_4
+  - first:
+      213: -4191219190492766573
+    second: demolish_5
+  - first:
+      213: -2000866713564542182
+    second: demolish_6
+  - first:
+      213: -3443841129346658686
+    second: demolish_7
+  - first:
+      213: -5740746552767015723
+    second: demolish_8
+  - first:
+      213: -6768503033515783226
+    second: demolish_9
+  - first:
+      213: 1361931407135104749
+    second: demolish_10
+  - first:
+      213: -2321461571593693776
+    second: demolish_11
+  - first:
+      213: 2858682979236711498
+    second: demolish_12
+  - first:
+      213: 7418524338253804582
+    second: demolish_13
+  - first:
+      213: -3735956903597553015
+    second: demolish_14
+  - first:
+      213: -7811477863215967545
+    second: demolish_15
+  - first:
+      213: 5923734016177950092
+    second: demolish_16
+  - first:
+      213: -93677058666350229
+    second: demolish_17
+  - first:
+      213: 144610511476005759
+    second: demolish_18
+  - first:
+      213: 676459990191311463
+    second: demolish_19
+  - first:
+      213: -8062625446780306267
+    second: demolish_20
+  - first:
+      213: -5687038741979631416
+    second: demolish_21
+  - first:
+      213: 3996910414356877552
+    second: demolish_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: demolish_0
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 659
+        width: 228
+        height: 155
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da8ed5a4feb3d1640800000000000000
+      internalID: 5052260255910455469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_1
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 639
+        width: 82
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 884d753bd7d959c00800000000000000
+      internalID: 906804063190373512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_2
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 400
+        width: 351
+        height: 275
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ba7363cfdb5a79d0800000000000000
+      internalID: -2775805203706578251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_3
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 423
+        width: 222
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2171a21e68c4971c0800000000000000
+      internalID: -4505485810020509934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_4
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 632
+        width: 33
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebb0afb2bf9874070800000000000000
+      internalID: 8090586967461989310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_5
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 497
+        width: 83
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39ed0ee2a5cc5d5c0800000000000000
+      internalID: -4191219190492766573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_6
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 367
+        width: 97
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1b0517335e7b34e0800000000000000
+      internalID: -2000866713564542182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_7
+      rect:
+        serializedVersion: 2
+        x: 691
+        y: 437
+        width: 102
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28e89663db40530d0800000000000000
+      internalID: -3443841129346658686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_8
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 383
+        width: 98
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d416c01d65c450b0800000000000000
+      internalID: -5740746552767015723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_9
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 383
+        width: 73
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cb43222a527112a0800000000000000
+      internalID: -6768503033515783226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_10
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 327
+        width: 87
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dee5cb2266d86e210800000000000000
+      internalID: 1361931407135104749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_11
+      rect:
+        serializedVersion: 2
+        x: 475
+        y: 327
+        width: 85
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b51071100388cfd0800000000000000
+      internalID: -2321461571593693776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_12
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 327
+        width: 116
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4c0cde06051ca720800000000000000
+      internalID: 2858682979236711498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_13
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 327
+        width: 106
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6243533a494e3f660800000000000000
+      internalID: 7418524338253804582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_14
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 88
+        width: 234
+        height: 233
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98a46e87df6372cc0800000000000000
+      internalID: -3735956903597553015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_15
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 272
+        width: 125
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c25f28354e089390800000000000000
+      internalID: -7811477863215967545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_16
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 271
+        width: 97
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8d4f22d3b4553250800000000000000
+      internalID: 5923734016177950092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_17
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 272
+        width: 98
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b69b692263133bef0800000000000000
+      internalID: -93677058666350229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_18
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 271
+        width: 74
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7b90577e72c10200800000000000000
+      internalID: 144610511476005759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_19
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 220
+        width: 87
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76a0e1ce6c4436900800000000000000
+      internalID: 676459990191311463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_20
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 220
+        width: 90
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ac72afafdccb1090800000000000000
+      internalID: -8062625446780306267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_21
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 220
+        width: 117
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c07b6835649311b0800000000000000
+      internalID: -5687038741979631416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demolish_22
+      rect:
+        serializedVersion: 2
+        x: 691
+        y: 57
+        width: 163
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f01dc668d0e77730800000000000000
+      internalID: 3996910414356877552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      demolish_0: 5052260255910455469
+      demolish_1: 906804063190373512
+      demolish_10: 1361931407135104749
+      demolish_11: -2321461571593693776
+      demolish_12: 2858682979236711498
+      demolish_13: 7418524338253804582
+      demolish_14: -3735956903597553015
+      demolish_15: -7811477863215967545
+      demolish_16: 5923734016177950092
+      demolish_17: -93677058666350229
+      demolish_18: 144610511476005759
+      demolish_19: 676459990191311463
+      demolish_2: -2775805203706578251
+      demolish_20: -8062625446780306267
+      demolish_21: -5687038741979631416
+      demolish_22: 3996910414356877552
+      demolish_3: -4505485810020509934
+      demolish_4: 8090586967461989310
+      demolish_5: -4191219190492766573
+      demolish_6: -2000866713564542182
+      demolish_7: -3443841129346658686
+      demolish_8: -5740746552767015723
+      demolish_9: -6768503033515783226
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

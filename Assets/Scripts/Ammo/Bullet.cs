@@ -17,14 +17,9 @@ public class Bullet : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D collider) {
-        if (collider.CompareTag("Enemy")) {
-            IStatsManager enemy = collider.GetComponent<IStatsManager>();
-            enemy.TakeDamage(damage, accuracy);
-            Destroy(gameObject);
-        }
-        else if ((LayerMask.GetMask("BlockBullet") & (1 << collider.gameObject.layer)) != 0) {
-            Destroy(gameObject);
-        }
+        IStatsManager enemy = collider.GetComponent<IStatsManager>();
+        if (enemy != null) enemy.TakeDamage(damage, accuracy);
+        Destroy(gameObject);
     }
 
     public void Setup(Vector3 dir, float u, float d, int damage, int accuracy) {

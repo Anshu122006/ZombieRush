@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalTurretData : MonoBehaviour {
-    public static GlobalTurretData Instance { get; private set; }
     [SerializeField] private List<TurretDefinition> definitions;
+    public static GlobalTurretData Instance { get; private set; }
     private Dictionary<string, TurretDefinition> data = new();
     public Dictionary<string, int> exp = new();
     public Dictionary<string, int> curLevel = new();
@@ -21,8 +21,7 @@ public class GlobalTurretData : MonoBehaviour {
         isUnlocked[definitions[0].turretName] = true;
     }
 
-    public void AddExp(string turretName, IStatsManager enemy) {
-        int e = enemy.ExpDrop;
+    public void AddExp(string turretName, int e) {
         e = Random.Range((int)(e * 0.1f), (int)(e * 0.3f));
         int gain = exp[turretName] + e;
         int threshold = GetThreshold(turretName);

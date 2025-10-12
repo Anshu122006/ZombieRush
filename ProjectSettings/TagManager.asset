@@ -16,10 +16,10 @@ TagManager:
   - Obstacle
   - Player
   - CameraBounds
-  - 
-  - 
-  - 
-  - 
+  - PlayerAmmo
+  - PlayerAmmoIgnore
+  - Feet
+  - Turret
   - 
   - 
   - 
@@ -50,6 +50,9 @@ TagManager:
     locked: 0
   - name: AboveChar
     uniqueID: 2895331709
+    locked: 0
+  - name: UI
+    uniqueID: 357985425
     locked: 0
   m_RenderingLayers:
   - Default
