@@ -1,26 +1,27 @@
+using System;
 using UnityEngine;
 
 public class SonicRing : MonoBehaviour {
     private int damage;
     private int accuracy;
     private float pushBackForce;
-    private void OnTriggerEnter2D(Collider2D collider) {
-        IStatsManager enemy = collider.GetComponent<IStatsManager>();
-        Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
-        Debug.Log("Hit");
-        Vector2 dir = collider.transform.position - transform.position;
-        if (enemy == null || rb == null) {
-            Debug.LogError("No stats or rigidbody component attached");
-            return;
-        }
+    private Action<int> AddExp;
 
-        // enemy.TakeDamage(damage);
-        rb.AddForce(dir * pushBackForce, ForceMode2D.Impulse);
+    private void OnTriggerEnter2D(Collider2D collider) {
+        Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
+        IStatsManager enemy = collider.GetComponent<IStatsManager>();
+        if (enemy != null) {
+            enemy.TakeDamage(damage, accuracy, out int expDrop);
+            AddExp?.Invoke(expDrop);
+            Vector2 dir = collider.transform.position - transform.position;
+            rb.AddForce(dir * pushBackForce, ForceMode2D.Impulse);
+        }
     }
 
-    public void Setup(int damage, int accuracy, float pushBackForce) {
+    public void Setup(int damage, int accuracy, float pushBackForce, Action<int> AddExp) {
         this.damage = damage;
         this.accuracy = accuracy;
         this.pushBackForce = pushBackForce;
+        this.AddExp = AddExp;
     }
 }

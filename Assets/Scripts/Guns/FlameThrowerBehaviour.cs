@@ -40,7 +40,10 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
         curLevel = data.startLevel;
         maxLevel = data.maxLevel;
         curFuel = 100;
-        emitter.GetComponent<Emitter>().UpdateStats(Damage, Accuracy, FireDelay, Range);
+        emitter.GetComponent<Emitter>().UpdateStats(Damage, Accuracy, FireDelay, Range, (expDrop) => {
+            AddExp((int)(expDrop * 1.5f));
+            CharStatManager.AddExp(expDrop);
+        });
         InvokeRepeating("Refuel", 0, FireDelay);
     }
 
@@ -95,7 +98,10 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
         if (curLevel < maxLevel) {
             curLevel++;
             curFuel = 100;
-            emitter.GetComponent<Emitter>().UpdateStats(Damage, Accuracy, FireDelay, Range);
+            emitter.GetComponent<Emitter>().UpdateStats(Damage, Accuracy, FireDelay, Range, (expDrop) => {
+                AddExp(expDrop);
+                CharStatManager.AddExp(expDrop);
+            });
         }
     }
 

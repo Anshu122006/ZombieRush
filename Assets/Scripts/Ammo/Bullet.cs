@@ -1,3 +1,4 @@
+using System;
 using Game.Utils;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class Bullet : MonoBehaviour {
     private int accuracy;
     private float elapsed;
     private float duration;
+    private Action<int> AddExp;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -18,13 +20,17 @@ public class Bullet : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collider) {
         IStatsManager enemy = collider.GetComponent<IStatsManager>();
-        if (enemy != null) enemy.TakeDamage(damage, accuracy);
+        if (enemy != null) {
+            enemy.TakeDamage(damage, accuracy, out int expDrop);
+            AddExp?.Invoke(expDrop);
+        }
         Destroy(gameObject);
     }
 
-    public void Setup(Vector3 dir, float u, float d, int damage, int accuracy) {
+    public void Setup(Vector3 dir, float u, float d, int damage, int accuracy, Action<int> AddExp) {
         this.damage = damage;
         this.accuracy = accuracy;
+        this.AddExp = AddExp;
 
         elapsed = 0;
         duration = d / u;

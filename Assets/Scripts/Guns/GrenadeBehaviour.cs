@@ -64,7 +64,10 @@ public class GrenadeBehaviour : MonoBehaviour, IGunBehaviour {
         if (dir == Vector2.left || dir == Vector2.right) target += Vector2.down * 1;
 
         Grenade grenade = Instantiate(grenadePref, start, Quaternion.identity).GetComponent<Grenade>();
-        grenade.InitializeProperties(target, ProjectileSpeed, trajectoryHeight, Damage, Accuracy, ExplosionRadius);
+        grenade.InitializeProperties(target, ProjectileSpeed, trajectoryHeight, Damage, Accuracy, ExplosionRadius, (expDrop) => {
+            AddExp((int)(expDrop * 1.5f));
+            CharStatManager.AddExp(expDrop);
+        });
         grenade.InitializeAnimationCurves(trajectoryAnimationCurve, axisCorrectionAnimationCurve, speedAnimationCurve);
     }
 

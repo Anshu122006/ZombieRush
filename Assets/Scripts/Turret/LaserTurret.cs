@@ -57,7 +57,8 @@ public class LaserTurret : ITurretBehaviour {
 
         MeshHandler.DrawLineMesh(firePoint.position, curTarget.position, FireDelay + 0.01f, 0.007f, 0.007f, laserMaterial);
         IStatsManager enemy = curTarget.GetComponent<IStatsManager>();
-        enemy.TakeDamage(Damage, Accuracy);
+        enemy.TakeDamage(Damage, Accuracy, out int expDrop);
+        GlobalTurretData.Instance.AddExp(Name, expDrop);
 
         curcharge -= DischargeRate;
         curcharge = Mathf.Clamp(curcharge, 0, 100);

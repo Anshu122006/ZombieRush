@@ -84,8 +84,9 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
 
             IStatsManager enemy = collider.GetComponent<IStatsManager>();
             if (enemy != null) {
-                enemy.TakeDamage(Damage, charStatData.LUCK + Accuracy, charStatManager);
-                AddExp(enemy.ExpDrop);
+                enemy.TakeDamage(Damage, charStatData.LUCK + Accuracy, out int expDrop);
+                CharStatManager.AddExp(expDrop);
+                AddExp((int)(expDrop * 1.5));
             }
         }
         else {

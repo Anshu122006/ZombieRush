@@ -16,6 +16,7 @@ public abstract class ITurretBehaviour : MonoBehaviour {
     public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
     public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
     public float Range => data.range.EvaluateStat(curLevel, maxLevel);
+    public int ExpDrop => data.expDrop.EvaluateStat(curLevel, maxLevel);
 
     public virtual void LevelUp() { }
 }

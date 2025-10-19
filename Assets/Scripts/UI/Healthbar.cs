@@ -28,8 +28,10 @@ public class Healthbar : MonoBehaviour {
 
     public IEnumerator FadeAnimation() {
         Debug.Log("Started");
-        foreach (var r in renderers)
-            r.color = r.color.WithAlpha(0);
+        foreach (var r in renderers) {
+            Color color = r.color;
+            r.color = new Color(color.r, color.g, color.b, 0);
+        }
 
         float elapsed = 0;
         stayElapsed = 0;
@@ -37,13 +39,17 @@ public class Healthbar : MonoBehaviour {
         // fadein
         while (elapsed < fadeinTime) {
             float t = elapsed / fadeinTime;
-            foreach (var r in renderers)
-                r.color = r.color.WithAlpha(t);
+            foreach (var r in renderers) {
+                Color color = r.color;
+                r.color = new Color(color.r, color.g, color.b, t);
+            }
             elapsed += Time.deltaTime;
             yield return null;
         }
-        foreach (var r in renderers)
-            r.color = r.color.WithAlpha(1);
+        foreach (var r in renderers) {
+            Color color = r.color;
+            r.color = new Color(color.r, color.g, color.b, 1);
+        }
 
         // stay
         while (stayElapsed < stayTime) {
@@ -56,13 +62,17 @@ public class Healthbar : MonoBehaviour {
         elapsed = fadeinTime;
         while (elapsed >= 0) {
             float t = elapsed / fadeinTime;
-            foreach (var r in renderers)
-                r.color = r.color.WithAlpha(t);
+            foreach (var r in renderers) {
+                Color color = r.color;
+                r.color = new Color(color.r, color.g, color.b, t);
+            }
             elapsed -= Time.deltaTime;
             yield return null;
         }
-        foreach (var r in renderers)
-            r.color = r.color.WithAlpha(0);
+        foreach (var r in renderers) {
+            Color color = r.color;
+            r.color = new Color(color.r, color.g, color.b, 0);
+        }
 
         gameObject.SetActive(false);
         fadeCoroutine = null;

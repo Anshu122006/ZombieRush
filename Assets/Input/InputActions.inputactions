@@ -81,17 +81,6 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "1e4dae49-b8d6-4360-b4b5-cac732daa4e9",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TestButton",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "015ca630-39c1-44ec-95c4-d5a37fc3b39f",
                     "path": "<Keyboard>/t",
                     "interactions": "",
@@ -103,34 +92,12 @@
                 },
                 {
                     "name": "",
-                    "id": "018bc4e5-7206-4e88-ae12-23f40df64a54",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PrevWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "1f86db21-02f2-4065-8241-a0dfb5ac751a",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "PrevWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "51589472-7aaa-402d-af05-4484c0123426",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "NextWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -241,6 +208,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "80007f11-1d50-445f-9a61-4df438685ec6",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "e07ae3ad-8c37-4c0c-b90f-dac30c28af87",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ff9297e4-a723-467b-b88a-47162b398e21",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

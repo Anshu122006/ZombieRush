@@ -74,7 +74,7 @@ public class ProjectileTurret : ITurretBehaviour {
             Vector2 dir = (curTarget.position - transform.position).normalized;
             Bullet bullet = Instantiate(bulletPref).GetComponent<Bullet>();
             bullet.transform.position = firePoint.position;
-            bullet.Setup(dir, ProjectileSpeed, Range * 1.2f, Damage, Accuracy);
+            bullet.Setup(dir, ProjectileSpeed, Range * 1.2f, Damage, Accuracy, (expDrop) => GlobalTurretData.Instance.AddExp(Name, expDrop));
 
             curAmmo--;
             yield return new WaitForSeconds(FireDelay);

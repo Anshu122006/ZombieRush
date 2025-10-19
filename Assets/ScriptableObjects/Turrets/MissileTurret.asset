@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: MissileTurret
   m_EditorClassIdentifier: Assembly-CSharp::MissileTurretDefinition
-  turretName: Missile Turret
-  sprite: {fileID: 21300000, guid: d5f470a73d7b6cf4199991e84ac79c0e, type: 3}
+  turretName: missile
+  sprite: {fileID: 6917564123985174437, guid: 24d7d3d2a6fcb664ba257284baeef629, type: 3}
   turretDesc: 
   effectPref: {fileID: 0}
-  maxLevel: 99
-  cost: 50
-  searchRate: 0.05
-  rotationSpeed: 720
+  maxLevel: 0
+  cost: 0
+  searchRate: 0
+  rotationSpeed: 0
   damage:
     init: 0
     final: 0
@@ -41,10 +41,14 @@ MonoBehaviour:
     final: 0
     pow: 0
   upgradeCost:
-    init: 50
-    final: 80
-    pow: 1
+    init: 0
+    final: 0
+    pow: 0
   expThreshold:
+    init: 0
+    final: 0
+    pow: 0
+  expDrop:
     init: 0
     final: 0
     pow: 0

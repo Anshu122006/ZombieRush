@@ -1,4 +1,6 @@
+using System;
 using Game.Utils;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Missile : MonoBehaviour {
@@ -10,6 +12,7 @@ public class Missile : MonoBehaviour {
     private float a;
     private float elapsed;
     private float duration;
+    private Action<int> AddExp;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -21,15 +24,19 @@ public class Missile : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collider) {
         IStatsManager enemy = collider.GetComponent<IStatsManager>();
-        if (enemy != null) enemy.TakeDamage(damage, accuracy);
+        if (enemy != null) {
+            enemy.TakeDamage(damage, accuracy, out int expDrop);
+            AddExp?.Invoke(expDrop);
+        }
         Destroy(gameObject);
     }
 
-    public void Setup(Transform target, float u, float v, float d, int damage, int accuracy, bool followTarget) {
+    public void Setup(Transform target, float u, float v, float d, int damage, int accuracy, bool followTarget, Action<int> AddExp) {
         this.damage = damage;
         this.accuracy = accuracy;
         this.target = followTarget ? target : null;
         this.v = v;
+        this.AddExp = AddExp;
 
         float s = d / 4;
         a = 2 * (v * v - u * u) / (2 * s);

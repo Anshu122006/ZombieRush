@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b5c307da14af544d8ebeff3f1e9638d, type: 3}
   m_Name: Susie
   m_EditorClassIdentifier: 
-  charName: Player
+  charName: Susie
+  charimage: {fileID: 0}
   charClass: Hero
   charDesc: laidhk,sa
   startLevel: 1

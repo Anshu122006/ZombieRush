@@ -8,19 +8,16 @@ public class CharacterAnimation : MonoBehaviour {
     [SerializeField] private CharacterAnimationsSO playerAnimations;
     [SerializeField] private float baseMoveAnimationSpeed = 6;
 
-    private Dictionary<string, DirectionAnimation> anims = new();
+    private Dictionary<string, DirectionAnimation> idle = new();
+    private Dictionary<string, DirectionAnimation> walk = new();
     private CharacterComponents components;
     private string curAnimation;
     private string newAnimation;
 
     private void Start() {
         components = GetComponent<CharacterComponents>();
-        anims["pistol"] = playerAnimations.pistol;
-        anims["smg"] = playerAnimations.smg;
-        anims["shotgun"] = playerAnimations.shotgun;
-        anims["grenade"] = playerAnimations.grenade;
-        anims["minigun"] = playerAnimations.minigun;
-        anims["flamethrower"] = playerAnimations.flamethrower;
+        idle = playerAnimations.GetIdleAnimations();
+        walk = playerAnimations.GetWalkAnimations();
     }
 
     private void Update() {
@@ -29,17 +26,28 @@ public class CharacterAnimation : MonoBehaviour {
     }
 
     private void HandleWalkAnimation() {
+        bool isIdle = GameInputManager.Instance.GetInputDir() == Vector2.zero;
         Vector2 dir = components.movement.faceDir;
         string gunName = components.gunHandler.Gun.Name;
 
-        AnimationClip clip = anims[gunName].down;
-        if (dir == Vector2.up) clip = anims[gunName].up;
-        else if (dir == Vector2.right) clip = anims[gunName].right;
-        else if (dir == Vector2.left) clip = anims[gunName].left;
+        if (isIdle) {
+            AnimationClip clip = idle[gunName].down;
+            if (dir == Vector2.up) clip = idle[gunName].up;
+            else if (dir == Vector2.right) clip = idle[gunName].right;
+            else if (dir == Vector2.left) clip = idle[gunName].left;
 
-        CharacterMovement move = components.movement;
-        components.animator.speed = Mathf.Clamp(move.Speed / baseMoveAnimationSpeed, 0.8f, 1.4f);
-        newAnimation = clip.name;
+            newAnimation = clip.name;
+        }
+        else {
+            AnimationClip clip = walk[gunName].down;
+            if (dir == Vector2.up) clip = walk[gunName].up;
+            else if (dir == Vector2.right) clip = walk[gunName].right;
+            else if (dir == Vector2.left) clip = walk[gunName].left;
+
+            CharacterMovement move = components.movement;
+            components.animator.speed = Mathf.Clamp(move.Speed / baseMoveAnimationSpeed, 0.8f, 1.4f);
+            newAnimation = clip.name;
+        }
     }
 
     private void UpdateAnimation() {

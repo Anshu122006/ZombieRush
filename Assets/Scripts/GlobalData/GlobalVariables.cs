@@ -5,8 +5,9 @@ using UnityEngine;
 public class GlobalVariables : MonoBehaviour {
     public event Action<int> OnGoldChanged;
 
-    public static GlobalVariables Instance;
     [SerializeField] private int initGold;
+    public static GlobalVariables Instance;
+    public int zombieCount;
     public List<GameVariable> gameVariables;
 
     private int gold;

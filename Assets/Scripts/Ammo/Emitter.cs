@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using UnityEditor.Analytics;
 using UnityEngine;
 
 public class Emitter : MonoBehaviour {
@@ -10,13 +12,15 @@ public class Emitter : MonoBehaviour {
     private int accuracy;
     private float fireRate;
     private Coroutine delayCoroutine;
+    private Action<int> AddExp;
 
 
     private void OnTriggerStay2D(Collider2D collider) {
         if (emitting && delayCoroutine == null) {
             IStatsManager target = collider.GetComponent<IStatsManager>();
             if (target != null && (LayerMask.GetMask("Enemy") & (1 << collider.gameObject.layer)) != 0) {
-                target.TakeDamage(damage, accuracy);
+                target.TakeDamage(damage, accuracy, out int expDrop);
+                AddExp?.Invoke(expDrop);
                 delayCoroutine = StartCoroutine(Delay());
             }
         }
@@ -27,10 +31,11 @@ public class Emitter : MonoBehaviour {
         delayCoroutine = null;
     }
 
-    public void UpdateStats(int damage, int accuracy, float fireRate, float range) {
+    public void UpdateStats(int damage, int accuracy, float fireRate, float range, Action<int> AddExp) {
         this.damage = damage;
         this.accuracy = accuracy;
         this.fireRate = fireRate;
+        this.AddExp = AddExp;
 
         float startLifetime = range * 0.2f;
         var main = flameParticles.main;

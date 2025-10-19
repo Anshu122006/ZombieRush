@@ -8,9 +8,10 @@ public class GameInputManager : MonoBehaviour {
     public event EventHandler OnTestPerformed;
     public event EventHandler OnPrevWeaponPerformed;
     public event EventHandler OnNextWeaponPerformed;
+    public event EventHandler OnPausePerformed;
 
     private InputActions inputActions;
-    private readonly List<Vector2> activeDirs = new(); // maintains press order
+    private readonly List<Vector2> activeDirs = new();
     public static GameInputManager Instance { get; private set; }
 
     private void Awake() {
@@ -20,11 +21,13 @@ public class GameInputManager : MonoBehaviour {
 
     private void OnEnable() {
         inputActions.Player.Enable();
+        inputActions.UI.Enable();
 
         inputActions.Player.Shoot.performed += Input_OnShootPerformed;
         inputActions.Player.TestButton.performed += Input_OnTestPerformed;
         inputActions.Player.PrevWeapon.performed += Input_OnPrevWeaponPerformed;
         inputActions.Player.NextWeapon.performed += Input_OnNextWeaponPerformed;
+        inputActions.UI.Pause.performed += Input_OnPausePerformed;
 
         RegisterDir(inputActions.Player.Up, Vector2.up);
         RegisterDir(inputActions.Player.Down, Vector2.down);
@@ -34,6 +37,7 @@ public class GameInputManager : MonoBehaviour {
 
     private void OnDisable() {
         inputActions.Player.Disable();
+        inputActions.UI.Disable();
     }
 
     private void RegisterDir(InputAction action, Vector2 dir) {
@@ -73,4 +77,6 @@ public class GameInputManager : MonoBehaviour {
         => OnPrevWeaponPerformed?.Invoke(this, EventArgs.Empty);
     private void Input_OnNextWeaponPerformed(InputAction.CallbackContext context)
         => OnNextWeaponPerformed?.Invoke(this, EventArgs.Empty);
+    private void Input_OnPausePerformed(InputAction.CallbackContext context)
+    => OnPausePerformed?.Invoke(this, EventArgs.Empty);
 }

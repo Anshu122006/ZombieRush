@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,16 +8,21 @@ public class GrenadeExplosion : MonoBehaviour {
     [SerializeField] private CircleCollider2D explosionCollider;
     private int damage;
     private int accuracy;
+    private Action<int> AddExp;
 
     private void OnTriggerEnter2D(Collider2D collision) {
         EnemyStatsManager enemy = GetComponentInParent<EnemyStatsManager>();
         Debug.Log(enemy);
-        if (enemy != null) enemy.TakeDamage(damage, accuracy);
+        if (enemy != null) {
+            enemy.TakeDamage(damage, accuracy, out int expDrop);
+            AddExp.Invoke(expDrop);
+        }
     }
 
-    public void Initialize(int damage, int accuracy, float explosionRadius) {
+    public void Initialize(int damage, int accuracy, float explosionRadius,Action<int> AddExp) {
         this.damage = damage;
         this.accuracy = accuracy;
+        this.AddExp = AddExp;
 
         visual.localScale = Vector2.one * (explosionRadius * 0.7f);
         StartCoroutine(ExpandCollider(explosionRadius));

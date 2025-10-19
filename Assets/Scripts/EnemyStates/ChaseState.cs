@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Linq;
-using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class ChaseState : EnemyState {

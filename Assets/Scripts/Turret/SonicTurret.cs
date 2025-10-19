@@ -57,7 +57,7 @@ public class SonicTurret : ITurretBehaviour {
         float end_size = Range * sizeFactor;
 
         ring.position = center.position;
-        ring.GetComponent<SonicRing>().Setup(Damage, Accuracy, PushbackForce);
+        ring.GetComponent<SonicRing>().Setup(Damage, Accuracy, PushbackForce, (expDrop) => GlobalTurretData.Instance.AddExp(Name, expDrop));
 
         while (cur_size < end_size) {
             float t = cur_size / end_size;
@@ -65,7 +65,8 @@ public class SonicTurret : ITurretBehaviour {
             float alpha = start_alpha + (end_alpha - start_alpha) * Mathf.Sqrt(t);
 
             ring.localScale = scale;
-            ring.GetComponent<SpriteRenderer>().color = Color.white.WithAlpha(alpha);
+            Color color = ring.GetComponent<SpriteRenderer>().color;
+            ring.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, alpha);
 
             cur_size += Time.deltaTime * RingSpeed;
             yield return null;

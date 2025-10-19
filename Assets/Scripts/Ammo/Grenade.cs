@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,11 +28,12 @@ public class Grenade : MonoBehaviour {
     private float nextXPos;
     private float nextYPosCorrectionAbsolute;
     private float nextXPosCorrectionAbsolute;
+    private Action<int> AddExp;
 
     private void OnCollisionEnter2D(Collision2D hit) {
         EnemyStatsManager enemy = hit.collider.GetComponentInParent<EnemyStatsManager>();
         Debug.Log(hit);
-        if (enemy != null) enemy.TakeDamage(damage, accuracy);
+
         DestroySelf();
     }
 
@@ -112,17 +114,18 @@ public class Grenade : MonoBehaviour {
     private void DestroySelf() {
         Debug.Log("destroy called");
         GrenadeExplosion explosion = Instantiate(explosionPref, transform.position, Quaternion.identity).GetComponent<GrenadeExplosion>();
-        explosion.Initialize(damage, accuracy, explosionRadius);
+        explosion.Initialize(damage, accuracy, explosionRadius, AddExp);
         Destroy(gameObject);
     }
 
-    public void InitializeProperties(Vector2 targetPos, float maxMoveSpeed, float baseTrajectoryHeight, int damage, int accuracy, float explosionRadius) {
+    public void InitializeProperties(Vector2 targetPos, float maxMoveSpeed, float baseTrajectoryHeight, int damage, int accuracy, float explosionRadius, Action<int> AddExp) {
         this.targetPos = targetPos;
         this.maxMoveSpeed = maxMoveSpeed;
         this.start = transform.position;
         this.damage = damage;
         this.accuracy = accuracy;
         this.explosionRadius = explosionRadius;
+        this.AddExp = AddExp;
 
         float xDistanceToTarget = targetPos.x - transform.position.x;
         this.maxTrajectoryHeight = Mathf.Abs(xDistanceToTarget) * baseTrajectoryHeight;

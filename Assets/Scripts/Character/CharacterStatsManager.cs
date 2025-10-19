@@ -6,15 +6,10 @@ public class CharacterStatsManager : MonoBehaviour, IStatsManager {
     [SerializeField] private Healthbar healthbar;
     public int ExpDrop => 0;
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.J)) TakeDamage(2, 6);
-    }
-
-    public void TakeDamage(int atk, int accuracy, IStatsManager attacker) { }
-
-    public void TakeDamage(int atk, int accuracy) {
+    public void TakeDamage(int atk, int accuracy, out int expDrop) {
         int dmg = Random.Range((int)(atk * 0.5f), (int)(atk * 1.2f)) - Random.Range((int)(data.DEF * 0.5f), (int)(data.DEF * 1.2f));
         dmg = Mathf.Clamp(dmg, 1, (int)(atk * 1.2f));
+        expDrop = 0;
 
         int chance = Random.Range(0, accuracy + data.AGI);
         if (chance > accuracy) {

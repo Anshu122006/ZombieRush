@@ -20,6 +20,7 @@ public abstract class TurretDefinition : ScriptableObject {
     public StatField<float, int> range;
     public StatField<int, int> upgradeCost;
     public StatField<int, int> expThreshold;
+    public StatField<int, int> expDrop;
 }
 
 [CreateAssetMenu(fileName = "ProjectileTurret", menuName = "Turrets/ProjectileTurret")]

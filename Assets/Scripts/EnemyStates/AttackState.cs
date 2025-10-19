@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public class AttackState : EnemyState {
@@ -79,7 +78,7 @@ public class AttackState : EnemyState {
             IStatsManager target = hit.GetComponent<IStatsManager>();
             if (target != null) {
                 float damageMultiplier = attackType == 2 ? 1.6f : 1f;
-                target.TakeDamage((int)(statsData.ATK * damageMultiplier), statsData.LUCK);
+                target.TakeDamage((int)(statsData.ATK * damageMultiplier), statsData.LUCK, out int expDrop);
             }
         }
 

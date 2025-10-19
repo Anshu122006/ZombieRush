@@ -17,7 +17,6 @@ public class AIData : MonoBehaviour {
         for (int i = 0; i < targets.Count; i++) {
             if ((LayerMask.GetMask("Player") & (1 << targets[i].gameObject.layer)) != 0) {
                 currentTarget = targets[i];
-                Debug.Log(targets[i].gameObject.layer);
                 return;
             }
         }

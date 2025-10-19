@@ -57,7 +57,8 @@ public class ElectricTurret : ITurretBehaviour {
             Transform enemyElec = Instantiate(enemyEffect, target);
             enemyElec.localPosition = new Vector3(0, 0, -6);
             IStatsManager enemy = target.GetComponent<IStatsManager>();
-            enemy.TakeDamage(Damage, Accuracy);
+            enemy.TakeDamage(Damage, Accuracy, out int expDrop);
+            GlobalTurretData.Instance.AddExp(Name, expDrop);
             curcharge--;
             curcharge = Mathf.Clamp(curcharge, 0, MaxCharge);
             if (curcharge == 0) break;

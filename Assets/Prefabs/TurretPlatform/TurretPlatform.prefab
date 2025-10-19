@@ -129,7 +129,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.94, y: 0.94}
+    oldSize: {x: 1.46875, y: 1.46875}
     newSize: {x: 0.94, y: 0.94}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -171,6 +171,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2700452522785671707}
     m_Modifications:
+    - target: {fileID: 8230197557697809486, guid: 8d365e3695c5e0b43ae106af29cc7b73, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 357985425
+      objectReference: {fileID: 0}
     - target: {fileID: 8647961820328038984, guid: 8d365e3695c5e0b43ae106af29cc7b73, type: 3}
       propertyPath: m_Name
       value: TurretSelector

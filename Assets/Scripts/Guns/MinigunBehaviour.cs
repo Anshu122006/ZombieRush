@@ -56,9 +56,11 @@ public class MinigunBehaviour : MonoBehaviour, IGunBehaviour {
             Vector2 off = new Vector2(dir.y, -dir.x).normalized * Random.Range(-Offset, Offset);
             Vector2 spawnPoint = start + off;
 
-            Transform bullet = Instantiate(bulletPref);
-            bullet.position = spawnPoint;
-            bullet.GetComponent<Bullet>().Setup(dir, ProjectileSpeed, Range, Damage, Accuracy);
+            Bullet bullet = Instantiate(bulletPref, spawnPoint, Quaternion.identity).GetComponent<Bullet>();
+            bullet.Setup(dir, ProjectileSpeed, Range, Damage, Accuracy, (expDrop) => {
+                AddExp((int)(expDrop * 1.5f));
+                CharStatManager.AddExp(expDrop);
+            });
 
             curAmmo = Mathf.Clamp(curAmmo - 1, 0, MaxAmmo);
             if (packetAmmo - 1 <= 0) {

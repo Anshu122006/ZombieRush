@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Definitions/Character Definition", fileName = "CharacterDefinition")]
+[CreateAssetMenu(menuName = "Definitions/Character", fileName = "CharacterDefinition")]
 public class CharacterDefinition : ScriptableObject {
     [Header("Info")]
     public string charName;

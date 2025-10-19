@@ -23,14 +23,14 @@ MonoBehaviour:
     right: {fileID: 7400000, guid: e00fd114e2fe9084ab9380cdbe322370, type: 2}
     left: {fileID: 7400000, guid: 426ad860d1e6f7449a8743b02edcf013, type: 2}
   attack1:
-    up: {fileID: 7400000, guid: 7de292ed22512d44db232b62191af06a, type: 2}
-    down: {fileID: 7400000, guid: 77b89b4b95f53304d8f5eb1c9daa1367, type: 2}
-    right: {fileID: 7400000, guid: d519d8b1bbd14304f89c8a0254e3c6d1, type: 2}
-    left: {fileID: 7400000, guid: bcab9b8cad4b8924b9a5598b219e63ba, type: 2}
+    up: {fileID: 7400000, guid: b107af15d3eaf964588d0cd1017b7f1e, type: 2}
+    down: {fileID: 7400000, guid: f7e610147ea15a74f9cf2aff82a19ca2, type: 2}
+    right: {fileID: 7400000, guid: 4c7e2ab26a0082f4ba9a22561bd174bd, type: 2}
+    left: {fileID: 7400000, guid: 134b7a9713b4125418f330be0de314ec, type: 2}
   attack2:
-    up: {fileID: 7400000, guid: f5f56b61d524dbc4698855758fbc2f87, type: 2}
-    down: {fileID: 7400000, guid: a46135f06c637994fb3edaa1b5ce036e, type: 2}
-    right: {fileID: 7400000, guid: 2cad3f46887d85b499df86600caf875a, type: 2}
-    left: {fileID: 7400000, guid: 9d8d74c478530a441960053148b49081, type: 2}
+    up: {fileID: 7400000, guid: 7aa226a7a771b5448b8944922f919219, type: 2}
+    down: {fileID: 7400000, guid: 84d76b1cbbdb30d418ce7a9f7cce50cd, type: 2}
+    right: {fileID: 7400000, guid: cbeec00442eca984a9808b00c6153224, type: 2}
+    left: {fileID: 7400000, guid: 3374c89549e13904fb329570f851cc64, type: 2}
   deathLeft: {fileID: 7400000, guid: e5608e568e69e894daaf92aaea20f610, type: 2}
   deathRight: {fileID: 7400000, guid: 970035b2c9102454888cfa27cc9fc834, type: 2}

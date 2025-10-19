@@ -56,7 +56,7 @@ public class MissileTurret : ITurretBehaviour {
         Vector2 dir = (curTarget.position - transform.position).normalized;
         Missile missile = Instantiate(missilePref).GetComponent<Missile>();
         missile.transform.position = firePoint.position;
-        missile.Setup(curTarget, ProjectileSpeed * 0.8f, ProjectileSpeed * 1.2f, ProjectileRange, Damage, Accuracy, true);
+        missile.Setup(curTarget, ProjectileSpeed * 0.8f, ProjectileSpeed * 1.2f, ProjectileRange, Damage, Accuracy, true, (expDrop) => GlobalTurretData.Instance.AddExp(Name, expDrop));
         curAmmo--;
 
         yield return new WaitForSeconds(ShootDelay);
