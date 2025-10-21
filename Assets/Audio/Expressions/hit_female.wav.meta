@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6be650ac213d26a4cb6814c21422b3d7
+guid: 34664e92047cf384c92bf68b7b9dd321
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
@@ -25,5 +25,5 @@ AssetOrigin:
   productId: 214441
   packageName: Voices - Essentials
   packageVersion: 1.0
-  assetPath: Assets/Voices - Essentials/Voice_Female/Voice_Female_Hit/Voice_Female_V1_Hit_Short_Mono_01.wav
+  assetPath: Assets/Voices - Essentials/Voice_Female/Voice_Female_Hit/Voice_Female_V1_Hit_Short_Mono_06.wav
   uploadId: 482792

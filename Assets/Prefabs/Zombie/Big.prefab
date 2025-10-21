@@ -78,6 +78,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.75, y: 0.25}
   m_EdgeRadius: 0
+--- !u!1 &5433226394454523984
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4323433361008306288}
+  m_Layer: 6
+  m_Name: BloodEffectPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4323433361008306288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5433226394454523984}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.233, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7630457907023537672}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6560001199323951919
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,6 +123,7 @@ GameObject:
   - component: {fileID: 2680961399802763192}
   - component: {fileID: 4614863903678693082}
   - component: {fileID: 1279015611114866355}
+  - component: {fileID: 4422129209076368926}
   - component: {fileID: 6948318381746666680}
   - component: {fileID: 5498166962378646876}
   - component: {fileID: 5705546690894233437}
@@ -112,10 +144,11 @@ Transform:
   m_GameObject: {fileID: 6560001199323951919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.5, y: -1.28, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 4323433361008306288}
   - {fileID: 5095672489888079021}
   - {fileID: 1004004823958941742}
   - {fileID: 3165237328190398739}
@@ -133,20 +166,20 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 3
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3725cf62eb0e89d419849eae707d8b70, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &4632952076556881304
 CapsuleCollider2D:
@@ -199,11 +232,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb2d: {fileID: 5213867154100153570}
   aiData: {fileID: 4614863903678693082}
+  anim: {fileID: 0}
   statsData: {fileID: 6948318381746666680}
   statsManager: {fileID: 5498166962378646876}
   wanderStateConfig: {fileID: 11400000, guid: 900f4ffc6b0e51a4eb851c5414d3bfc6, type: 2}
   chaseStateConfig: {fileID: 11400000, guid: 8db378368adf10a499f1e9c3dc920579, type: 2}
   attackStateConfig: {fileID: 11400000, guid: 262360da28e06d147b33f80ec1311662, type: 2}
+  deathStateConfig: {fileID: 0}
   detectors:
   - {fileID: 5705546690894233437}
   - {fileID: 6269107749209105201}
@@ -241,6 +276,23 @@ MonoBehaviour:
   aiData: {fileID: 4614863903678693082}
   enemyAnimation: {fileID: 11400000, guid: 44ad023eaa2e1fe4cb68f1b4c4e6a594, type: 2}
   animator: {fileID: 1095509026267616728}
+--- !u!114 &4422129209076368926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6560001199323951919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7701d6ba9c05b2a41aa4d4df375fe270, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMass: 2
+  collisionCheckRate: 0.07
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 320
 --- !u!114 &6948318381746666680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,8 +320,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f35e01bd307748546861afcfedad2f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 6948318381746666680}
   healthbar: {fileID: 8558108289092019569}
+  bloodEffectPoint: {fileID: 4323433361008306288}
+  bloodEffects:
+  - {fileID: 2412237698747434177, guid: 67aefb9d58f7e50458f95572721b5486, type: 3}
+  - {fileID: 4840205890844413962, guid: c7adc161bcbd7864194ef9c23b56702c, type: 3}
+  - {fileID: 8567310610646518249, guid: d9e2d80077a8fcc448a8b66a4eee5fd8, type: 3}
+  - {fileID: 6680537012879591882, guid: 27ff350199a556747aca99732ae8a472, type: 3}
+  spriteRenderer: {fileID: 7208480911737190577}
+  flashTime: 0.6
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  hitAudio: {fileID: 8300000, guid: a8404e490c452be4f8edd49eb8876ac7, type: 3}
+  bloodAudio: {fileID: 8300000, guid: 7b6404bd91bbe364f9ac44edd962065a, type: 3}
+  deathAudio: {fileID: 8300000, guid: c3e4e0afe979b634ca9801ec89d1139c, type: 3}
+  bloodMarkPref: {fileID: 8206522472595950665, guid: 79eb94042c4adc949b571dabbb859f71, type: 3}
+  data: {fileID: 6948318381746666680}
+  anim: {fileID: 1279015611114866355}
+  deathAnimation: {fileID: 7400000, guid: e5608e568e69e894daaf92aaea20f610, type: 2}
 --- !u!114 &5705546690894233437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,7 +430,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 4445992be87e0994c985ad98720ca9e8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

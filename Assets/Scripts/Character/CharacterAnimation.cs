@@ -52,8 +52,14 @@ public class CharacterAnimation : MonoBehaviour {
 
     private void UpdateAnimation() {
         if (newAnimation != curAnimation) {
+            // bool isShooting = GameInputManager.Instance.IsShooting();
+            // bool isIdle = GameInputManager.Instance.GetInputDir() == Vector2.zero;
+
             curAnimation = newAnimation;
-            components.animator.CrossFade(curAnimation, 0.2f, 0);
+            components.animator.CrossFade(curAnimation, 0f, 0);
+
+            // if (isIdle && isShooting) components.animator.speed = 0;
+            // else components.animator.speed = 1;
         }
     }
 }

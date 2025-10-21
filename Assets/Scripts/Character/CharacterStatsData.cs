@@ -5,12 +5,54 @@ public class CharacterStatsData : MonoBehaviour {
     public CharacterDefinition definition;
 
     [Header("Runtime State")]
-    public int curLevel;
-    public int exp;
-    public int hp;
+    private int curLevel;
+    private int curLives;
+    private int exp;
+    private int hp;
 
     // Computed stats based on current level
+    public int CurLevel {
+        get {
+            return curLevel;
+        }
+        set {
+            curLevel = Mathf.Clamp(value, 1, MAXLV);
+            HudManager.Instance?.UpdatePlayerLevel(curLevel);
+        }
+    }
+
+    public int HP {
+        get {
+            return hp;
+        }
+        set {
+            hp = Mathf.Clamp(value, 0, MHP);
+            HudManager.Instance?.UpdateHealth((float)hp / MHP);
+        }
+    }
+
+    public int EXP {
+        get {
+            return exp;
+        }
+        set {
+            exp = Mathf.Clamp(value, 0, ExpThreshold);
+            HudManager.Instance?.UpdateExp((float)exp / ExpThreshold);
+        }
+    }
+
+    public int CURLIVES {
+        get {
+            return curLives;
+        }
+        set {
+            curLives = Mathf.Clamp(value, 0, MAXLIVES);
+            HudManager.Instance?.UpdateLives(curLives);
+        }
+    }
+
     public int MAXLV => definition.maxLevel;
+    public int MAXLIVES => definition.maxLives;
     public int ExpThreshold => definition.expThreshold.EvaluateStat(curLevel, definition.maxLevel);
     public int MHP => definition.mhp.EvaluateStat(curLevel, definition.maxLevel);
     public int DEF => definition.def.EvaluateStat(curLevel, definition.maxLevel);
@@ -20,10 +62,11 @@ public class CharacterStatsData : MonoBehaviour {
 
 
     // Setup for outside
-    public void Setup(int curLevel, int exp) {
-        this.curLevel = curLevel;
-        this.exp = exp;
-        this.hp = MHP;
+    public void Setup(int curLevel, int exp = 0) {
+        this.CurLevel = curLevel;
+        this.EXP = exp;
+        this.HP = MHP;
+        this.CURLIVES = MAXLIVES;
     }
 
     private void Start() {

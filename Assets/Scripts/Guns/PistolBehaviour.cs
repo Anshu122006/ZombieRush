@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
     [SerializeField] private PistolDefinition data;
-    [SerializeField] private Transform muzzleFlashPref;
+    [SerializeField] private Transform shellPref;
     [SerializeField] private Material shootMaterial;
     [SerializeField] private AudioClip shootAudio;
     [SerializeField] private AudioClip reloadAudio;
+    [SerializeField] private Transform flashPref;
     [SerializeField] private GunFirePoint firePoint;
 
     private CharacterStatsData charStatData;
@@ -22,33 +23,52 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
     private int packetAmmo;
 
     // getters
-    public string Name => "pistol";
+    public string Name => data.gunName;
+    public int CurLevel {
+        get {
+            return curLevel;
+        }
+        set {
+            curLevel = Mathf.Clamp(value, 1, maxLevel);
+            HudManager.Instance?.UpdateGunLevel(this);
+        }
+    }
+    public int CurAmmo { get => -1; set { } }
+    public int MaxAmmo => -1;
     public int PacketAmmo => packetAmmo;
     public bool Shooting => GameInputManager.Instance.IsShooting();
 
-    public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
-    public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
-    public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
-    public float Range => data.range.EvaluateStat(curLevel, maxLevel);
-    public int AmmoPerPack => data.ammoPerPacket.EvaluateStat(curLevel, maxLevel);
-    public float ReloadTime => data.reloadTime.EvaluateStat(curLevel, maxLevel);
-    public float Weight => data.weight.EvaluateStat(curLevel, maxLevel);
-    public float FireDelay => data.fireDelay.EvaluateStat(curLevel, maxLevel);
-    public float SpreadAngle => data.spreadAngle.EvaluateStat(curLevel, maxLevel);
+    public int ExpThreshold => data.expThreshold.EvaluateStat(CurLevel, maxLevel);
+    public int Damage => data.damage.EvaluateStat(CurLevel, maxLevel);
+    public int Accuracy => data.accuracy.EvaluateStat(CurLevel, maxLevel);
+    public float Range => data.range.EvaluateStat(CurLevel, maxLevel);
+    public int AmmoPerPack => data.ammoPerPacket.EvaluateStat(CurLevel, maxLevel);
+    public float ReloadTime => data.reloadTime.EvaluateStat(CurLevel, maxLevel);
+    public float Weight => data.weight.EvaluateStat(CurLevel, maxLevel);
+    public float FireDelay => data.fireDelay.EvaluateStat(CurLevel, maxLevel);
+    public float SpreadAngle => data.spreadAngle.EvaluateStat(CurLevel, maxLevel);
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
 
-    public void Start() {
+    public void Awake() {
         exp = 0;
-        curLevel = data.startLevel;
         maxLevel = data.maxLevel;
+        CurLevel = data.startLevel;
         packetAmmo = AmmoPerPack;
     }
 
+    public void Refill(int amount) { }
+
     public void Shoot(Vector2 dir) {
         if (delayShootCoroutine == null) {
+            ShowMuzzleFlash(dir);
             RaycastBullet(dir);
+
+            Transform shell = Instantiate(shellPref);
+            shell.position = transform.position;
+            shell.GetComponent<BulletShell>().Setup();
+
             if (packetAmmo - 1 <= 0) {
                 delayShootCoroutine = StartCoroutine(DelayShoot(true));
                 packetAmmo = AmmoPerPack;
@@ -65,9 +85,6 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
     private void RaycastBullet(Vector2 dir) {
         Vector2 start = GetFirePosition(dir);
 
-        Transform flash = Instantiate(muzzleFlashPref, start, Quaternion.identity);
-        flash.GetComponent<MuzzleFlash>().Setup(0.03f, dir);
-
         dir = VectorHandler.GenerateRandomDir(dir, SpreadAngle);
         int layerMask = LayerMask.GetMask("BlockBullet", "Enemy");
 
@@ -80,6 +97,7 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
 
             IStatsManager enemy = collider.GetComponent<IStatsManager>();
             if (enemy != null) {
+                enemy.HandleHitEffects();
                 enemy.TakeDamage(Damage, charStatData.LUCK + Accuracy, out int expDrop);
                 CharStatManager.AddExp(expDrop);
                 AddExp((int)(expDrop * 1.5f));
@@ -93,6 +111,7 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
 
     private IEnumerator DelayShoot(bool reload) {
         GameAudioManager.Instance.PlaySound(shootAudio, GetAudioPosition());
+
         yield return new WaitForSeconds(FireDelay);
 
         if (reload) {
@@ -103,25 +122,33 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
     }
 
     public void AddExp(int exp) {
+        if (ExpThreshold == 0) return;
         exp = Random.Range((int)(exp * 0.5f), exp);
-        if (this.exp + exp < ExpThreshold) {
-            this.exp += exp;
+        int totalExp = this.exp + exp;
+
+        if (CurLevel >= maxLevel) {
+            this.exp = Mathf.Min(totalExp, ExpThreshold);
+            return;
         }
-        else {
-            int gain = this.exp + exp;
-            while (gain >= ExpThreshold) {
-                gain -= ExpThreshold;
-                LevelUp();
-            }
-            exp = gain;
+
+        while (totalExp >= ExpThreshold && CurLevel < maxLevel) {
+            totalExp -= ExpThreshold;
+            LevelUp();
         }
+        this.exp = totalExp;
     }
 
     public void LevelUp() {
-        if (curLevel < maxLevel) {
-            curLevel++;
+        if (CurLevel < maxLevel) {
+            CurLevel++;
             packetAmmo = AmmoPerPack;
         }
+    }
+
+    private void ShowMuzzleFlash(Vector2 dir) {
+        Vector2 start = GetFirePosition(dir);
+        Transform flash = Instantiate(flashPref, start, Quaternion.identity);
+        flash.GetComponent<MuzzleFlash>().Setup(0.03f, dir);
     }
 
     private Vector2 GetFirePosition(Vector2 dir) {

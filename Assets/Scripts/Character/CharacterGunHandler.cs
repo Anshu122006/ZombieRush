@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterGunHandler : MonoBehaviour {
@@ -9,14 +10,18 @@ public class CharacterGunHandler : MonoBehaviour {
 
     private GameInputManager input;
     private List<Transform> unlocked = new();
-    private int activeIndex;
+    private int activeIndex = 0;
 
     public IGunBehaviour Gun => unlocked[activeIndex].GetComponent<IGunBehaviour>();
     public float GunWeight => unlocked[activeIndex].GetComponent<IGunBehaviour>().Weight;
 
 
-    public void Previous(System.Object sender, EventArgs e) => Equip((activeIndex + 1) % unlocked.Count);
-    public void Next(System.Object sender, EventArgs e) => Equip((activeIndex + 1) % unlocked.Count);
+    public void Previous(System.Object sender, EventArgs e) {
+        if (activeIndex > 0) Equip(activeIndex - 1);
+    }
+    public void Next(System.Object sender, EventArgs e) {
+        if (activeIndex < unlocked.Count - 1) Equip(activeIndex + 1);
+    }
 
     private void Start() {
         input = GameInputManager.Instance;
@@ -30,14 +35,24 @@ public class CharacterGunHandler : MonoBehaviour {
             gun.gameObject.SetActive(false);
             unlocked.Add(gun);
         }
-        activeIndex = 0;
-        unlocked[0].gameObject.SetActive(true);
+        Equip(activeIndex);
     }
 
     private void Equip(int i) {
-        if (i < 0 || i >= guns.Count || i == activeIndex) return;
+        if (i < 0 || i >= unlocked.Count) return;
         unlocked[activeIndex].gameObject.SetActive(false);
         unlocked[i].gameObject.SetActive(true);
         activeIndex = i;
+
+        HudManager.Instance?.UpdateGun(unlocked[activeIndex].GetComponent<IGunBehaviour>());
+    }
+
+    public void Refill(string gunName, int amount) {
+        Debug.Log(unlocked);
+        IGunBehaviour gun = unlocked.Find(x => x.GetComponent<IGunBehaviour>().Name == gunName)?.GetComponent<IGunBehaviour>();
+        Debug.Log(gun);
+        if (gun == null) return;
+        amount = UnityEngine.Random.Range((int)(amount * 0.9f), (int)(amount * 1.1f));
+        gun.Refill(amount);
     }
 }

@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
     [SerializeField] private ShotgunDefinition data;
+    [SerializeField] private Transform shellPref;
     [SerializeField] private Material shootMaterial;
     [SerializeField] private AudioClip shootAudio;
     [SerializeField] private AudioClip reloadAudio;
+    [SerializeField] private Transform flashPref;
     [SerializeField] private GunFirePoint firePoint;
 
     private CharacterStatsData charStatData;
@@ -22,43 +24,72 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
     private int curLevel;
 
     // getters
-    public string Name => "shotgun";
-    public bool Shooting => GameInputManager.Instance.IsShooting() && curAmmo > 0;
+    public string Name => data.gunName;
+    public int CurLevel {
+        get {
+            return curLevel;
+        }
+        set {
+            curLevel = Mathf.Clamp(value, 1, maxLevel);
+            HudManager.Instance?.UpdateGunLevel(this);
+        }
+    }
+    public int CurAmmo {
+        get {
+            return curAmmo;
+        }
+        set {
+            curAmmo = Mathf.Clamp(value, 0, MaxAmmo);
+            HudManager.Instance?.UpdateAmmo(this);
+        }
+    }
+    public bool Shooting => GameInputManager.Instance.IsShooting() && CurAmmo > 0;
 
-    public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
-    public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
-    public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
-    public float Range => data.range.EvaluateStat(curLevel, maxLevel);
-    public float Weight => data.weight.EvaluateStat(curLevel, maxLevel);
-    public int MaxAmmo => data.maxPackets.EvaluateStat(curLevel, maxLevel) * AmmoPerPack;
-    public int AmmoPerPack => data.ammoPerPacket.EvaluateStat(curLevel, maxLevel);
-    public float ReloadTime => data.reloadTime.EvaluateStat(curLevel, maxLevel);
-    public float FireDelay => data.fireDelay.EvaluateStat(curLevel, maxLevel);
-    public int PelletsPerShot => data.pelletsPerShot.EvaluateStat(curLevel, maxLevel);
-    public float SpreadAngle => data.spreadAngle.EvaluateStat(curLevel, maxLevel);
+    public int ExpThreshold => data.expThreshold.EvaluateStat(CurLevel, maxLevel);
+    public int Damage => data.damage.EvaluateStat(CurLevel, maxLevel);
+    public int Accuracy => data.accuracy.EvaluateStat(CurLevel, maxLevel);
+    public float Range => data.range.EvaluateStat(CurLevel, maxLevel);
+    public float Weight => data.weight.EvaluateStat(CurLevel, maxLevel);
+    public int MaxAmmo => data.maxPackets.EvaluateStat(CurLevel, maxLevel) * AmmoPerPack;
+    public int AmmoPerPack => data.ammoPerPacket.EvaluateStat(CurLevel, maxLevel);
+    public float ReloadTime => data.reloadTime.EvaluateStat(CurLevel, maxLevel);
+    public float FireDelay => data.fireDelay.EvaluateStat(CurLevel, maxLevel);
+    public int PelletsPerShot => data.pelletsPerShot.EvaluateStat(CurLevel, maxLevel);
+    public float SpreadAngle => data.spreadAngle.EvaluateStat(CurLevel, maxLevel);
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
 
-    public void Start() {
+    public void Awake() {
         exp = 0;
-        curLevel = data.startLevel;
         maxLevel = data.maxLevel;
-        curAmmo = MaxAmmo;
+        CurLevel = data.startLevel;
+        CurAmmo = MaxAmmo;
         packetAmmo = AmmoPerPack;
     }
 
+    public void Refill(int amount) {
+        CurAmmo = Mathf.Clamp(CurAmmo + amount, 0, MaxAmmo);
+        Debug.Log(CurAmmo);
+    }
+
     public void Shoot(Vector2 dir) {
-        if (curAmmo < 1) return;
-        Debug.Log(curAmmo);
+        if (CurAmmo < 1) return;
+        Debug.Log(CurAmmo);
         if (delayShootCoroutine == null) {
             int c = Mathf.Max(PelletsPerShot, packetAmmo);
             int n = Random.Range(1, c);
-            for (int i = 0; i < n; i++) RaycastBullet(dir);
-            curAmmo = Mathf.Clamp(curAmmo - n, 0, MaxAmmo);
+            ShowMuzzleFlash(dir);
+            for (int i = 0; i < n; i++) {
+                RaycastBullet(dir);
+                Transform shell = Instantiate(shellPref);
+                shell.position = transform.position;
+                shell.GetComponent<BulletShell>().Setup();
+            }
+            CurAmmo = Mathf.Clamp(CurAmmo - n, 0, MaxAmmo);
             if (packetAmmo - n <= 0) {
                 delayShootCoroutine = StartCoroutine(DelayShoot(true));
-                packetAmmo = Mathf.Min(curAmmo, AmmoPerPack);
+                packetAmmo = Mathf.Min(CurAmmo, AmmoPerPack);
             }
             else {
                 delayShootCoroutine = StartCoroutine(DelayShoot(false));
@@ -84,6 +115,7 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
 
             IStatsManager enemy = collider.GetComponent<IStatsManager>();
             if (enemy != null) {
+                enemy.HandleHitEffects();
                 enemy.TakeDamage(Damage, charStatData.LUCK + Accuracy, out int expDrop);
                 CharStatManager.AddExp(expDrop);
                 AddExp((int)(expDrop * 1.5));
@@ -107,25 +139,33 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
     }
 
     public void AddExp(int exp) {
+        if (ExpThreshold == 0) return;
         exp = Random.Range((int)(exp * 0.5f), exp);
-        if (this.exp + exp < ExpThreshold) {
-            this.exp += exp;
+        int totalExp = this.exp + exp;
+
+        if (CurLevel >= maxLevel) {
+            this.exp = Mathf.Min(totalExp, ExpThreshold);
+            return;
         }
-        else {
-            int gain = this.exp + exp;
-            while (gain >= ExpThreshold) {
-                gain -= ExpThreshold;
-                LevelUp();
-            }
-            exp = gain;
+
+        while (totalExp >= ExpThreshold && CurLevel < maxLevel) {
+            totalExp -= ExpThreshold;
+            LevelUp();
         }
+        this.exp = totalExp;
     }
 
     public void LevelUp() {
-        if (curLevel < maxLevel) {
-            curLevel++;
-            curAmmo = MaxAmmo;
+        if (CurLevel < maxLevel) {
+            CurLevel++;
+            CurAmmo = MaxAmmo;
         }
+    }
+
+    private void ShowMuzzleFlash(Vector2 dir) {
+        Vector2 start = GetFirePosition(dir);
+        Transform flash = Instantiate(flashPref, start, Quaternion.identity);
+        flash.GetComponent<MuzzleFlash>().Setup(0.03f, dir);
     }
 
     private Vector2 GetFirePosition(Vector2 dir) {

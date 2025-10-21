@@ -20,9 +20,9 @@ TagManager:
   - PlayerAmmoIgnore
   - Feet
   - Turret
-  - 
-  - 
-  - 
+  - Shell
+  - ItemSpawner
+  - Item
   - 
   - 
   - 

@@ -14,6 +14,7 @@ public class CharacterAttack : MonoBehaviour {
     }
 
     private void Update() {
+        if (components.statsManager.InReviveStage) return;
         if (gunHandler.Gun.Shooting) Shoot();
         else gunHandler.Gun.AbortShoot();
     }

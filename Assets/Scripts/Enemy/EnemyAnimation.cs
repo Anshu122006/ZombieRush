@@ -13,6 +13,8 @@ public class EnemyAnimation : MonoBehaviour {
     private string currAnimation;
     private string newAnimation;
 
+    private bool isDead = false;
+
     private void Start() {
         anims["idle"] = enemyAnimation.idle;
         anims["walk"] = enemyAnimation.walk;
@@ -25,7 +27,18 @@ public class EnemyAnimation : MonoBehaviour {
         UpdateAnimation();
     }
 
+    public void PlayDeathAnimation() {
+        isDead = true;
+        aiData.curState = "death";
+
+        Vector2 dir = (GameObject.FindWithTag("Player").transform.position - transform.position).normalized;
+        if (dir.x < 0) newAnimation = enemyAnimation.deathLeft.name;
+        else newAnimation = enemyAnimation.deathRight.name;
+    }
+
     private void HandleMoveAnimation() {
+        if (isDead) return;
+
         Vector2 dir = aiData.curDir;
         if (Mathf.Abs(dir.y) > Mathf.Abs(dir.x)) dir = new Vector2(0, dir.y).normalized;
         else dir = new Vector2(dir.x, 0).normalized;

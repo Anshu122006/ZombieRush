@@ -21,6 +21,7 @@ public class Bullet : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D collider) {
         IStatsManager enemy = collider.GetComponent<IStatsManager>();
         if (enemy != null) {
+            enemy.HandleHitEffects();
             enemy.TakeDamage(damage, accuracy, out int expDrop);
             AddExp?.Invoke(expDrop);
         }

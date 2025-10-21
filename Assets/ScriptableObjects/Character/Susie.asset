@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Susie
   m_EditorClassIdentifier: 
   charName: Susie
-  charimage: {fileID: 0}
   charClass: Hero
   charDesc: laidhk,sa
   startLevel: 1
   maxLevel: 99
+  maxLives: 3
   expThreshold:
     init: 10
     final: 100
     pow: 1
   mhp:
-    init: 50
+    init: 10
     final: 100
     pow: 1
   def:

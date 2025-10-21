@@ -18,33 +18,52 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
     private float curFuel;
 
     // getters
-    public string Name => "flamethrower";
-    public bool Shooting => GameInputManager.Instance.IsShooting() && curFuel > 0;
+    public string Name => data.gunName;
+    public int CurLevel {
+        get {
+            return curLevel;
+        }
+        set {
+            curLevel = Mathf.Clamp(value, 1, maxLevel);
+            HudManager.Instance?.UpdateGunLevel(this);
+        }
+    }
+    public int CurAmmo {
+        get {
+            return (int)curFuel;
+        }
+        set {
+            curFuel = Mathf.Clamp(curFuel + value, 0, MaxAmmo);
+            HudManager.Instance?.UpdateAmmo(this);
+        }
+    }
+    public bool Shooting => GameInputManager.Instance.IsShooting() && CurAmmo > 0;
 
-    public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
-    public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
-    public int BurnDamage => data.burnDamage.EvaluateStat(curLevel, maxLevel);
-    public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
-    public float Range => data.range.EvaluateStat(curLevel, maxLevel);
-    public float Weight => data.weight.EvaluateStat(curLevel, maxLevel);
-    public float FuelConsumptionRate => data.fuelConsumptionRate.EvaluateStat(curLevel, maxLevel);
-    public float FuelReplenishRate => data.fuelReplenishRate.EvaluateStat(curLevel, maxLevel);
-    public float FireDelay => data.fireDelay.EvaluateStat(curLevel, maxLevel);
-    public float BurnDuration => data.burnDuration.EvaluateStat(curLevel, maxLevel);
+    public int MaxAmmo => 100;
+    public int ExpThreshold => data.expThreshold.EvaluateStat(CurLevel, maxLevel);
+    public int Damage => data.damage.EvaluateStat(CurLevel, maxLevel);
+    public int BurnDamage => data.burnDamage.EvaluateStat(CurLevel, maxLevel);
+    public int Accuracy => data.accuracy.EvaluateStat(CurLevel, maxLevel);
+    public float Range => data.range.EvaluateStat(CurLevel, maxLevel);
+    public float Weight => data.weight.EvaluateStat(CurLevel, maxLevel);
+    public float FuelConsumptionRate => data.fuelConsumptionRate.EvaluateStat(CurLevel, maxLevel);
+    public float FuelReplenishRate => data.fuelReplenishRate.EvaluateStat(CurLevel, maxLevel);
+    public float FireDelay => data.fireDelay.EvaluateStat(CurLevel, maxLevel);
+    public float BurnDuration => data.burnDuration.EvaluateStat(CurLevel, maxLevel);
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
 
     public void Start() {
         exp = 0;
-        curLevel = data.startLevel;
         maxLevel = data.maxLevel;
-        curFuel = 100;
+        CurLevel = data.startLevel;
+        CurAmmo = 100;
         emitter.GetComponent<Emitter>().UpdateStats(Damage, Accuracy, FireDelay, Range, (expDrop) => {
             AddExp((int)(expDrop * 1.5f));
             CharStatManager.AddExp(expDrop);
         });
-        InvokeRepeating("Refuel", 0, FireDelay);
+        // InvokeRepeating("Refuel", 0, FireDelay);
     }
 
     private void Update() {
@@ -53,15 +72,19 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
         }
     }
 
+    public void Refill(int amount) => CurAmmo = Mathf.Clamp(CurAmmo + amount, 0, 100);
+
     public void Shoot(Vector2 dir) {
-        if (curFuel <= 5) {
+        if (CurAmmo <= 5) {
             emitter.GetComponent<Emitter>().StopEmitting();
             return;
         }
         Vector2 start = GetFirePosition(dir);
         emitter.GetComponent<Emitter>().StartEmitting(start, dir);
+        emitter.GetComponent<Emitter>().UpdateDirecttion(start, dir);
         if (delayShootCoroutine == null) {
-            curFuel = Mathf.Clamp(curFuel - FuelConsumptionRate, 0, 100);
+            curFuel = Mathf.Clamp(CurAmmo - FuelConsumptionRate, 0, 100);
+            CurAmmo = (int)curFuel;
             delayShootCoroutine = StartCoroutine(DelayShoot());
         }
     }
@@ -75,29 +98,34 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
         delayShootCoroutine = null;
     }
 
-    private void Refuel() {
-        if (curFuel < 100) curFuel = Mathf.Clamp(curFuel + FuelReplenishRate, 0, 100);
-    }
+    // private void Refuel() {
+    //     if (CurAmmo < 100) {
+    //         curFuel = Mathf.Clamp(CurAmmo + FuelReplenishRate, 0, 100);
+    //         CurAmmo = (int)curFuel;
+    //     }
+    // }
 
     public void AddExp(int exp) {
+        if (ExpThreshold == 0) return;
         exp = Random.Range((int)(exp * 0.5f), exp);
-        if (this.exp + exp < ExpThreshold) {
-            this.exp += exp;
+        int totalExp = this.exp + exp;
+
+        if (CurLevel >= maxLevel) {
+            this.exp = Mathf.Min(totalExp, ExpThreshold);
+            return;
         }
-        else {
-            int gain = this.exp + exp;
-            while (gain >= ExpThreshold) {
-                gain -= ExpThreshold;
-                LevelUp();
-            }
-            this.exp = gain;
+
+        while (totalExp >= ExpThreshold && CurLevel < maxLevel) {
+            totalExp -= ExpThreshold;
+            LevelUp();
         }
+        this.exp = totalExp;
     }
 
     public void LevelUp() {
-        if (curLevel < maxLevel) {
-            curLevel++;
-            curFuel = 100;
+        if (CurLevel < maxLevel) {
+            CurLevel++;
+            CurAmmo = 100;
             emitter.GetComponent<Emitter>().UpdateStats(Damage, Accuracy, FireDelay, Range, (expDrop) => {
                 AddExp(expDrop);
                 CharStatManager.AddExp(expDrop);
@@ -110,5 +138,11 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
         else if (dir == Vector2.down) return firePoint.down.position;
         else if (dir == Vector2.left) return firePoint.left.position;
         else return firePoint.right.position;
+    }
+
+    private Vector3 GetAudioPosition() {
+        float x = transform.position.x, y = transform.position.y;
+        float z = Random.Range(-7, 0);
+        return new Vector3(x, y, z);
     }
 }

@@ -1,15 +1,18 @@
 using UnityEngine;
 
-public class TurretStatManager : MonoBehaviour, IStatsManager {
+public class TurretStatManager : IStatsManager {
     [SerializeField] private ITurretBehaviour data;
-    [SerializeField] private Healthbar healthbar;
-    public int ExpDrop => 0;
+    public override int ExpDrop => 0;
 
-    public void AddExp(int exp) => GlobalTurretData.Instance.AddExp(data.Name, exp);
-    public void LevelUp() => GlobalTurretData.Instance.IncrementMaxUpgradeLevel(data.Name);
-    public void TakeDamage(int atk, int accuracy, IStatsManager attacker) { }
+    public override void AddExp(int exp) => GlobalTurretData.Instance.AddExp(data.Name, exp);
 
-    public void TakeDamage(int atk, int accuracy, out int expDrop) {
+    public override void AddLives(int amount = 1) { }
+
+    public override void Heal(int amount) { }
+
+    public override void LevelUp() => GlobalTurretData.Instance.IncrementMaxUpgradeLevel(data.Name);
+
+    public override void TakeDamage(int atk, int accuracy, out int expDrop) {
         int dmg = Random.Range((int)(atk * 0.5f), (int)(atk * 1.2f)) - Random.Range((int)(data.DEF * 0.5f), (int)(data.DEF * 1.2f));
         dmg = Mathf.Clamp(dmg, 1, (int)(atk * 1.2f));
         expDrop = 0;

@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grenadePref: {fileID: 3505124748108159566, guid: 6bfdf3735dd1ea345aeda7048f54ed25, type: 3}
   data: {fileID: 11400000, guid: 671325b75576a6041898da883890d594, type: 2}
+  shootAudio: {fileID: 8300000, guid: 7f0b01e1d1c757649b5f2235d01f6a80, type: 3}
   firePoint:
     up: {fileID: 4679882489243679278}
     down: {fileID: 5135947054418460590}

@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 4445992be87e0994c985ad98720ca9e8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -6240176191948303165, guid: 89b955895f029964a83cad2968cce4e3, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1.5025831, g: 1.5025831, b: 1.5025831, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -188,6 +188,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6, y: 0.3}
   m_EdgeRadius: 0
+--- !u!1 &5006599118137674372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1255633797990599413}
+  m_Layer: 0
+  m_Name: BloodEffectPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1255633797990599413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5006599118137674372}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.04, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4524055057301944118}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7059322713451897109
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,6 +230,7 @@ GameObject:
   - component: {fileID: 4524055057301944118}
   - component: {fileID: 3883864211507667788}
   - component: {fileID: 4505396286489347716}
+  - component: {fileID: 1444839982054660717}
   - component: {fileID: 8769946048907102478}
   - component: {fileID: 2025196320100327156}
   - component: {fileID: 7907692714814163616}
@@ -208,7 +240,7 @@ GameObject:
   - component: {fileID: 6706041909820350844}
   m_Layer: 8
   m_Name: Susie
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -227,6 +259,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8522810838345511040}
+  - {fileID: 1255633797990599413}
   - {fileID: 504578974069362517}
   - {fileID: 3377531656565388429}
   - {fileID: 6359363424691605502}
@@ -248,16 +281,16 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3725cf62eb0e89d419849eae707d8b70, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &4505396286489347716
 CapsuleCollider2D:
@@ -296,6 +329,42 @@ CapsuleCollider2D:
   m_Offset: {x: 0.11652753, y: -0.30763257}
   m_Size: {x: 0.73305506, y: 0.850845}
   m_Direction: 0
+--- !u!58 &1444839982054660717
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7059322713451897109}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 2
 --- !u!114 &8769946048907102478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,9 +442,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   definition: {fileID: 11400000, guid: 7d0972f062ec5c940aeefbd1511ef2aa, type: 2}
-  curLevel: 1
-  exp: 0
-  hp: 100
 --- !u!114 &7725339297291215236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,8 +454,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc5cf94cdc13e944a6eeef93e99ce8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 9180775137180240735}
   healthbar: {fileID: 8947224001830656522}
+  bloodEffectPoint: {fileID: 8522810838345511040}
+  bloodEffects:
+  - {fileID: 2412237698747434177, guid: 67aefb9d58f7e50458f95572721b5486, type: 3}
+  - {fileID: 4840205890844413962, guid: c7adc161bcbd7864194ef9c23b56702c, type: 3}
+  - {fileID: 8567310610646518249, guid: d9e2d80077a8fcc448a8b66a4eee5fd8, type: 3}
+  - {fileID: 6680537012879591882, guid: 27ff350199a556747aca99732ae8a472, type: 3}
+  spriteRenderer: {fileID: 5689790698170208808}
+  flashTime: 0.6
+  flashColor: {r: 3.9999998, g: 3.9999998, b: 3.9999998, a: 1}
+  hitAudio: {fileID: 8300000, guid: 34664e92047cf384c92bf68b7b9dd321, type: 3}
+  bloodAudio: {fileID: 8300000, guid: 7b6404bd91bbe364f9ac44edd962065a, type: 3}
+  deathAudio: {fileID: 8300000, guid: c9e5af32f6078f5478442418af8d898f, type: 3}
+  bloodMarkPref: {fileID: 8206522472595950665, guid: 79eb94042c4adc949b571dabbb859f71, type: 3}
+  data: {fileID: 9180775137180240735}
+  blinkPeriod: 0.3
+  blinkDuration: 4
+  spawnPoints: []
 --- !u!114 &6706041909820350844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +479,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7059322713451897109}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 

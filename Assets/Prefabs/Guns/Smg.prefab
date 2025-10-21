@@ -143,9 +143,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: ff7b1b0d58c02704fbb16d6a63f1c1eb, type: 2}
   muzzleFlashPref: {fileID: 603463458056341378, guid: 250e7d4a0823fdb44bd1710ec88b04c9, type: 3}
+  shellPref: {fileID: 7430131919485839474, guid: fbca3be44082b59429ae215fd65a1b4a, type: 3}
   shootMaterial: {fileID: 2100000, guid: cb8465a284ef6b94e9eee9ce2cd05374, type: 2}
   shootAudio: {fileID: 8300000, guid: fd4d193ec6b7d38499020762954e8e14, type: 3}
   reloadAudio: {fileID: 8300000, guid: 2ebe9856c91cbd34c97f70e5f771473b, type: 3}
+  flashPref: {fileID: 4800850688781653535, guid: cd82621394c760a468d76455604dbe9c, type: 3}
   firePoint:
     up: {fileID: 9003571317245343554}
     down: {fileID: 532731115156857218}

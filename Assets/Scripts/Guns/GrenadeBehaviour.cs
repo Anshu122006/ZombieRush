@@ -5,6 +5,7 @@ using UnityEngine;
 public class GrenadeBehaviour : MonoBehaviour, IGunBehaviour {
     [SerializeField] private Transform grenadePref;
     [SerializeField] private GrenadeDefinition data;
+    [SerializeField] private AudioClip shootAudio;
     [SerializeField] private GunFirePoint firePoint;
 
     [SerializeField] private AnimationCurve trajectoryAnimationCurve;
@@ -23,37 +24,57 @@ public class GrenadeBehaviour : MonoBehaviour, IGunBehaviour {
     private int curLevel;
 
     // getters
-    public string Name => "grenade";
-    public bool Shooting => GameInputManager.Instance.IsShooting() && curAmmo > 0;
+    public string Name => data.gunName;
+    public int CurLevel {
+        get {
+            return curLevel;
+        }
+        set {
+            curLevel = Mathf.Clamp(value, 1, maxLevel);
+            HudManager.Instance?.UpdateGunLevel(this);
+        }
+    }
+    public int CurAmmo {
+        get {
+            return curAmmo;
+        }
+        set {
+            curAmmo = Mathf.Clamp(value, 0, MaxAmmo);
+            HudManager.Instance?.UpdateAmmo(this);
+        }
+    }
+    public bool Shooting => GameInputManager.Instance.IsShooting() && CurAmmo > 0;
 
-    public int ExpThreshold => data.expThreshold.EvaluateStat(curLevel, maxLevel);
-    public int Damage => data.damage.EvaluateStat(curLevel, maxLevel);
-    public int Accuracy => data.accuracy.EvaluateStat(curLevel, maxLevel);
-    public int MaxAmmo => data.maxAmmo.EvaluateStat(curLevel, maxLevel);
-    public float Range => data.range.EvaluateStat(curLevel, maxLevel);
-    public float Weight => data.weight.EvaluateStat(curLevel, maxLevel);
-    public float FireDelay => data.fireDelay.EvaluateStat(curLevel, maxLevel);
-    public float ExplosionRadius => data.explosionRadius.EvaluateStat(curLevel, maxLevel);
-    public float ProjectileSpeed => data.projectileSpeed.EvaluateStat(curLevel, maxLevel);
+    public int ExpThreshold => data.expThreshold.EvaluateStat(CurLevel, maxLevel);
+    public int Damage => data.damage.EvaluateStat(CurLevel, maxLevel);
+    public int Accuracy => data.accuracy.EvaluateStat(CurLevel, maxLevel);
+    public int MaxAmmo => data.maxAmmo.EvaluateStat(CurLevel, maxLevel);
+    public float Range => data.range.EvaluateStat(CurLevel, maxLevel);
+    public float Weight => data.weight.EvaluateStat(CurLevel, maxLevel);
+    public float FireDelay => data.fireDelay.EvaluateStat(CurLevel, maxLevel);
+    public float ExplosionRadius => data.explosionRadius.EvaluateStat(CurLevel, maxLevel);
+    public float ProjectileSpeed => data.projectileSpeed.EvaluateStat(CurLevel, maxLevel);
 
     public CharacterStatsData CharStatData { get => charStatData; set => charStatData = value; }
     public CharacterStatsManager CharStatManager { get => charStatManager; set => charStatManager = value; }
 
     public void Start() {
         exp = 0;
-        curLevel = data.startLevel;
         maxLevel = data.maxLevel;
-        curAmmo = MaxAmmo;
+        CurLevel = data.startLevel;
+        CurAmmo = MaxAmmo;
     }
 
     public void Shoot(Vector2 dir) {
-        if (curAmmo < 1) return;
+        if (CurAmmo < 1) return;
         if (delayShootCoroutine == null) {
             ShootGrenade(dir);
-            curAmmo = Mathf.Clamp(curAmmo - 1, 0, MaxAmmo);
+            CurAmmo--;
             delayShootCoroutine = StartCoroutine(DelayShoot());
         }
     }
+
+    public void Refill(int amount) => CurAmmo += amount;
 
     public void AbortShoot() { }
 
@@ -72,30 +93,33 @@ public class GrenadeBehaviour : MonoBehaviour, IGunBehaviour {
     }
 
     private IEnumerator DelayShoot() {
+        GameAudioManager.Instance.PlaySound(shootAudio, GetAudioPosition());
         yield return new WaitForSeconds(FireDelay);
+
         delayShootCoroutine = null;
-        Debug.Log("Reload complete");
     }
 
     public void AddExp(int exp) {
+        if (ExpThreshold == 0) return;
         exp = Random.Range((int)(exp * 0.5f), exp);
-        if (this.exp + exp < ExpThreshold) {
-            this.exp += exp;
+        int totalExp = this.exp + exp;
+
+        if (CurLevel >= maxLevel) {
+            this.exp = Mathf.Min(totalExp, ExpThreshold);
+            return;
         }
-        else {
-            int gain = this.exp + exp;
-            while (gain >= ExpThreshold) {
-                gain -= ExpThreshold;
-                LevelUp();
-            }
-            exp = gain;
+
+        while (totalExp >= ExpThreshold && CurLevel < maxLevel) {
+            totalExp -= ExpThreshold;
+            LevelUp();
         }
+        this.exp = totalExp;
     }
 
     public void LevelUp() {
-        if (curLevel < maxLevel) {
-            curLevel++;
-            curAmmo = MaxAmmo;
+        if (CurLevel < maxLevel) {
+            CurLevel++;
+            CurAmmo = MaxAmmo;
         }
     }
 
@@ -104,5 +128,11 @@ public class GrenadeBehaviour : MonoBehaviour, IGunBehaviour {
         else if (dir == Vector2.down) return firePoint.down.position;
         else if (dir == Vector2.left) return firePoint.left.position;
         else return firePoint.right.position;
+    }
+
+    private Vector3 GetAudioPosition() {
+        float x = transform.position.x, y = transform.position.y;
+        float z = Random.Range(-7, 0);
+        return new Vector3(x, y, z);
     }
 }

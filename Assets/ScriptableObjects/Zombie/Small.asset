@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0038190e5a3e8434b87b5560fe5ce03f, type: 3}
+  m_Name: Small
+  m_EditorClassIdentifier: 
+  enemyName: Small
+  enemyDesc: Some zombie description
+  startLevel: 1
+  maxLevel: 99
+  maxCountPerSpawnPoint: 6
+  expThreshold:
+    init: 10
+    final: 30
+    pow: 1
+  expDrop:
+    init: 5
+    final: 15
+    pow: 1
+  expGain:
+    init: 8
+    final: 20
+    pow: 1
+  mhp:
+    init: 50
+    final: 150
+    pow: 5
+  def:
+    init: 2
+    final: 10
+    pow: 1
+  atk:
+    init: 3
+    final: 12
+    pow: 1
+  atkRate:
+    init: 1
+    final: 5
+    pow: 1
+  agi:
+    init: 4
+    final: 14
+    pow: 1
+  luck:
+    init: 1
+    final: 8
+    pow: 1
+  baseSpeed:
+    init: 6
+    final: 8
+    pow: 1

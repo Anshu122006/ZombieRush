@@ -42,7 +42,13 @@ public class AttackState : EnemyState {
 
     public override void Exit() {
         isExiting = true;
-        if (attackCoroutine == null) enemy.StartCoroutine(ExitDelay());
+        if (aiData.curState == "death") {
+            if (attackCoroutine != null) enemy.StopCoroutine(attackCoroutine);
+            enemy.StartCoroutine(ExitDelay());
+        }
+        else if (attackCoroutine == null) {
+            enemy.StartCoroutine(ExitDelay());
+        }
     }
 
     private IEnumerator ExitDelay() {
@@ -60,14 +66,12 @@ public class AttackState : EnemyState {
 
 
     private IEnumerator PerformAttack() {
+        Debug.Log(aiData.currentTarget);
         if (aiData.currentTarget == null) yield break;
         Vector2 dir = (aiData.currentTarget.position - enemy.transform.position).normalized;
 
         int attackType = Random.Range(1, 100) < 20 ? 2 : 1;
         aiData.attackPhase = attackType == 1 ? "attack1" : "attack2";
-
-        // Wait for animation to complete
-        yield return new WaitForSeconds(attackType == 1 ? config.clip1.length : config.clip2.length);
 
         Vector2 center = (Vector2)enemy.transform.position + dir * config.attackOffset;
         Vector2 size = new Vector2(1, 2) * config.attackRange * 1.5f;
@@ -77,6 +81,12 @@ public class AttackState : EnemyState {
         foreach (var hit in hits) {
             IStatsManager target = hit.GetComponent<IStatsManager>();
             if (target != null) {
+                float time = attackType == 1 ? config.clip1.length : config.clip2.length;
+                // wait for first half of animation ot complete
+                yield return new WaitForSeconds(time * 0.5f);
+                target.HandleHitEffects();
+                // wait for second half of animation ot complete
+                yield return new WaitForSeconds(time * 0.5f);
                 float damageMultiplier = attackType == 2 ? 1.6f : 1f;
                 target.TakeDamage((int)(statsData.ATK * damageMultiplier), statsData.LUCK, out int expDrop);
             }
@@ -85,7 +95,6 @@ public class AttackState : EnemyState {
         // Wait for attack delay or interruption
         aiData.attackPhase = "waiting";
         float elapsed = 0f;
-        Debug.Log(config.attackDelay);
         while (elapsed <= config.attackDelay) {
             if (isExiting) {
                 enemy.StartCoroutine(ExitDelay());
@@ -101,9 +110,9 @@ public class AttackState : EnemyState {
     }
 
 
-    public bool TargetInAttackRange() {
-        if (aiData.currentTarget == null) return false;
-        float dist = Vector2.Distance(aiData.currentTarget.position, enemy.transform.position);
-        return dist < config.attackRange;
-    }
+    // public bool TargetInAttackRange() {
+    //     if (aiData.currentTarget == null) return false;
+    //     float dist = Vector2.Distance(aiData.currentTarget.position, enemy.transform.position);
+    //     return dist < config.attackRange;
+    // }
 }

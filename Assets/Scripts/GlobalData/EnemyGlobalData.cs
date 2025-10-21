@@ -9,6 +9,9 @@ public class EnemyGlobalData : MonoBehaviour {
     public Dictionary<string, int> exp = new Dictionary<string, int>();
     public Dictionary<string, int> curLevel = new Dictionary<string, int>();
 
+    private List<string> unlockedZombies = new();
+    public List<string> UnlockedZombies => new List<string>(unlockedZombies);
+
     private void Awake() {
         Instance = this;
     }
@@ -18,6 +21,7 @@ public class EnemyGlobalData : MonoBehaviour {
             data[def.enemyName] = def;
             exp[def.enemyName] = 0;
             curLevel[def.enemyName] = def.startLevel;
+            unlockedZombies.Add(def.enemyName);
         }
     }
 

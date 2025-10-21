@@ -10,48 +10,49 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: SMG
+  m_Name: smg
   m_EditorClassIdentifier: Assembly-CSharp::SmgDefinition
   gunName: smg
+  gunSprite: {fileID: 21300000, guid: 659505c9be6b5fb43ab9eb603e55c438, type: 3}
   startLevel: 1
-  maxLevel: 99
+  maxLevel: 10
   expThreshold:
-    init: 0
-    final: 0
-    pow: 0
+    init: 100
+    final: 2000
+    pow: 1
   damage:
-    init: 0
-    final: 0
-    pow: 0
-  accuracy:
-    init: 0
-    final: 0
-    pow: 0
-  range:
-    init: 6
-    final: 12
-    pow: 1
-  fireDelay:
-    init: 0.3
-    final: 0.03
-    pow: 1
-  weight:
-    init: 0
-    final: 0
-    pow: 0
-  maxPackets:
-    init: 4
-    final: 10
-    pow: 1
-  ammoPerPacket:
-    init: 30
+    init: 10
     final: 100
     pow: 1
+  accuracy:
+    init: 60
+    final: 95
+    pow: 1
+  range:
+    init: 20
+    final: 100
+    pow: 1
+  fireDelay:
+    init: 0.6
+    final: 0.2
+    pow: 1
+  weight:
+    init: 5
+    final: 3
+    pow: 1
+  maxPackets:
+    init: 4
+    final: 6
+    pow: 1
+  ammoPerPacket:
+    init: 25
+    final: 40
+    pow: 1
   reloadTime:
-    init: 1
-    final: 0.6
+    init: 2
+    final: 1.2
     pow: 1
   spreadAngle:
-    init: 3
-    final: 1
+    init: 6
+    final: 3
     pow: 1

@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7b508f6eb1c844eb0cfa15d5eb1d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionPref: {fileID: 5275538614691507425, guid: dd52877a2f5756642a99dad09bf1ccd0, type: 3}
+  explosionPref: {fileID: 1199632076013226125, guid: 7a2cac40215ded44daa8fa165c5811e9, type: 3}
   distanceFromTargetToDestroy: 1
   start: {x: 0, y: 0}
   targetPos: {x: 0, y: 0}

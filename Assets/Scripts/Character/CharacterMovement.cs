@@ -32,12 +32,14 @@ public class CharacterMovement : MonoBehaviour {
     }
 
     private void HandlePlayerMovement() {
+        if (components.statsManager.InReviveStage) return;
         Vector2 dir = input.GetInputDir();
         float moveDist = Speed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + (dir * moveDist));
     }
 
     private void SetFaceDir() {
+        if (components.statsManager.InReviveStage) return;
         Vector2 dir = input.GetInputDir();
         if (dir == Vector2.zero || dir == faceDir) return;
         faceDir = dir;

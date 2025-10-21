@@ -10,49 +10,50 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Minigun
+  m_Name: minigun
   m_EditorClassIdentifier: Assembly-CSharp::MinigunDefinition
   gunName: minigun
-  startLevel: 1
+  gunSprite: {fileID: 21300000, guid: 790cb054b91234345b086a37284b51b9, type: 3}
+  startLevel: 3
   maxLevel: 99
   expThreshold:
+    init: 100
+    final: 2000
+    pow: 1
+  damage:
     init: 10
     final: 100
     pow: 1
-  damage:
-    init: 6
-    final: 10
-    pow: 1
   accuracy:
-    init: 6
-    final: 10
+    init: 60
+    final: 95
     pow: 1
   range:
-    init: 8
-    final: 14
+    init: 20
+    final: 100
     pow: 1
   fireDelay:
-    init: 0.04
-    final: 0.01
+    init: 0.15
+    final: 0.04
     pow: 1
   weight:
-    init: 4
+    init: 5
     final: 3
     pow: 1
   maxPackets:
-    init: 3
-    final: 8
+    init: 5
+    final: 10
     pow: 1
   ammoPerPacket:
-    init: 50
-    final: 150
+    init: 100
+    final: 200
     pow: 1
   reloadTime:
-    init: 1.5
-    final: 1
+    init: 3
+    final: 1.5
     pow: 1
   projectileSpeed:
-    init: 18
-    final: 30
+    init: 15
+    final: 25
     pow: 1
   offset: 0.12

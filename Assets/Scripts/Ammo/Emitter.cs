@@ -6,7 +6,11 @@ using UnityEngine;
 public class Emitter : MonoBehaviour {
     [SerializeField] private ParticleSystem flameParticles;
     [SerializeField] private ParticleSystem smokeParticles;
+    [SerializeField] private AudioSource startAudioSource;
+    [SerializeField] private AudioSource loopAudioSource;
     [SerializeField] private CapsuleCollider2D collider2d;
+    [SerializeField] private AudioClip flameStart;
+    [SerializeField] private AudioClip flameLoop;
     private bool emitting;
     private int damage;
     private int accuracy;
@@ -14,12 +18,12 @@ public class Emitter : MonoBehaviour {
     private Coroutine delayCoroutine;
     private Action<int> AddExp;
 
-
     private void OnTriggerStay2D(Collider2D collider) {
         if (emitting && delayCoroutine == null) {
-            IStatsManager target = collider.GetComponent<IStatsManager>();
-            if (target != null && (LayerMask.GetMask("Enemy") & (1 << collider.gameObject.layer)) != 0) {
-                target.TakeDamage(damage, accuracy, out int expDrop);
+            IStatsManager enemy = collider.GetComponent<IStatsManager>();
+            if (enemy != null && (LayerMask.GetMask("Enemy") & (1 << collider.gameObject.layer)) != 0) {
+                enemy.HandleHitEffects();
+                enemy.TakeDamage(damage, accuracy, out int expDrop);
                 AddExp?.Invoke(expDrop);
                 delayCoroutine = StartCoroutine(Delay());
             }
@@ -53,12 +57,21 @@ public class Emitter : MonoBehaviour {
         offset.x = range * 0.5f;
     }
 
+    public void UpdateDirecttion(Vector2 start, Vector2 dir) {
+        if ((Vector2)transform.position != start)
+            transform.position = start;
+        if ((Vector2)transform.right != dir)
+            transform.right = dir;
+    }
+
     public void StartEmitting(Vector2 start, Vector2 dir) {
         if (!emitting) {
-            transform.position = start;
-            transform.right = dir;
             flameParticles.Play();
             smokeParticles.Play();
+            startAudioSource.PlayOneShot(flameStart);
+            loopAudioSource.clip = flameLoop;
+            loopAudioSource.loop = true;
+            loopAudioSource.Play();
 
             emitting = true;
         }
@@ -68,6 +81,7 @@ public class Emitter : MonoBehaviour {
         if (emitting) {
             flameParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             smokeParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            loopAudioSource.Stop();
 
             emitting = false;
         }

@@ -31,9 +31,12 @@ public class Grenade : MonoBehaviour {
     private Action<int> AddExp;
 
     private void OnCollisionEnter2D(Collision2D hit) {
-        EnemyStatsManager enemy = hit.collider.GetComponentInParent<EnemyStatsManager>();
-        Debug.Log(hit);
-
+        IStatsManager enemy = hit.collider.GetComponent<IStatsManager>();
+        if (enemy != null) {
+            enemy.HandleHitEffects();
+            enemy.TakeDamage(damage, accuracy, out int expDrop);
+            AddExp?.Invoke(expDrop);
+        }
         DestroySelf();
     }
 
@@ -114,7 +117,7 @@ public class Grenade : MonoBehaviour {
     private void DestroySelf() {
         Debug.Log("destroy called");
         GrenadeExplosion explosion = Instantiate(explosionPref, transform.position, Quaternion.identity).GetComponent<GrenadeExplosion>();
-        explosion.Initialize(damage, accuracy, explosionRadius, AddExp);
+        explosion.Initialize();
         Destroy(gameObject);
     }
 

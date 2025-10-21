@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyStatsData : MonoBehaviour {
@@ -7,6 +9,10 @@ public class EnemyStatsData : MonoBehaviour {
     [Header("Runtime State")]
     public int curLevel;
     public int hp;
+
+    public string Name => definition.enemyName;
+    public int MaxCountPerSpawnPoint => definition.maxCountPerSpawnPoint;
+    public List<Action> onDestroy = new();
 
     // Computed stats based on current level
     public int ExpDrop => definition.expDrop.EvaluateStat(curLevel, definition.maxLevel);
@@ -22,12 +28,19 @@ public class EnemyStatsData : MonoBehaviour {
 
 
     // Setup from outside
-    public void Setup(int curLevel, int exp) {
+    public void Setup(int curLevel, List<Action> onDestroy = null) {
         this.curLevel = curLevel;
         this.hp = MHP;
+        if (onDestroy != null) this.onDestroy.AddRange(onDestroy);
     }
 
+
     private void Start() {
-        Setup(1, 0);
+        Setup(1);
+    }
+
+    public void DestroySelf(float delay = 0) {
+        foreach (var d in onDestroy) d();
+        Destroy(gameObject, delay);
     }
 }

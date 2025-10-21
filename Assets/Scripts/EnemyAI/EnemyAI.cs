@@ -8,6 +8,7 @@ public class EnemyAI : MonoBehaviour {
     public WanderState wanderState { get; private set; }
     public ChaseState chaseState { get; private set; }
     public AttackState attackState { get; private set; }
+    public DeathState deathState { get; private set; }
 
     // Data required by the states
     public Rigidbody2D rb2d;
@@ -19,6 +20,7 @@ public class EnemyAI : MonoBehaviour {
     [SerializeField] private WanderStateConfig wanderStateConfig;
     [SerializeField] private ChaseStateConfig chaseStateConfig;
     [SerializeField] private AttackStateConfig attackStateConfig;
+    [SerializeField] private DeathStateConfig deathStateConfig;
 
     // Detection delay
     [SerializeField] private List<Detector> detectors;
@@ -31,19 +33,27 @@ public class EnemyAI : MonoBehaviour {
         wanderState = new WanderState(this, wanderStateConfig);
         chaseState = new ChaseState(this, chaseStateConfig);
         attackState = new AttackState(this, attackStateConfig);
+        deathState = new DeathState(this, deathStateConfig);
 
         chaseState.transitions = new List<StateTransition>{
             new StateTransition(wanderState, () => !CanChase()),
-            new StateTransition(attackState, () => CanAttack())
+            new StateTransition(attackState, () => CanAttack()),
+            new StateTransition(deathState, () => IsDead())
         };
 
         wanderState.transitions = new List<StateTransition>{
-            new StateTransition(chaseState, () => CanChase())
+            new StateTransition(chaseState, () => CanChase()),
+            new StateTransition(deathState, () => IsDead())
         };
 
         attackState.transitions = new List<StateTransition>{
             new StateTransition(chaseState, () => CanChase() && !CanAttack()),
-            new StateTransition(wanderState, () => !CanChase() && !CanAttack())
+            new StateTransition(wanderState, () => !CanChase() && !CanAttack()),
+            new StateTransition(deathState, () => IsDead())
+        };
+
+        attackState.transitions = new List<StateTransition>{
+            new StateTransition(wanderState, () => false),
         };
 
         if (CanChase()) FSM.SetState(chaseState);
@@ -53,6 +63,7 @@ public class EnemyAI : MonoBehaviour {
 
     private void Update() {
         FSM.Update();
+        Debug.Log(CanAttack());
     }
 
     private void PerformDetection() {
@@ -74,5 +85,9 @@ public class EnemyAI : MonoBehaviour {
         Vector2 closestPoint = col.ClosestPoint(aiData.currentTarget.position);
         float dist = Vector2.Distance(closestPoint, aiData.currentTarget.position);
         return CanChase() && dist < attackStateConfig.attackRange;
+    }
+
+    public bool IsDead() {
+        return statsData.hp <= 0;
     }
 }
