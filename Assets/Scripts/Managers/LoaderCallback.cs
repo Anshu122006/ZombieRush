@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class LoaderCallback : MonoBehaviour {
     [Header("LOADING SCREEN")]
+    public bool isSilent = false;
     public bool waitForInput = true;
     public GameObject loadingMenu;
     public Slider loadingBar;
@@ -16,15 +17,22 @@ public class LoaderCallback : MonoBehaviour {
     public float baseDelay = 0.3f;
 
     private void Start() {
-        loadingBar.value = 0;
-        loadPromptText.gameObject.SetActive(false);
-        StartCoroutine(LoadAsynchronously());
+        if (isSilent) {
+            loadingMenu.SetActive(false);
+            loadPromptText.gameObject.SetActive(false);
+            loadingBar.gameObject.SetActive(false);
+            SceneManager.LoadScene(Loader.TargetScene);
+        }
+        else {
+            loadingBar.value = 0;
+            loadPromptText.gameObject.SetActive(false);
+            StartCoroutine(LoadAsynchronously());
+        }
     }
 
     private IEnumerator LoadAsynchronously() {
         AsyncOperation operation = SceneManager.LoadSceneAsync(Loader.TargetScene);
         operation.allowSceneActivation = false;
-        Debug.Log(Loader.TargetScene);
 
         float elapsedTime = 0f;
         float visualProgress = 0f;
@@ -35,7 +43,6 @@ public class LoaderCallback : MonoBehaviour {
 
             visualProgress = Mathf.Pow(Mathf.Min(sceneProgress, elapsedTime / baseDelay), 0.3f);
             loadingBar.value = visualProgress;
-            Debug.Log(sceneProgress);
 
             if (sceneProgress >= 1f && elapsedTime >= baseDelay) {
                 if (waitForInput) {

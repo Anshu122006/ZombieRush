@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
+    [SerializeField] private FlamethrowerDefinition data;
     [SerializeField] private Transform emitter;
-    [SerializeField] private FlameThrowerDefinition data;
     [SerializeField] private GunFirePoint firePoint;
 
     private CharacterStatsData charStatData;
@@ -33,7 +33,6 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
             return (int)curFuel;
         }
         set {
-            curFuel = Mathf.Clamp(curFuel + value, 0, MaxAmmo);
             HudManager.Instance?.UpdateAmmo(this);
         }
     }
@@ -47,7 +46,7 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
     public float Range => data.range.EvaluateStat(CurLevel, maxLevel);
     public float Weight => data.weight.EvaluateStat(CurLevel, maxLevel);
     public float FuelConsumptionRate => data.fuelConsumptionRate.EvaluateStat(CurLevel, maxLevel);
-    public float FuelReplenishRate => data.fuelReplenishRate.EvaluateStat(CurLevel, maxLevel);
+    // public float FuelReplenishRate => data.fuelReplenishRate.EvaluateStat(CurLevel, maxLevel);
     public float FireDelay => data.fireDelay.EvaluateStat(CurLevel, maxLevel);
     public float BurnDuration => data.burnDuration.EvaluateStat(CurLevel, maxLevel);
 
@@ -58,7 +57,8 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
         exp = 0;
         maxLevel = data.maxLevel;
         CurLevel = data.startLevel;
-        CurAmmo = 100;
+        curFuel = MaxAmmo;
+        CurAmmo = (int)curFuel;
         emitter.GetComponent<Emitter>().UpdateStats(Damage, Accuracy, FireDelay, Range, (expDrop) => {
             AddExp((int)(expDrop * 1.5f));
             CharStatManager.AddExp(expDrop);
@@ -83,7 +83,7 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
         emitter.GetComponent<Emitter>().StartEmitting(start, dir);
         emitter.GetComponent<Emitter>().UpdateDirecttion(start, dir);
         if (delayShootCoroutine == null) {
-            curFuel = Mathf.Clamp(CurAmmo - FuelConsumptionRate, 0, 100);
+            curFuel = Mathf.Clamp(curFuel - FuelConsumptionRate, 0, 100);
             CurAmmo = (int)curFuel;
             delayShootCoroutine = StartCoroutine(DelayShoot());
         }
@@ -99,9 +99,9 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
     }
 
     // private void Refuel() {
-    //     if (CurAmmo < 100) {
+    //     if (CurAmmo < MaxAmmo) {
     //         curFuel = Mathf.Clamp(CurAmmo + FuelReplenishRate, 0, 100);
-    //         CurAmmo = (int)curFuel;
+    //         CurAmmo += (int)curFuel;
     //     }
     // }
 
@@ -130,6 +130,7 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
                 AddExp(expDrop);
                 CharStatManager.AddExp(expDrop);
             });
+            HudManager.Instance?.ShowLog(data.gunName + " upgraded to Lv" + CurLevel);
         }
     }
 

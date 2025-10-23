@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b5c307da14af544d8ebeff3f1e9638d, type: 3}
+  m_Name: Nat
+  m_EditorClassIdentifier: 
+  charName: Nat
+  charClass: Spy
+  charDesc: "Trained to disappear without a trace, Nat knows every shadow better
+    than the light.\nSilent, lethal, and always one step ahead \u2014 survival isn\u2019t
+    luck, it\u2019s precision."
+  bust: {fileID: 21300000, guid: 0717225eb9a57f84da5716a74472e7ef, type: 3}
+  side: {fileID: -4701440625830361436, guid: 30003467fd8a14d4d8167919798949a7, type: 3}
+  startLevel: 1
+  maxLevel: 99
+  maxLives: 1
+  expThreshold:
+    init: 20
+    final: 700
+    pow: 1
+  mhp:
+    init: 100
+    final: 1000
+    pow: 2
+  def:
+    init: 2
+    final: 14
+    pow: 1
+  agi:
+    init: 2
+    final: 14
+    pow: 1
+  luck:
+    init: 2
+    final: 14
+    pow: 1
+  baseSpeed:
+    init: 6
+    final: 14
+    pow: 1

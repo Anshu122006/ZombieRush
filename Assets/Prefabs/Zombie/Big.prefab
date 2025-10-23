@@ -166,8 +166,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
-  m_LinearDamping: 0
+  m_Mass: 6
+  m_LinearDamping: 6
   m_AngularDamping: 0
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 3725cf62eb0e89d419849eae707d8b70, type: 2}
@@ -232,7 +232,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb2d: {fileID: 5213867154100153570}
   aiData: {fileID: 4614863903678693082}
-  anim: {fileID: 0}
   statsData: {fileID: 6948318381746666680}
   statsManager: {fileID: 5498166962378646876}
   wanderStateConfig: {fileID: 11400000, guid: 900f4ffc6b0e51a4eb851c5414d3bfc6, type: 2}
@@ -331,7 +330,7 @@ MonoBehaviour:
   flashTime: 0.6
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   hitAudio: {fileID: 8300000, guid: a8404e490c452be4f8edd49eb8876ac7, type: 3}
-  bloodAudio: {fileID: 8300000, guid: 7b6404bd91bbe364f9ac44edd962065a, type: 3}
+  bloodAudio: {fileID: 8300000, guid: 17805dba23bad45458cbdb70a8bc9d16, type: 3}
   deathAudio: {fileID: 8300000, guid: c3e4e0afe979b634ca9801ec89d1139c, type: 3}
   bloodMarkPref: {fileID: 8206522472595950665, guid: 79eb94042c4adc949b571dabbb859f71, type: 3}
   data: {fileID: 6948318381746666680}
@@ -352,7 +351,7 @@ MonoBehaviour:
   detectionRadius: 2
   layerMask:
     serializedVersion: 2
-    m_Bits: 8320
+    m_Bits: 8384
   showGizmos: 0
 --- !u!114 &6269107749209105201
 MonoBehaviour:

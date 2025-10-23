@@ -3,9 +3,11 @@ using System.Collections.Generic;
 
 public class GameAudioManager : MonoBehaviour {
     public static GameAudioManager Instance { get; private set; }
+    [Header("General Settings")]
+    [SerializeField] private AudioSource mainMusicAudioSource;
 
     [Header("General Settings")]
-    [Range(0f, 1f)] public float masterVolume = 1f;
+    [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
 
     [Header("Pooling Settings")]
@@ -15,13 +17,13 @@ public class GameAudioManager : MonoBehaviour {
     private Queue<AudioSource> audioPool = new Queue<AudioSource>();
 
     void Awake() {
-        if (Instance != null && Instance != this) {
-            Destroy(gameObject);
-            return;
-        }
+        // if (Instance != null && Instance != this) {
+        //     Destroy(gameObject);
+        //     return;
+        // }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject);
 
         // Initialize the pool
         for (int i = 0; i < poolSize; i++) {
@@ -29,6 +31,12 @@ public class GameAudioManager : MonoBehaviour {
             src.playOnAwake = false;
             audioPool.Enqueue(src);
         }
+
+        musicVolume = PlayerPrefs.GetFloat(PrefKeys.musicVolume);
+        sfxVolume = PlayerPrefs.GetFloat(PrefKeys.sfxVolume);
+
+        mainMusicAudioSource.volume = musicVolume;
+        mainMusicAudioSource.Play();
     }
 
     /// <summary>
@@ -40,9 +48,9 @@ public class GameAudioManager : MonoBehaviour {
         AudioSource source = GetAvailableSource();
         source.transform.position = position;
         source.clip = clip;
-        source.volume = volume * sfxVolume * masterVolume;
+        source.volume = volume * sfxVolume;
         source.pitch = pitch;
-        source.spatialBlend = 1f; // 3D sound
+        source.spatialBlend = 1f;
         source.Play();
 
         StartCoroutine(ReturnToPoolAfterPlay(source, clip.length / pitch));
@@ -57,9 +65,9 @@ public class GameAudioManager : MonoBehaviour {
         AudioSource source = GetAvailableSource();
         source.transform.position = transform.position;
         source.clip = clip;
-        source.volume = volume * sfxVolume * masterVolume;
+        source.volume = volume * sfxVolume;
         source.pitch = pitch;
-        source.spatialBlend = 0f; // 2D sound
+        source.spatialBlend = 0f;
         source.Play();
 
         StartCoroutine(ReturnToPoolAfterPlay(source, clip.length / pitch));
@@ -95,11 +103,15 @@ public class GameAudioManager : MonoBehaviour {
     /// <summary>
     /// Adjust global volumes dynamically.
     /// </summary>
-    public void SetMasterVolume(float value) {
-        masterVolume = Mathf.Clamp01(value);
+    public void SetMusicVolume(float value) {
+        musicVolume = Mathf.Clamp01(value);
+        PlayerPrefs.SetFloat(PrefKeys.musicVolume, value);
+
+        mainMusicAudioSource.volume = musicVolume;
     }
 
     public void SetSFXVolume(float value) {
         sfxVolume = Mathf.Clamp01(value);
+        PlayerPrefs.SetFloat(PrefKeys.sfxVolume, value);
     }
 }

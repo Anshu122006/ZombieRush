@@ -12,46 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0038190e5a3e8434b87b5560fe5ce03f, type: 3}
   m_Name: Small
   m_EditorClassIdentifier: 
-  enemyName: Small
-  enemyDesc: Some zombie description
-  startLevel: 1
+  enemyName: Flash
+  enemyDesc: Small but deadly.
+  startLevel: 4
   maxLevel: 99
-  maxCountPerSpawnPoint: 6
+  maxCountPerSpawnPoint: 7
   expThreshold:
-    init: 10
-    final: 30
+    init: 20
+    final: 580
     pow: 1
   expDrop:
-    init: 5
-    final: 15
+    init: 10
+    final: 140
     pow: 1
   expGain:
-    init: 8
-    final: 20
+    init: 6
+    final: 80
     pow: 1
   mhp:
-    init: 50
-    final: 150
+    init: 20
+    final: 550
     pow: 5
   def:
     init: 2
-    final: 10
+    final: 55
     pow: 1
   atk:
-    init: 3
-    final: 12
+    init: 18
+    final: 100
     pow: 1
   atkRate:
     init: 1
-    final: 5
+    final: 3
     pow: 1
   agi:
-    init: 4
-    final: 14
+    init: 6
+    final: 30
     pow: 1
   luck:
-    init: 1
-    final: 8
+    init: 6
+    final: 30
     pow: 1
   baseSpeed:
     init: 6

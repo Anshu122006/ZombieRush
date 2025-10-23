@@ -5005,6 +5005,9 @@ MonoBehaviour:
   maxItemPerSpawnArea: 3
   speed: 3
   accleration: 0.3
+  stayTime: 7
+  fadeTime: 0.6
+  chance: 0.2
   healAmount: 10
 --- !u!114 &6377234306850437769
 MonoBehaviour:

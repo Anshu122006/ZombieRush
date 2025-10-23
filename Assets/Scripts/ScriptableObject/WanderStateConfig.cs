@@ -9,6 +9,5 @@ public class WanderStateConfig : ScriptableObject {
     public float deacceleration = 100;
     public float moveDuration = 0.2f;
     public float waitDuration = 0.4f;
-    public int seed = 12345;
 }
 

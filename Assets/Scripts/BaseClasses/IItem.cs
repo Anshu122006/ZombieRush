@@ -8,17 +8,24 @@ public abstract class IItem : MonoBehaviour {
     [SerializeField] protected int maxItemPerSpawnArea = 3;
     [SerializeField] protected float speed = 3;
     [SerializeField] protected float accleration = 0.3f;
+    [SerializeField] protected float stayTime = 2f;
+    [SerializeField] protected float fadeTime = 0.6f;
 
     public string Name => itemName;
+    public float chance = 0.1f;
     public int MaxItemPerSpawnArea => maxItemPerSpawnArea;
     public Action onDestroyed;
 
     private Rigidbody2D rb;
     private Transform target;
     private bool collected = false;
+    private bool destroyed = false;
+
+    protected abstract void OnCollect(CharacterComponents player);
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
+        StartCoroutine(DestroyOnTimeUp());
     }
 
     private void FixedUpdate() {
@@ -30,9 +37,7 @@ public abstract class IItem : MonoBehaviour {
             speed += accleration;
         }
         else {
-            GameAudioManager.Instance.PlaySound(pickupAudio, transform.position);
-            OnCollect(target.GetComponent<CharacterComponents>());
-            DestroySelf();
+            if (!destroyed) DestroySelf();
         }
     }
 
@@ -44,10 +49,31 @@ public abstract class IItem : MonoBehaviour {
         }
     }
 
-    protected abstract void OnCollect(CharacterComponents player);
-
-    protected void DestroySelf(float time = 0) {
+    protected void DestroySelf() {
         onDestroyed?.Invoke();
-        Destroy(gameObject, time);
+        destroyed = true;
+        OnCollect(target.GetComponent<CharacterComponents>());
+        GameAudioManager.Instance.PlaySound(pickupAudio, transform.position);
+        StartCoroutine(ItemFade());
+    }
+
+    private IEnumerator DestroyOnTimeUp() {
+        if (destroyed) yield break;
+        yield return new WaitForSeconds(stayTime);
+        StartCoroutine(ItemFade());
+    }
+
+    private IEnumerator ItemFade() {
+        float elapsed = 0;
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Color color = spriteRenderer.color;
+        while (elapsed <= fadeTime) {
+            elapsed += Time.deltaTime;
+            float currentFade = Mathf.Lerp(1, 0, elapsed / fadeTime);
+            spriteRenderer.color = new Color(color.r, color.g, color.b, currentFade);
+            yield return null;
+        }
+        spriteRenderer.color = new Color(color.r, color.g, color.b, 0);
+        Destroy(gameObject);
     }
 }

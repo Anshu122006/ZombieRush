@@ -13,8 +13,6 @@ public class DeathState : EnemyState {
     public override void Enter() {
         aiData = enemy.aiData;
         rb = enemy.GetComponent<Rigidbody2D>();
-
-        Debug.Log("Entered Death State");
     }
 
     public override void Update() {

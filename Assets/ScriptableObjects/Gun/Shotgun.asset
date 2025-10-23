@@ -9,31 +9,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: shotgun
-  m_EditorClassIdentifier: Assembly-CSharp::ShotgunDefinition
-  gunName: shotgun
-  gunSprite: {fileID: 21300000, guid: 698cbe8cd05f32e4e998cf2be835eaad, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fe6640d03a111446900d693366ff521, type: 3}
+  m_Name: Shotgun
+  m_EditorClassIdentifier: 
+  gunName: Unnamed Gun
+  gunSprite: {fileID: 0}
   startLevel: 1
   maxLevel: 10
   expThreshold:
-    init: 100
-    final: 2000
+    init: 10
+    final: 250
     pow: 1
   damage:
-    init: 10
-    final: 100
+    init: 14
+    final: 160
     pow: 1
   accuracy:
-    init: 60
-    final: 95
+    init: 8
+    final: 60
     pow: 1
   range:
-    init: 20
-    final: 100
+    init: 4
+    final: 8
     pow: 1
   fireDelay:
-    init: 0.6
+    init: 1.2
     final: 0.2
     pow: 1
   weight:
@@ -41,19 +41,19 @@ MonoBehaviour:
     final: 3
     pow: 1
   maxPackets:
-    init: 3
-    final: 5
+    init: 6
+    final: 20
     pow: 1
   ammoPerPacket:
     init: 6
-    final: 8
+    final: 20
     pow: 1
   reloadTime:
     init: 2.5
     final: 1.5
     pow: 1
   pelletsPerShot:
-    init: 6
+    init: 3
     final: 12
     pow: 1
   spreadAngle:

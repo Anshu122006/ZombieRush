@@ -102,26 +102,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stayTime: 6
   fadeTime: 1
+  adjustmentFactor: 1
   offset: 0.7
   bloodSprites:
   - {fileID: 21300000, guid: 564f02a9bdf06ea41baa5afe4a69caed, type: 3}
-  - {fileID: 21300000, guid: f7179201d1f5d4a4697c1f335bbe5329, type: 3}
   - {fileID: 21300000, guid: c2d7bc3638066b540ac74a140dc8a013, type: 3}
   - {fileID: 21300000, guid: 30dab804277a1c944890aac5924c69a0, type: 3}
-  - {fileID: 21300000, guid: 5eed2f6da2f7106479c82c00f2064d44, type: 3}
-  - {fileID: 21300000, guid: 4204842e9492b39499296accd0aa8f77, type: 3}
-  - {fileID: 21300000, guid: f42fbaeb8c0f5bc48a92e503f80e0c5a, type: 3}
   - {fileID: 21300000, guid: adb3e21af82dc314bb467b8853061e70, type: 3}
-  - {fileID: 21300000, guid: be97b31d5ad727b4d91c6a70f4930388, type: 3}
-  - {fileID: 21300000, guid: 461b292678659d0488df8ced34751678, type: 3}
   - {fileID: 21300000, guid: 34041d31cc522e44d8cb8199cdf0c00c, type: 3}
-  - {fileID: 21300000, guid: d1a2ed22bceea7343a12afc73692359a, type: 3}
-  - {fileID: 21300000, guid: 7042a22d78ca0d04aba42d0c0b1365b2, type: 3}
-  - {fileID: 21300000, guid: 418ccbe7062c00143ade7d8e21302526, type: 3}
-  - {fileID: 21300000, guid: d2aef819b364c754480efe87f916c0f8, type: 3}
   - {fileID: 21300000, guid: a4b1511a5e3a5f2459c63fbf71a6ab85, type: 3}
-  - {fileID: 21300000, guid: 14056df0d61d18a43965283b2279391c, type: 3}
-  - {fileID: 21300000, guid: a82b79d4bf2709145a8bfb0404190c04, type: 3}
-  - {fileID: 21300000, guid: ad46f46d09bfff84ab0a9ffb4c56c03c, type: 3}
   - {fileID: 21300000, guid: df388854d3dc06046aa3adba3dae06fc, type: 3}
-  - {fileID: 21300000, guid: 0f8169ad1b053884cace8719329d3530, type: 3}
+  - {fileID: 292088423714139563, guid: b8e85ec9a69ef834f9ece1129288a93f, type: 3}
+  - {fileID: 4214670961530368343, guid: b8e85ec9a69ef834f9ece1129288a93f, type: 3}
+  - {fileID: 4426291702067205792, guid: b8e85ec9a69ef834f9ece1129288a93f, type: 3}
+  - {fileID: -6357315699957349824, guid: b8e85ec9a69ef834f9ece1129288a93f, type: 3}

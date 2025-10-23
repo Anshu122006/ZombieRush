@@ -17,6 +17,9 @@ public class CharacterAnimationsSO : ScriptableObject {
     public DirectionAnimation minigun_walk;
     public DirectionAnimation flamethrower_walk;
 
+    public AnimationClip death_left;
+    public AnimationClip death_right;
+
     public Dictionary<string, DirectionAnimation> GetIdleAnimations() {
         Dictionary<string, DirectionAnimation> anims = new();
         anims["pistol"] = pistol_idle;

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28339d703c9925e469f8e5bf3ac25201, type: 3}
   m_Name: AttackStateConfig
   m_EditorClassIdentifier: 
-  attackOffset: 0.4
-  attackRange: 1.7
+  attackOffset: 0.3
+  attackRange: 0.8
   attackDelay: 1
   specialAttackFactor: 1.6
   clip1: {fileID: 7400000, guid: f7e610147ea15a74f9cf2aff82a19ca2, type: 2}

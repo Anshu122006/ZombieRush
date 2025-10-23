@@ -20,7 +20,7 @@ public abstract class IStatsManager : MonoBehaviour {
     protected Coroutine hitAudioCoroutine;
 
     // Abstract methods
-    public abstract void TakeDamage(int atk, int accuracy, out int expDrop);
+    public abstract void TakeDamage(int atk, int accuracy, out int expDrop, Transform target = null);
     public abstract void Heal(int amount);
     public abstract void AddExp(int exp);
     public abstract void LevelUp();
@@ -54,7 +54,7 @@ public abstract class IStatsManager : MonoBehaviour {
         float elapsed = 0;
         while (elapsed <= flashTime) {
             elapsed += Time.deltaTime;
-            currentFlashAmount = Mathf.Lerp(0.4f, 0f, elapsed / flashTime);
+            currentFlashAmount = Mathf.Lerp(0.01f, 0, elapsed / flashTime);
             spriteRenderer.material.SetFloat("_FlashAmount", currentFlashAmount);
             yield return null;
         }

@@ -73,9 +73,20 @@ public class ItemSpawner : MonoBehaviour {
         List<string> unlocked = globalData.UnlockedItems.FindAll(z => itemCount[z] < itemPrefsDict[z].GetComponent<IItem>().MaxItemPerSpawnArea);
         if (unlocked.Count == 0) return;
 
-        string itemName = unlocked[UnityEngine.Random.Range(0, unlocked.Count)];
-        int blockId = emptyBlocks[UnityEngine.Random.Range(0, emptyBlocks.Count)];
+        float prob = UnityEngine.Random.Range(0f, 1.4f);
+        float curProb = 0;
+        string itemName = "";
+        for (int i = 0; i < unlocked.Count; i++) {
+            float itemChance = itemPrefsDict[unlocked[i]].GetComponent<IItem>().chance / ItemsGlobalData.Instance.totalProb;
+            curProb += itemChance;
+            if (prob <= curProb) {
+                itemName = unlocked[i];
+                break;
+            }
+        }
 
+        if (itemName == "") return;
+        int blockId = emptyBlocks[UnityEngine.Random.Range(0, emptyBlocks.Count)];
         Vector2 blockCenter = blocks[blockId];
         Vector2 randomOffset = new Vector2(
             UnityEngine.Random.Range(-blockWidth * 0.4f, blockWidth * 0.4f),

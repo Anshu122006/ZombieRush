@@ -6,6 +6,8 @@ public class CharacterDefinition : ScriptableObject {
     public string charName = "Arin";
     public string charClass = "Warrior";
     [TextArea] public string charDesc = "A brave adventurer with balanced stats and strong combat abilities.";
+    public Sprite bust;
+    public Sprite side;
 
     [Header("Level Settings")]
     public int startLevel = 1;

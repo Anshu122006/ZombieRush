@@ -10,13 +10,15 @@ public class GlobalVariables : MonoBehaviour {
 
     private int gold;
     private int zombieCount;
+    private int zombiesKilled;
 
     private Dictionary<string, int> variables;
     public int Gold {
         get { return gold; }
         set {
             gold = value >= 0 ? value : 0;
-            HudManager.Instance.UpdateGold(gold);
+            HudManager.Instance?.UpdateGold(gold);
+            GlobalGameManager.Instance?.SaveCurGold(gold);
         }
     }
 
@@ -24,7 +26,16 @@ public class GlobalVariables : MonoBehaviour {
         get { return zombieCount; }
         set {
             zombieCount = value >= 0 ? value : 0;
-            HudManager.Instance.UpdateZombieCount(zombieCount);
+            HudManager.Instance?.UpdateZombieCount(zombieCount);
+        }
+    }
+
+    public int ZombiesKilled {
+        get { return zombiesKilled; }
+        set {
+            zombiesKilled = value >= 0 ? value : 0;
+            HudManager.Instance?.UpdateZombiesKilled(zombiesKilled);
+            GlobalGameManager.Instance.SaveCurKills(zombiesKilled);
         }
     }
 
@@ -35,9 +46,8 @@ public class GlobalVariables : MonoBehaviour {
         foreach (var gameVar in gameVariables) variables[gameVar.name] = gameVar.value;
     }
     private void Start() {
-        gold = initGold;
-        zombieCount = 0;
-        HudManager.Instance.UpdateGold(gold);
-        HudManager.Instance.UpdateZombieCount(zombieCount);
+        Gold = initGold;
+        ZombieCount = 0;
+        ZombiesKilled = 0;
     }
 }

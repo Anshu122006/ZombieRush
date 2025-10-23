@@ -13,7 +13,7 @@ public class EnemyStatsManager : IStatsManager {
         spriteRenderer.material.SetColor("_FlashColor", flashColor);
         spriteRenderer.material.SetFloat("_FlashAmount", 0);
     }
-    public override void TakeDamage(int atk, int accuracy, out int expDrop) {
+    public override void TakeDamage(int atk, int accuracy, out int expDrop, Transform target = null) {
         expDrop = 0;
         if (onDeathCoroutine != null) return;
 
@@ -22,12 +22,12 @@ public class EnemyStatsManager : IStatsManager {
 
         int chance = Random.Range(0, accuracy + data.AGI);
         if (chance > accuracy) {
-            Debug.Log("Miss");
             return;
         }
 
         if (data.hp - dmg > 0) {
             data.hp -= dmg;
+            GetComponent<EnemyAI>().SetIsHit(target);
         }
         else {
             data.hp = 0;
@@ -39,8 +39,6 @@ public class EnemyStatsManager : IStatsManager {
         if (!healthbar.gameObject.activeSelf) healthbar.gameObject.SetActive(true);
         healthbar.SetFill((float)data.hp / data.MHP);
         healthbar.Fade();
-
-        Debug.Log(data.hp);
     }
 
     public override void Heal(int amount) {
@@ -50,8 +48,6 @@ public class EnemyStatsManager : IStatsManager {
         if (!healthbar.gameObject.activeSelf) healthbar.gameObject.SetActive(true);
         healthbar.SetFill((float)data.hp / data.MHP);
         healthbar.Fade();
-
-        Debug.Log(data.hp);
     }
 
     public override void AddExp(int exp) {

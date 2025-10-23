@@ -5,6 +5,8 @@ public class ItemsGlobalData : MonoBehaviour {
     public static ItemsGlobalData Instance { get; private set; }
 
     [SerializeField] private List<IItem> prefs;
+
+    public float totalProb = 0;
     public Dictionary<string, IItem> data = new();
 
     private List<string> unlockedItems = new();
@@ -17,7 +19,15 @@ public class ItemsGlobalData : MonoBehaviour {
     private void Start() {
         foreach (IItem item in prefs) {
             data[item.Name] = item;
-            unlockedItems.Add(item.Name);
+            totalProb += item.chance;
         }
+        if (totalProb == 0) totalProb = 1;
+        unlockedItems.Add("coin");
+        unlockedItems.Add("heal");
+        unlockedItems.Add("life");
+    }
+
+    public void AddItem(string item) {
+        if (data.ContainsKey(item)) unlockedItems.Add(item);
     }
 }

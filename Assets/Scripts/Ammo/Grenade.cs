@@ -6,10 +6,11 @@ using UnityEngine;
 public class Grenade : MonoBehaviour {
     [SerializeField] private GameObject explosionPref;
     [SerializeField] private float distanceFromTargetToDestroy = 1f;
+    [SerializeField] private float explosionRadius = 2;
+    [SerializeField] private LayerMask targetLayers;
 
     private int damage;
     private int accuracy;
-    private float explosionRadius;
 
     public Vector2 start;
     public Vector2 targetPos;
@@ -31,12 +32,6 @@ public class Grenade : MonoBehaviour {
     private Action<int> AddExp;
 
     private void OnCollisionEnter2D(Collision2D hit) {
-        IStatsManager enemy = hit.collider.GetComponent<IStatsManager>();
-        if (enemy != null) {
-            enemy.HandleHitEffects();
-            enemy.TakeDamage(damage, accuracy, out int expDrop);
-            AddExp?.Invoke(expDrop);
-        }
         DestroySelf();
     }
 
@@ -116,6 +111,16 @@ public class Grenade : MonoBehaviour {
 
     private void DestroySelf() {
         Debug.Log("destroy called");
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius, targetLayers);
+        foreach (var hit in hits) {
+            IStatsManager enemy = hit.GetComponent<IStatsManager>();
+            if (enemy != null) {
+                enemy.HandleHitEffects();
+                enemy.TakeDamage(damage, accuracy, out int expDrop);
+                AddExp?.Invoke(expDrop);
+            }
+        }
+
         GrenadeExplosion explosion = Instantiate(explosionPref, transform.position, Quaternion.identity).GetComponent<GrenadeExplosion>();
         explosion.Initialize();
         Destroy(gameObject);

@@ -326,6 +326,8 @@ MonoBehaviour:
   clickSound: {fileID: 8300000, guid: 5ed9970e17bfee943a6dff056dc3a9d0, type: 3}
   disableSound: {fileID: 8300000, guid: 19ee23220d478354ca29f732069ff0d0, type: 3}
   audioSource: {fileID: 7624964030201091687}
+  disableOverlay: {fileID: 3103702989191730631}
+  isDisabled: 0
 --- !u!114 &5429341922959870820
 MonoBehaviour:
   m_ObjectHideFlags: 0

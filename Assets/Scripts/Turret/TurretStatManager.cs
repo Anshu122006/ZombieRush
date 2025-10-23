@@ -12,7 +12,7 @@ public class TurretStatManager : IStatsManager {
 
     public override void LevelUp() => GlobalTurretData.Instance.IncrementMaxUpgradeLevel(data.Name);
 
-    public override void TakeDamage(int atk, int accuracy, out int expDrop) {
+    public override void TakeDamage(int atk, int accuracy, out int expDrop, Transform target = null) {
         int dmg = Random.Range((int)(atk * 0.5f), (int)(atk * 1.2f)) - Random.Range((int)(data.DEF * 0.5f), (int)(data.DEF * 1.2f));
         dmg = Mathf.Clamp(dmg, 1, (int)(atk * 1.2f));
         expDrop = 0;

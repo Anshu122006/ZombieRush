@@ -21,8 +21,8 @@ public class EnemyGlobalData : MonoBehaviour {
             data[def.enemyName] = def;
             exp[def.enemyName] = 0;
             curLevel[def.enemyName] = def.startLevel;
-            unlockedZombies.Add(def.enemyName);
         }
+        unlockedZombies.Add(definitions[0].enemyName);
     }
 
     public void AddExp(string enemyName, int amount) {
@@ -38,14 +38,13 @@ public class EnemyGlobalData : MonoBehaviour {
             }
             exp[enemyName] = gain;
         }
-        Debug.Log(exp[enemyName]);
     }
 
     public void LevelUp(string enemyName) {
         if (curLevel[enemyName] < data[enemyName].maxLevel) {
             curLevel[enemyName]++;
+            HudManager.Instance?.ShowLog(enemyName + " reached Lv" + curLevel[enemyName]);
         }
-        Debug.Log(curLevel[enemyName]);
     }
 
     private int GetThreshold(string enemyName) {
@@ -55,5 +54,20 @@ public class EnemyGlobalData : MonoBehaviour {
                 (data[enemyName].expThreshold.final - data[enemyName].expThreshold.init) *
                 Mathf.Pow((float)cl / ml, data[enemyName].expThreshold.pow));
         return threshold;
+    }
+
+    public void AddNewZombie(int curLevel) {
+        switch (curLevel) {
+            case 3:
+                string zombieName = definitions[1].enemyName;
+                unlockedZombies.Add(zombieName);
+                HudManager.Instance?.ShowLog(zombieName + " has become active");
+                break;
+            case 7:
+                zombieName = definitions[2].enemyName;
+                unlockedZombies.Add(zombieName);
+                HudManager.Instance?.ShowLog(zombieName + " has become active");
+                break;
+        }
     }
 }

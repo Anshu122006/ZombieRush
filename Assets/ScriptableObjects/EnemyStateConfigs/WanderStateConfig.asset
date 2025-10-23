@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee91b3541568594c9c4eed85aeadf06, type: 3}
   m_Name: WanderStateConfig
   m_EditorClassIdentifier: 
-  wanderSpeed: 1
-  wanderRadius: 6
+  speedFactor: 0.8
+  wanderRadius: 10
   collisionRadius: 1
-  maxSpeed: 1
   acceleration: 50
   deacceleration: 100
   moveDuration: 0.2
   waitDuration: 0.4
-  seed: 12345

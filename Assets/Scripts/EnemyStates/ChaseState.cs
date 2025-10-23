@@ -24,8 +24,7 @@ public class ChaseState : EnemyState {
         statsData = enemy.statsData;
         aiData.curState = "chase";
 
-        noise = new FastNoiseLite(config.seed);
-        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        SetupNoise();
         UpdateTargetDirection();
     }
 
@@ -50,8 +49,8 @@ public class ChaseState : EnemyState {
 
     private void UpdateTargetDirection() {
         Vector2 pos = enemy.transform.position;
-        float xNoise = noise.GetNoise(pos.x * 0.1f, pos.y * 0.1f);
-        float yNoise = noise.GetNoise((pos.x + 10) * 0.1f, (pos.y + 10) * 0.1f);
+        float xNoise = noise.GetNoise(pos.x * 0.3f, pos.y * 0.4f);
+        float yNoise = noise.GetNoise((pos.x + 30) * 0.4f, (pos.y + 30) * 0.3f);
         targetDir = (targetDir + new Vector2(xNoise, yNoise)).normalized;
 
         float[] danger = new float[8];
@@ -96,5 +95,19 @@ public class ChaseState : EnemyState {
             return true;
         }
         return false;
+    }
+
+    private void SetupNoise() {
+        int seed = Random.Range(0, 9999);
+        noise = new FastNoiseLite(seed);
+        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+
+        noise.SetFrequency(0.04f);                        // moderate frequency → movement changes somewhat slowly
+        noise.SetFractalType(FastNoiseLite.FractalType.FBm);
+        noise.SetFractalOctaves(2);                       // only a few layers → not super detailed–random
+        noise.SetFractalGain(0.45f);                      // moderate fallback to main layer → some randomness but not wild
+        noise.SetFractalLacunarity(1.8f);                 // subtle increase in frequency per layer
+                                                          // moderate warp amplitude
+
     }
 }

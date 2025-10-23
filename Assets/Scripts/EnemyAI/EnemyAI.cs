@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour {
@@ -26,6 +26,7 @@ public class EnemyAI : MonoBehaviour {
     [SerializeField] private List<Detector> detectors;
     [SerializeField] private float detectionDelay = 0.05f;
 
+    private bool isHit;
 
     private void Awake() {
         FSM = new EnemyFSM();
@@ -52,7 +53,7 @@ public class EnemyAI : MonoBehaviour {
             new StateTransition(deathState, () => IsDead())
         };
 
-        attackState.transitions = new List<StateTransition>{
+        deathState.transitions = new List<StateTransition>{
             new StateTransition(wanderState, () => false),
         };
 
@@ -63,18 +64,20 @@ public class EnemyAI : MonoBehaviour {
 
     private void Update() {
         FSM.Update();
-        Debug.Log(CanAttack());
     }
 
     private void PerformDetection() {
         foreach (Detector detector in detectors)
             detector.Detect(aiData);
-        // Debug.Log("Detection performed");
+
+        // Debug.Log(CanChase() && !CanAttack());
+        // if (CanAttack()) Debug.Log("Can Attack");
+        // if (CanChase()) Debug.Log("Can Chase");
     }
 
     public bool CanChase() {
         aiData.SetCurrentTarget();
-        return aiData.GetTargetCount > 0 || aiData.currentTarget != null;
+        return aiData.GetTargetCount > 0 || aiData.currentTarget != null || isHit;
     }
     public bool CanAttack() {
         if (aiData.currentTarget == null) return false;
@@ -89,5 +92,20 @@ public class EnemyAI : MonoBehaviour {
 
     public bool IsDead() {
         return statsData.hp <= 0;
+    }
+
+    public void SetIsHit(Transform target) {
+        if (target == null) return;
+        if (aiData.curState == "wander" && !isHit) {
+            aiData.currentTarget = target;
+            StartCoroutine(ResetHit(target));
+            isHit = true;
+        }
+    }
+
+    private IEnumerator ResetHit(Transform target) {
+        Vector2 closestPoint = target.GetComponent<Collider2D>().ClosestPoint(aiData.currentTarget.position);
+        yield return new WaitUntil(() => Vector2.Distance(closestPoint, transform.position) < chaseStateConfig.chaseRadius);
+        isHit = false;
     }
 }

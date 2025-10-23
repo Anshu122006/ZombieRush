@@ -10,6 +10,8 @@ public class CharacterStatsData : MonoBehaviour {
     private int exp;
     private int hp;
 
+    public string Name => definition.charName;
+
     // Computed stats based on current level
     public int CurLevel {
         get {

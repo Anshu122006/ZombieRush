@@ -13,8 +13,8 @@ public class EnemyCollision : MonoBehaviour {
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             if ((targetLayers & (1 << collider.gameObject.layer)) != 0) {
                 float mass = Mathf.Clamp(rb.mass, 1, 100);
-                float dampingFactor = Mathf.Clamp(maxMass / mass, 0.1f, 1);
-                rb.linearVelocity *= 0.07f;
+                float dampingFactor = Mathf.Clamp(maxMass / mass, 0.1f, 0.4f);
+                rb.linearVelocity *= 0.3f;
                 collisionDelayCoroutine = StartCoroutine(DelayCollisionCheck());
             }
         }

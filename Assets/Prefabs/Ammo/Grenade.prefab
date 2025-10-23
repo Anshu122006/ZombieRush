@@ -305,6 +305,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionPref: {fileID: 1199632076013226125, guid: 7a2cac40215ded44daa8fa165c5811e9, type: 3}
   distanceFromTargetToDestroy: 1
+  explosionRadius: 2
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 320
   start: {x: 0, y: 0}
   targetPos: {x: 0, y: 0}
   trajectoryRange: {x: 0, y: 0}

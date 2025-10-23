@@ -11,4 +11,9 @@ public static class Loader {
         if (waitForInput) SceneManager.LoadScene("LoadInput");
         else SceneManager.LoadScene("LoadNoInput");
     }
-}   
+
+    public static void LoadSceneSilently(string targetScene) {
+        TargetScene = targetScene;
+        SceneManager.LoadScene("LoadSilent");
+    }
+}

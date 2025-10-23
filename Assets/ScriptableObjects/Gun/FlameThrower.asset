@@ -9,28 +9,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: flamethrower
-  m_EditorClassIdentifier: Assembly-CSharp::FlameThrowerDefinition
-  gunName: flamethrower
-  gunSprite: {fileID: 21300000, guid: 585a67e4b48015440875b944f7caa0c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c19e56666e88b54fa236c59104647f1, type: 3}
+  m_Name: Flamethrower
+  m_EditorClassIdentifier: 
+  gunName: Unnamed Gun
+  gunSprite: {fileID: 0}
   startLevel: 1
   maxLevel: 10
   expThreshold:
-    init: 100
-    final: 2000
+    init: 10
+    final: 280
     pow: 1
   damage:
     init: 10
-    final: 100
+    final: 140
     pow: 1
   accuracy:
-    init: 60
-    final: 95
+    init: 8
+    final: 60
     pow: 1
   range:
-    init: 20
-    final: 100
+    init: 4
+    final: 6
     pow: 1
   fireDelay:
     init: 0.6
@@ -45,12 +45,8 @@ MonoBehaviour:
     final: 20
     pow: 1
   fuelConsumptionRate:
-    init: 1
-    final: 0.5
-    pow: 1
-  fuelReplenishRate:
-    init: 0.3
-    final: 0.6
+    init: 3
+    final: 1
     pow: 1
   burnDuration:
     init: 1.5

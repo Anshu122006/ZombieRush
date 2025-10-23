@@ -35,27 +35,54 @@ public class Emitter : MonoBehaviour {
         delayCoroutine = null;
     }
 
+    // public void UpdateStats(int damage, int accuracy, float fireRate, float range, Action<int> AddExp) {
+    //     this.damage = damage;
+    //     this.accuracy = accuracy;
+    //     this.fireRate = fireRate;
+    //     this.AddExp = AddExp;
+
+    // float startLifetime = range * 0.2f;
+    // var main = flameParticles.main;
+    // var emission = flameParticles.emission;
+    // main.startLifetime = new ParticleSystem.MinMaxCurve(startLifetime, startLifetime * 1.5f);
+    // emission.rateOverTime = startLifetime * 10;
+    // main = smokeParticles.main;
+    // emission = smokeParticles.emission;
+    // main.startLifetime = startLifetime * 1.5f + 0.05f;
+    // emission.rateOverTime = startLifetime * 6;
+
+    //     Vector2 size = collider2d.size;
+    //     Vector2 offset = collider2d.offset;
+    //     size.x = range;
+    //     offset.x = range * 0.5f;
+    // }
+
     public void UpdateStats(int damage, int accuracy, float fireRate, float range, Action<int> AddExp) {
         this.damage = damage;
         this.accuracy = accuracy;
         this.fireRate = fireRate;
         this.AddExp = AddExp;
 
-        float startLifetime = range * 0.2f;
+        float startLifetime = range * 0.06f;
+
         var main = flameParticles.main;
         var emission = flameParticles.emission;
-        main.startLifetime = new ParticleSystem.MinMaxCurve(startLifetime, startLifetime * 2.5f);
-        emission.rateOverTime = startLifetime * 800;
+        main.startLifetime = new ParticleSystem.MinMaxCurve(startLifetime, startLifetime);
+        emission.rateOverTime = startLifetime * 400;
+
         main = smokeParticles.main;
         emission = smokeParticles.emission;
-        main.startLifetime = startLifetime * 2.5f + 0.05f;
-        emission.rateOverTime = startLifetime * 600;
+        main.startLifetime = startLifetime + 0.05f;
+        emission.rateOverTime = startLifetime * 300;
 
         Vector2 size = collider2d.size;
         Vector2 offset = collider2d.offset;
         size.x = range;
         offset.x = range * 0.5f;
+        collider2d.size = size;
+        collider2d.offset = offset;
     }
+
 
     public void UpdateDirecttion(Vector2 start, Vector2 dir) {
         if ((Vector2)transform.position != start)

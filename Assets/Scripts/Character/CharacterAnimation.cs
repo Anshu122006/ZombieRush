@@ -25,7 +25,15 @@ public class CharacterAnimation : MonoBehaviour {
         UpdateAnimation();
     }
 
+    public void PlayDeathAnimation() {
+        Vector2 dir = components.movement.faceDir;
+        if (dir.x < 0 || dir.y > 0) newAnimation = playerAnimations.death_left.name;
+        else newAnimation = playerAnimations.death_right.name;
+    }
+
     private void HandleWalkAnimation() {
+        if (components.statsManager.InReviveStage) return;
+
         bool isIdle = GameInputManager.Instance.GetInputDir() == Vector2.zero;
         Vector2 dir = components.movement.faceDir;
         string gunName = components.gunHandler.Gun.Name;

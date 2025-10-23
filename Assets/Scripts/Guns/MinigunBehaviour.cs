@@ -4,9 +4,9 @@ using Game.Utils;
 using UnityEngine;
 
 public class MinigunBehaviour : MonoBehaviour, IGunBehaviour {
+    [SerializeField] private MinigunDefinition data;
     [SerializeField] private Transform bulletPref;
     [SerializeField] private Transform shellPref;
-    [SerializeField] private MinigunDefinition data;
     [SerializeField] private AudioClip shootAudio;
     [SerializeField] private AudioClip reloadAudio;
     [SerializeField] private Transform flashPref;
@@ -137,6 +137,7 @@ public class MinigunBehaviour : MonoBehaviour, IGunBehaviour {
         if (CurLevel < maxLevel) {
             CurLevel++;
             CurAmmo = MaxAmmo;
+            HudManager.Instance?.ShowLog(data.gunName + " upgraded to Lv" + CurLevel);
         }
     }
 

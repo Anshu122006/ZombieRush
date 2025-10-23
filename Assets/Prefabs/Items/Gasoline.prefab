@@ -168,11 +168,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35aa99975f2c488478d7ab9f823427ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: gasoline
+  itemName: flamethrower
   pickupAudio: {fileID: 8300000, guid: 81652031b64c342cc8dbc59c138d77c5, type: 3}
   maxItemPerSpawnArea: 3
   speed: 3
   accleration: 0.3
+  stayTime: 7
+  fadeTime: 0.6
+  chance: 0.2
   gunName: flamethrower
   ammoAmount: 10
 --- !u!114 &3989980056586935826

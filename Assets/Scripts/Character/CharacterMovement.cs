@@ -32,7 +32,10 @@ public class CharacterMovement : MonoBehaviour {
     }
 
     private void HandlePlayerMovement() {
-        if (components.statsManager.InReviveStage) return;
+        if (components.statsManager.InReviveStage) {
+            if (rb.linearVelocity.magnitude > 0.1f) rb.linearVelocity = Vector2.zero;
+            return;
+        }
         Vector2 dir = input.GetInputDir();
         float moveDist = Speed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + (dir * moveDist));

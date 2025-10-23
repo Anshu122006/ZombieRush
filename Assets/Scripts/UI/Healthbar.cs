@@ -27,7 +27,6 @@ public class Healthbar : MonoBehaviour {
     }
 
     public IEnumerator FadeAnimation() {
-        Debug.Log("Started");
         foreach (var r in renderers) {
             Color color = r.color;
             r.color = new Color(color.r, color.g, color.b, 0);

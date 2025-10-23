@@ -27,17 +27,15 @@ public class AttackState : EnemyState {
             rb.mass = originalMass * 20f;
             rb.linearDamping = originalDrag + 8f;
         }
-
-        Debug.Log("Entered Attack State");
     }
 
     public override void Update() {
+        Vector2 dir = (aiData.currentTarget.position - enemy.transform.position).normalized;
+        aiData.curDir = dir;
         if (attackCoroutine == null) {
             attackCoroutine = enemy.StartCoroutine(PerformAttack());
             aiData.curDir = Vector2.zero;
         }
-        Vector2 dir = (aiData.currentTarget.position - enemy.transform.position).normalized;
-        aiData.curDir = dir;
     }
 
     public override void Exit() {
@@ -61,12 +59,10 @@ public class AttackState : EnemyState {
         }
 
         isExiting = false;
-        Debug.Log("Exited Attack State");
     }
 
 
     private IEnumerator PerformAttack() {
-        Debug.Log(aiData.currentTarget);
         if (aiData.currentTarget == null) yield break;
         Vector2 dir = (aiData.currentTarget.position - enemy.transform.position).normalized;
 
@@ -74,7 +70,7 @@ public class AttackState : EnemyState {
         aiData.attackPhase = attackType == 1 ? "attack1" : "attack2";
 
         Vector2 center = (Vector2)enemy.transform.position + dir * config.attackOffset;
-        Vector2 size = new Vector2(1, 2) * config.attackRange * 1.5f;
+        Vector2 size = Vector2.one * config.attackRange;
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, Vector2.Angle(Vector2.right, dir), config.targetLayers);
 

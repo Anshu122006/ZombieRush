@@ -23,10 +23,9 @@ public class WanderState : EnemyState {
         targetDir = Vector2.right;
         aiData = enemy.aiData;
         statsData = enemy.statsData;
+        aiData.curState = "wander";
 
-        noise = new FastNoiseLite(config.seed);
-        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
-        Debug.Log("Entered Wander State");
+        SetupNoise();
     }
 
     public override void Update() {
@@ -48,14 +47,13 @@ public class WanderState : EnemyState {
     private IEnumerator ExitDelay() {
         yield return new WaitForSeconds(0);
         isExiting = false;
-        Debug.Log("Exited Wander State");
     }
 
     // To update the direction the zombies is currently pointing to
     private void UpdateTargetDirection() {
         Vector2 pos = enemy.transform.position;
-        float xNoise = noise.GetNoise(pos.x * 0.3f, pos.y * 0.3f);
-        float yNoise = noise.GetNoise((pos.x + 10) * 0.3f, (pos.y + 10) * 0.3f);
+        float xNoise = noise.GetNoise(pos.x * 0.6f, pos.y * 0.8f);
+        float yNoise = noise.GetNoise((pos.x + 30) * 0.8f, (pos.y + 30) * 0.6f);
         targetDir = (targetDir + new Vector2(xNoise, yNoise)).normalized;
 
         float[] danger = new float[8];
@@ -92,5 +90,18 @@ public class WanderState : EnemyState {
             yield return null;
         }
         stepCoroutine = null;
+    }
+
+    private void SetupNoise() {
+        int seed = Random.Range(0, 9999);
+        noise = new FastNoiseLite(seed);
+        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+
+        noise.SetFrequency(0.02f);                   // quite low → slow large changes
+        noise.SetFractalType(FastNoiseLite.FractalType.FBm);
+        noise.SetFractalOctaves(2);                  // few layers → rougher, simpler motion
+        noise.SetFractalGain(0.4f);                  // lower amplitude for finer layers → less jitter
+        noise.SetFractalLacunarity(1.8f);            // moderate frequency increase per octave 
+        noise.SetFractalWeightedStrength(0.0f);
     }
 }

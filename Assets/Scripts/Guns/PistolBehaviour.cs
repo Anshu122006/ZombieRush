@@ -93,19 +93,19 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
 
         if (collider != null) {
             Vector2 end = hit.point;
-            MeshHandler.DrawLineMesh(start, end, 0.03f, 0.008f, 0.012f, shootMaterial);
+            MeshHandler.DrawLineMesh(start, end, 0.03f, 0.01f, 0.016f, shootMaterial, "OnChar");
 
             IStatsManager enemy = collider.GetComponent<IStatsManager>();
             if (enemy != null) {
                 enemy.HandleHitEffects();
-                enemy.TakeDamage(Damage, charStatData.LUCK + Accuracy, out int expDrop);
+                enemy.TakeDamage(Damage, charStatData.LUCK + Accuracy, out int expDrop, charStatData.transform);
                 CharStatManager.AddExp(expDrop);
                 AddExp((int)(expDrop * 1.5f));
             }
         }
         else {
             Vector2 end = start + dir * Range;
-            MeshHandler.DrawLineMesh(start, end, 0.03f, 0.008f, 0.012f, shootMaterial);
+            MeshHandler.DrawLineMesh(start, end, 0.03f, 0.01f, 0.016f, shootMaterial, "OnChar");
         }
     }
 
@@ -142,6 +142,7 @@ public class PistolBehaviour : MonoBehaviour, IGunBehaviour {
         if (CurLevel < maxLevel) {
             CurLevel++;
             packetAmmo = AmmoPerPack;
+            HudManager.Instance?.ShowLog(data.gunName + " upgraded to Lv" + CurLevel);
         }
     }
 

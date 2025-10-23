@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GrenadeBehaviour : MonoBehaviour, IGunBehaviour {
-    [SerializeField] private Transform grenadePref;
     [SerializeField] private GrenadeDefinition data;
+    [SerializeField] private Transform grenadePref;
     [SerializeField] private AudioClip shootAudio;
     [SerializeField] private GunFirePoint firePoint;
 
@@ -120,6 +120,7 @@ public class GrenadeBehaviour : MonoBehaviour, IGunBehaviour {
         if (CurLevel < maxLevel) {
             CurLevel++;
             CurAmmo = MaxAmmo;
+            HudManager.Instance?.ShowLog(data.gunName + " upgraded to Lv" + CurLevel);
         }
     }
 

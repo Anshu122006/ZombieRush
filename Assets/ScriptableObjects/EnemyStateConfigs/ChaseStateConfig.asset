@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: ChaseStateConfig
   m_EditorClassIdentifier: 
   speedFactor: 1.2
-  chaseRadius: 6
+  chaseRadius: 7
   collisionRadius: 0.6
   targetReachedThreshold: 0.6
   acceleration: 50
   deacceleration: 100
-  seed: 12345

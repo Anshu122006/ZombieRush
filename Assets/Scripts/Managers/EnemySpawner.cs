@@ -49,16 +49,15 @@ public class EnemySpawner : MonoBehaviour {
             () => {
                 zombieCount[zombieName]--;
                 GlobalVariables.Instance.ZombieCount--;
+                GlobalVariables.Instance.ZombiesKilled++;
                 zombiesSpawned--;
-                Debug.Log(zombieCount[zombieName]);
-                },
+            },
         };
         Transform zombie = Instantiate(zombiePrefsDict[zombieName], transform.position, Quaternion.identity);
         zombie.GetComponent<EnemyStatsData>().Setup(globalData.curLevel[zombieName], onDestroy);
 
         zombiesSpawned++;
         zombieCount[zombieName]++;
-        Debug.Log(zombieCount[zombieName]);
 
         GlobalVariables.Instance.ZombieCount++;
     }
