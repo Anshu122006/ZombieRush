@@ -178,8 +178,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.4
-      minScalar: 0.1
+      scalar: 0.6
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -349,8 +349,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 0.6
+      scalar: 2
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -727,7 +727,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 2
+    angle: 4.5
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -4944,8 +4944,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8ee00e357659f2448f0db3ad8f06c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emitter: {fileID: 7554151242098394243}
   data: {fileID: 11400000, guid: 42fe44a052b2405458717f020d957544, type: 2}
+  emitter: {fileID: 7554151242098394243}
   firePoint:
     up: {fileID: 7510526720314536932}
     down: {fileID: 9074551217883903562}
@@ -5067,7 +5067,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.35
+      scalar: 0.6
       minScalar: 0.2
       maxCurve:
         serializedVersion: 2
@@ -5238,8 +5238,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.2
-      minScalar: 1
+      scalar: 2.4
+      minScalar: 1.4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5616,7 +5616,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 3.5
+    angle: 6
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1

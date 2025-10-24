@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 28f8f21e7544e7e43a3034f93e74f597, type: 2}
-  shellPref: {fileID: 7430131919485839474, guid: fbca3be44082b59429ae215fd65a1b4a, type: 3}
+  shellPref: {fileID: 7430131919485839474, guid: 892cca497d8d6c54ca02c3c4cac4747f, type: 3}
   shootMaterial: {fileID: 2100000, guid: cb8465a284ef6b94e9eee9ce2cd05374, type: 2}
   shootAudio: {fileID: 8300000, guid: 02842a1b8a7feb5478a8702b780d1520, type: 3}
   reloadAudio: {fileID: 8300000, guid: 95b7cc702d4979a4f89f4fc4b1e77e9c, type: 3}

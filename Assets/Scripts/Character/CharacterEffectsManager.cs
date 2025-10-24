@@ -64,8 +64,9 @@ public class CharacterEffectsManager : MonoBehaviour {
     private void PlayRandomSound() {
         if (randomSoundCoroutine != null) return;
         int chance = Random.Range(1, 101);
-        if (chance < 60) return;
-        AudioClip audioEffect = zombieInRangeSound[Random.Range(0, zombieInRangeSound.Count)];
+        if (chance < 40) return;
+        Debug.Log("Random sound played");
+        AudioClip audioEffect = randomSounds[Random.Range(0, randomSounds.Count)];
         GameAudioManager.Instance.PlaySound(audioEffect, transform.position);
         randomSoundCoroutine = StartCoroutine(DelayRandomSound());
     }
@@ -80,8 +81,7 @@ public class CharacterEffectsManager : MonoBehaviour {
     }
 
     private IEnumerator DelayInRangeSound() {
-        float time = zombieInRangeSound[0].length + Random.Range(zombieInRangeSoundDelay, zombieInRangeSoundDelay + 2f);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(Random.Range(zombieInRangeSoundDelay, zombieInRangeSoundDelay + 2f));
         zombieInRangeCoroutine = null;
     }
 

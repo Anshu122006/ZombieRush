@@ -12,34 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0038190e5a3e8434b87b5560fe5ce03f, type: 3}
   m_Name: Big
   m_EditorClassIdentifier: 
-  enemyName: BigZ
+  enemyName: BIG-Z
   enemyDesc: The Big-Z, don't mess with someone not of your own size.
-  startLevel: 2
-  maxLevel: 99
+  startLevel: 3
+  maxLevel: 70
   maxCountPerSpawnPoint: 3
   expThreshold:
-    init: 20
-    final: 680
+    init: 12
+    final: 450
     pow: 1
   expDrop:
-    init: 10
+    init: 14
     final: 140
     pow: 1
   expGain:
-    init: 6
-    final: 80
+    init: 10
+    final: 160
     pow: 1
   mhp:
-    init: 40
-    final: 800
+    init: 45
+    final: 1200
     pow: 1
   def:
-    init: 3
-    final: 80
+    init: 2
+    final: 140
     pow: 1
   atk:
     init: 8
-    final: 60
+    final: 100
     pow: 1
   atkRate:
     init: 1

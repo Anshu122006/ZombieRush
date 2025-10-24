@@ -5007,8 +5007,8 @@ MonoBehaviour:
   accleration: 0.3
   stayTime: 7
   fadeTime: 0.6
-  chance: 0.2
-  healAmount: 10
+  chance: 0.4
+  healAmount: 20
 --- !u!114 &6377234306850437769
 MonoBehaviour:
   m_ObjectHideFlags: 0

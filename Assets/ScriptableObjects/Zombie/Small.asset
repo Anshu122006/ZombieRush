@@ -12,34 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0038190e5a3e8434b87b5560fe5ce03f, type: 3}
   m_Name: Small
   m_EditorClassIdentifier: 
-  enemyName: Flash
+  enemyName: FLASH
   enemyDesc: Small but deadly.
-  startLevel: 4
-  maxLevel: 99
-  maxCountPerSpawnPoint: 7
+  startLevel: 6
+  maxLevel: 70
+  maxCountPerSpawnPoint: 6
   expThreshold:
-    init: 20
-    final: 580
+    init: 10
+    final: 400
     pow: 1
   expDrop:
-    init: 10
+    init: 12
     final: 140
     pow: 1
   expGain:
-    init: 6
-    final: 80
+    init: 12
+    final: 200
     pow: 1
   mhp:
-    init: 20
-    final: 550
+    init: 25
+    final: 800
     pow: 5
   def:
-    init: 2
-    final: 55
+    init: 1
+    final: 80
     pow: 1
   atk:
     init: 18
-    final: 100
+    final: 200
     pow: 1
   atkRate:
     init: 1
@@ -55,5 +55,5 @@ MonoBehaviour:
     pow: 1
   baseSpeed:
     init: 6
-    final: 8
+    final: 10
     pow: 1

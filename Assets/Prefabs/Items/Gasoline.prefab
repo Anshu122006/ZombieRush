@@ -175,7 +175,7 @@ MonoBehaviour:
   accleration: 0.3
   stayTime: 7
   fadeTime: 0.6
-  chance: 0.2
+  chance: 0.4
   gunName: flamethrower
   ammoAmount: 10
 --- !u!114 &3989980056586935826

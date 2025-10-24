@@ -39,6 +39,18 @@ public class GameAudioManager : MonoBehaviour {
         mainMusicAudioSource.Play();
     }
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void InitializeDefaults() {
+        if (PlayerPrefs.HasKey(PrefKeys.HasRunBefore)) return;
+
+        PlayerPrefs.SetFloat(PrefKeys.musicVolume, 1);
+        PlayerPrefs.SetFloat(PrefKeys.sfxVolume, 1);
+        PlayerPrefs.SetInt(PrefKeys.showHud, 1);
+
+        PlayerPrefs.SetInt(PrefKeys.HasRunBefore, 1);
+        PlayerPrefs.Save();
+    }
+
     /// <summary>
     /// Plays a sound at a specific world position.
     /// </summary>

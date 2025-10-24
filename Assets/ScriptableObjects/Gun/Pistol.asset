@@ -15,7 +15,7 @@ MonoBehaviour:
   gunName: pistol
   gunSprite: {fileID: 21300000, guid: 5c9464f002395be47ac6cf8ac473fe25, type: 3}
   startLevel: 1
-  maxLevel: 99
+  maxLevel: 70
   expThreshold:
     init: 8
     final: 200

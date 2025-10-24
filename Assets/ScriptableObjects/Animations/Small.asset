@@ -14,23 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idle:
     up: {fileID: 7400000, guid: 742f5cfdaa1b8ff4b8c25baa2a2f6332, type: 2}
-    down: {fileID: 7400000, guid: 69dbde8a423c0ec4297dd19f5cce539b, type: 2}
-    right: {fileID: 7400000, guid: 6222b5a2c684f544a92b51a852d3294a, type: 2}
-    left: {fileID: 7400000, guid: db7e0992d7c3ea04482f91b857973ec9, type: 2}
+    down: {fileID: 7400000, guid: 5930941a28c34214a94b83562e7c7550, type: 2}
+    right: {fileID: 7400000, guid: 1592b06d4920cdd4fb83f8d9dccb586d, type: 2}
+    left: {fileID: 7400000, guid: ca3a27bb3480bba4c9528ca50b3b4b22, type: 2}
   walk:
-    up: {fileID: 7400000, guid: 32aece0c47a4d3340a2ea4c270aff440, type: 2}
-    down: {fileID: 7400000, guid: 5312bb715a0125041ae0aec61a8b3bed, type: 2}
-    right: {fileID: 7400000, guid: e00fd114e2fe9084ab9380cdbe322370, type: 2}
-    left: {fileID: 7400000, guid: 426ad860d1e6f7449a8743b02edcf013, type: 2}
+    up: {fileID: 7400000, guid: ea64d543e7caff24fb3cfb5d3cbfcfb0, type: 2}
+    down: {fileID: 7400000, guid: 85104a3bc6407554592001daa88c2199, type: 2}
+    right: {fileID: 7400000, guid: d85ba33b1cf625146bfbcbaa907e4273, type: 2}
+    left: {fileID: 7400000, guid: 309bd44b7f791e847ba8d816640b7310, type: 2}
   attack1:
-    up: {fileID: 7400000, guid: b107af15d3eaf964588d0cd1017b7f1e, type: 2}
-    down: {fileID: 7400000, guid: f7e610147ea15a74f9cf2aff82a19ca2, type: 2}
-    right: {fileID: 7400000, guid: 4c7e2ab26a0082f4ba9a22561bd174bd, type: 2}
-    left: {fileID: 7400000, guid: 134b7a9713b4125418f330be0de314ec, type: 2}
+    up: {fileID: 7400000, guid: ee1718b1f342ba34998741342a9b4fe3, type: 2}
+    down: {fileID: 7400000, guid: 5c04c9f064ed4d9409064c3a014bcd42, type: 2}
+    right: {fileID: 7400000, guid: d4906778d060c4f46a156b844207129e, type: 2}
+    left: {fileID: 7400000, guid: 53c0c6f8fc3898449b0ff1300fc46458, type: 2}
   attack2:
-    up: {fileID: 7400000, guid: 7aa226a7a771b5448b8944922f919219, type: 2}
-    down: {fileID: 7400000, guid: 84d76b1cbbdb30d418ce7a9f7cce50cd, type: 2}
-    right: {fileID: 7400000, guid: cbeec00442eca984a9808b00c6153224, type: 2}
-    left: {fileID: 7400000, guid: 3374c89549e13904fb329570f851cc64, type: 2}
-  deathLeft: {fileID: 7400000, guid: e5608e568e69e894daaf92aaea20f610, type: 2}
-  deathRight: {fileID: 7400000, guid: 970035b2c9102454888cfa27cc9fc834, type: 2}
+    up: {fileID: 7400000, guid: 6625d4717926dcc4b8c8b9cef1e562f7, type: 2}
+    down: {fileID: 7400000, guid: e4f1143c9e0fe944db4ee435ddf7744b, type: 2}
+    right: {fileID: 7400000, guid: 250e377f67cd9a148b2f111284591785, type: 2}
+    left: {fileID: 7400000, guid: aecbbb04382e61a4d994cd9f7aa3ad4b, type: 2}
+  deathLeft: {fileID: 7400000, guid: a85d87f76ab1fbc42917a58640179be9, type: 2}
+  deathRight: {fileID: 7400000, guid: 4780f4ccb1b8d314f9f668b1eb3daa52, type: 2}

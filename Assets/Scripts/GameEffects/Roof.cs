@@ -11,7 +11,6 @@ public class Roof : MonoBehaviour {
     private Coroutine enterSoundCoroutine;
 
     private void OnTriggerEnter2D(Collider2D collider) {
-        Debug.Log(collider);
         if ((targetLayers & (1 << collider.gameObject.layer)) != 0) {
             Debug.Log("invisible");
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();

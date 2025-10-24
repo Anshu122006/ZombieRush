@@ -12,37 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0038190e5a3e8434b87b5560fe5ce03f, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: 
-  enemyName: Butcher
+  enemyName: BUTCHER
   enemyDesc: 'It is called the terror of the night, if you see
 
     someone with
     an axe in the night run the otherway.'
   startLevel: 1
-  maxLevel: 99
+  maxLevel: 70
   maxCountPerSpawnPoint: 6
   expThreshold:
-    init: 20
-    final: 600
+    init: 10
+    final: 400
     pow: 1
   expDrop:
-    init: 6
-    final: 100
+    init: 12
+    final: 120
     pow: 1
   expGain:
-    init: 6
-    final: 80
+    init: 10
+    final: 180
     pow: 1
   mhp:
     init: 30
-    final: 600
+    final: 800
     pow: 1
   def:
-    init: 2
-    final: 60
+    init: 1
+    final: 100
     pow: 1
   atk:
     init: 10
-    final: 70
+    final: 140
     pow: 1
   atkRate:
     init: 1

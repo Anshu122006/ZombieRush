@@ -40,8 +40,7 @@ public class EnemyAnimation : MonoBehaviour {
         if (isDead) return;
 
         Vector2 dir = aiData.curDir;
-        if (Mathf.Abs(dir.y) > Mathf.Abs(dir.x)) dir = new Vector2(0, dir.y).normalized;
-        else dir = new Vector2(dir.x, 0).normalized;
+        dir = SnapDir(dir);
 
         string curState = aiData.curState;
         if (curState != "attack") {
@@ -81,6 +80,24 @@ public class EnemyAnimation : MonoBehaviour {
             currAnimation = newAnimation;
             animator.CrossFade(currAnimation, 0.1f);
         }
+    }
+
+    private Vector2 SnapDir(Vector2 dir) {
+        if (dir == Vector2.zero) return Vector2.zero;
+        dir.Normalize();
+
+        Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+        Vector2 bestDir = Vector2.right;
+        float maxDot = -1f;
+
+        foreach (var d in directions) {
+            float dot = Vector2.Dot(dir, d);
+            if (dot > maxDot) {
+                maxDot = dot;
+                bestDir = d;
+            }
+        }
+        return bestDir;
     }
 
     private AnimationClip GetAnimationClip(Vector2 dir, string animationName) {

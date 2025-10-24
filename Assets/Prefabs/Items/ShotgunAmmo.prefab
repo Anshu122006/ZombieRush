@@ -175,7 +175,7 @@ MonoBehaviour:
   accleration: 0.3
   stayTime: 7
   fadeTime: 0.6
-  chance: 0.3
+  chance: 0.4
   gunName: shotgun
   ammoAmount: 10
 --- !u!114 &-24024878186917072

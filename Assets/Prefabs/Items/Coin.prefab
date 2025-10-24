@@ -227,7 +227,7 @@ MonoBehaviour:
   accleration: 0.3
   stayTime: 10
   fadeTime: 0.6
-  chance: 0.4
+  chance: 0.6
   goldAmount: 10
 --- !u!95 &1312364084607761052
 Animator:

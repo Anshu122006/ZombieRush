@@ -125,11 +125,12 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
     public void LevelUp() {
         if (CurLevel < maxLevel) {
             CurLevel++;
-            CurAmmo = 100;
             emitter.GetComponent<Emitter>().UpdateStats(Damage, Accuracy, FireDelay, Range, (expDrop) => {
                 AddExp(expDrop);
                 CharStatManager.AddExp(expDrop);
             });
+            HudManager.Instance.UpdateGunLevel(this);
+            HudManager.Instance.UpdateAmmo(this);
             HudManager.Instance?.ShowLog(data.gunName + " upgraded to Lv" + CurLevel);
         }
     }

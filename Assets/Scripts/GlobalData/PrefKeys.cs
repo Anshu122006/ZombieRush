@@ -19,4 +19,6 @@ public static class PrefKeys {
     public static string HighestMaxLevel = "HighestMaxLevel";
     public static string HighestKills = "HighestKills";
     public static string HighestGold = "HighestScore";
+
+    public static string HasRunBefore = "HasRunBefore";
 }

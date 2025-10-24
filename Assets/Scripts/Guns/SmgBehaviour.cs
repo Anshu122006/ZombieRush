@@ -88,6 +88,10 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
                 delayShootCoroutine = StartCoroutine(DelayShoot(false));
                 packetAmmo--;
             }
+
+            Debug.Log(AmmoPerPack);
+            Debug.Log(MaxAmmo);
+            Debug.Log(CurLevel);
         }
     }
 
@@ -112,7 +116,7 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
             IStatsManager enemy = collider.GetComponent<IStatsManager>();
             if (enemy != null) {
                 enemy.HandleHitEffects();
-                enemy.TakeDamage(Damage, charStatData.LUCK + Accuracy, out int expDrop,transform);
+                enemy.TakeDamage(Damage, charStatData.LUCK + Accuracy, out int expDrop, transform);
                 CharStatManager.AddExp(expDrop);
                 AddExp((int)(expDrop * 1.5f));
             }
@@ -155,7 +159,8 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
     public void LevelUp() {
         if (CurLevel < maxLevel) {
             CurLevel++;
-            CurAmmo = MaxAmmo;
+            HudManager.Instance.UpdateGunLevel(this);
+            HudManager.Instance.UpdateAmmo(this);
             HudManager.Instance?.ShowLog(data.gunName + " upgraded to Lv" + CurLevel);
         }
     }

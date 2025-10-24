@@ -34,7 +34,6 @@ public class AttackState : EnemyState {
         aiData.curDir = dir;
         if (attackCoroutine == null) {
             attackCoroutine = enemy.StartCoroutine(PerformAttack());
-            aiData.curDir = Vector2.zero;
         }
     }
 

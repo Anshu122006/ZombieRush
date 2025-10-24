@@ -158,7 +158,8 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
     public void LevelUp() {
         if (CurLevel < maxLevel) {
             CurLevel++;
-            CurAmmo = MaxAmmo;
+            HudManager.Instance.UpdateGunLevel(this);
+            HudManager.Instance.UpdateAmmo(this);
             HudManager.Instance?.ShowLog(data.gunName + " upgraded to Lv" + CurLevel);
         }
     }

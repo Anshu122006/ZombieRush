@@ -21,10 +21,10 @@ MonoBehaviour:
   side: {fileID: -4701440625830361436, guid: 30003467fd8a14d4d8167919798949a7, type: 3}
   startLevel: 1
   maxLevel: 99
-  maxLives: 1
+  maxLives: 6
   expThreshold:
     init: 20
-    final: 700
+    final: 600
     pow: 1
   mhp:
     init: 100

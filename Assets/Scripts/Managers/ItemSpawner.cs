@@ -73,7 +73,7 @@ public class ItemSpawner : MonoBehaviour {
         List<string> unlocked = globalData.UnlockedItems.FindAll(z => itemCount[z] < itemPrefsDict[z].GetComponent<IItem>().MaxItemPerSpawnArea);
         if (unlocked.Count == 0) return;
 
-        float prob = UnityEngine.Random.Range(0f, 1.4f);
+        float prob = UnityEngine.Random.Range(0f, 1.2f);
         float curProb = 0;
         string itemName = "";
         for (int i = 0; i < unlocked.Count; i++) {

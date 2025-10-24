@@ -54,6 +54,8 @@ public class GameMenuManager : MonoBehaviour {
 
         musicSlider.value = PlayerPrefs.GetFloat(PrefKeys.musicVolume);
         sfxSlider.value = PlayerPrefs.GetFloat(PrefKeys.sfxVolume);
+        fullscreenText.text = Screen.fullScreen ? "ON" : "OFF";
+        hudText.text = PlayerPrefs.GetInt(PrefKeys.showHud) == 1 ? "ON" : "OFF";
 
         input.OnPausePerformed += OnPausePressed;
     }
@@ -104,7 +106,6 @@ public class GameMenuManager : MonoBehaviour {
     }
 
     public void ToggleHud() {
-        Debug.Log("Hud clicked");
         bool showHud = PlayerPrefs.GetInt(PrefKeys.showHud) == 1;
         if (showHud) PlayerPrefs.SetInt(PrefKeys.showHud, 0);
         else PlayerPrefs.SetInt(PrefKeys.showHud, 1);

@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fe6640d03a111446900d693366ff521, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
-  gunName: Unnamed Gun
-  gunSprite: {fileID: 0}
-  startLevel: 1
-  maxLevel: 10
+  gunName: shotgun
+  gunSprite: {fileID: 21300000, guid: 698cbe8cd05f32e4e998cf2be835eaad, type: 3}
+  startLevel: 3
+  maxLevel: 70
   expThreshold:
-    init: 10
-    final: 250
+    init: 15
+    final: 300
     pow: 1
   damage:
-    init: 14
+    init: 16
     final: 160
     pow: 1
   accuracy:
@@ -41,11 +41,11 @@ MonoBehaviour:
     final: 3
     pow: 1
   maxPackets:
-    init: 6
-    final: 20
+    init: 4
+    final: 15
     pow: 1
   ammoPerPacket:
-    init: 6
+    init: 4
     final: 20
     pow: 1
   reloadTime:

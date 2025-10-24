@@ -110,9 +110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0c48d6b1043a648bbaf4ca3bb71a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPref: {fileID: 682604273177436234, guid: 0a2d135d4262a04488a2368bcd14d796, type: 3}
-  shellPref: {fileID: 7430131919485839474, guid: fbca3be44082b59429ae215fd65a1b4a, type: 3}
   data: {fileID: 11400000, guid: a48ca62c9157cad4c8343bb3977e5839, type: 2}
+  bulletPref: {fileID: 682604273177436234, guid: 0a2d135d4262a04488a2368bcd14d796, type: 3}
+  shellPref: {fileID: 7430131919485839474, guid: 892cca497d8d6c54ca02c3c4cac4747f, type: 3}
   shootAudio: {fileID: 8300000, guid: 3061c7b9b32d894478e4126ccce25ca3, type: 3}
   reloadAudio: {fileID: 8300000, guid: 7b09012a5b579d84789bd1b7bf69caa6, type: 3}
   flashPref: {fileID: 603463458056341378, guid: 250e7d4a0823fdb44bd1710ec88b04c9, type: 3}

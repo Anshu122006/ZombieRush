@@ -11,7 +11,7 @@ public class LoaderCallback : MonoBehaviour {
     public GameObject loadingMenu;
     public Slider loadingBar;
     public TextMeshProUGUI loadPromptText;
-    public KeyCode userPromptKey = KeyCode.Space;
+    public KeyCode userPromptKey = KeyCode.Return;
 
     [Header("LOADING SETTINGS")]
     public float baseDelay = 0.3f;
@@ -47,7 +47,8 @@ public class LoaderCallback : MonoBehaviour {
             if (sceneProgress >= 1f && elapsedTime >= baseDelay) {
                 if (waitForInput) {
                     loadPromptText.gameObject.SetActive(true);
-                    loadPromptText.text = $"Press [{userPromptKey}] to continue";
+                    string key = (userPromptKey == KeyCode.Return) ? "Enter" : userPromptKey.ToString();
+                    loadPromptText.text = $"Press [{key}] to continue";
                     yield return new WaitUntil(() => Input.GetKeyDown(userPromptKey));
                 }
 

@@ -489,13 +489,13 @@ MonoBehaviour:
   detectionRate: 0.1
   detectionRange: 6
   torchFlickerDelay: 3
-  randomSoundDelay: 3
+  randomSoundDelay: 6
   zombieEnterSoundDelay: 3
-  zombieExitSoundDelay: 6
-  zombieInRangeSoundDelay: 2
-  flickerSpeed: 0.3
-  minIntensity: 0.3
-  originalIntensity: 0.4
+  zombieExitSoundDelay: 3
+  zombieInRangeSoundDelay: 6
+  flickerSpeed: 0.03
+  minIntensity: 0.1
+  originalIntensity: 0.6
   zombieLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7059322713451897109}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
@@ -531,9 +531,9 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 1
+  m_FalloffIntensity: 0.6
   m_Color: {r: 1, g: 0.9837364, b: 0.9037736, a: 1}
-  m_Intensity: 0.7
+  m_Intensity: 0.6
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 0000000017b9388b4ba131057d4193ac916c5615
@@ -557,7 +557,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 35
+  m_PointLightOuterRadius: 10
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
