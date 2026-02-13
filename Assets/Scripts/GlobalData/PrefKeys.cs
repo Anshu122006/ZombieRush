@@ -4,6 +4,7 @@ public static class PrefKeys {
     public static string musicVolume = "MusicVolume";
     public static string sfxVolume = "SfxVolume";
     public static string fullscreen = "Fullscreen";
+    public static string mouseAim = "MouseAim";
 
     public static string CurMapName = "CurMapName";
 

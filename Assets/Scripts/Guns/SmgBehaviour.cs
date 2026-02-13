@@ -88,10 +88,6 @@ public class SmgBehaviour : MonoBehaviour, IGunBehaviour {
                 delayShootCoroutine = StartCoroutine(DelayShoot(false));
                 packetAmmo--;
             }
-
-            Debug.Log(AmmoPerPack);
-            Debug.Log(MaxAmmo);
-            Debug.Log(CurLevel);
         }
     }
 

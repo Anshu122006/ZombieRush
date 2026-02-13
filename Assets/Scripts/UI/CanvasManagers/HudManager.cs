@@ -32,6 +32,8 @@ public class HudManager : MonoBehaviour {
     }
 
     public void UpdateLives(int val) {
+        Debug.Log(lives.Count);
+        Debug.Log(val);
         for (int i = 0; i < lives.Count; i++) {
             if (i < val) lives[i].color = Color.white;
             else lives[i].color = Color.black;

@@ -43,8 +43,31 @@ public class CharacterMovement : MonoBehaviour {
 
     private void SetFaceDir() {
         if (components.statsManager.InReviveStage) return;
-        Vector2 dir = input.GetInputDir();
-        if (dir == Vector2.zero || dir == faceDir) return;
-        faceDir = dir;
+        // bool isMouseBased = GlobalVariables.Instance.isMouseBased();
+        bool isShooting = GameInputManager.Instance.IsShooting();
+        if (isShooting) {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 pointDir = SnapVector((mousePos - (Vector2)transform.position).normalized);
+            Vector2 inputDir = input.GetInputDir();
+            if (Vector2.Dot(pointDir, inputDir) != 0) {
+                faceDir = pointDir;
+            }
+            else {
+                if (inputDir == Vector2.zero || inputDir == faceDir) return;
+                faceDir = inputDir;
+            }
+        }
+        else {
+            Vector2 dir = input.GetInputDir();
+            if (dir == Vector2.zero || dir == faceDir) return;
+            faceDir = dir;
+        }
+    }
+
+    private Vector2 SnapVector(Vector2 vec) {
+        if (Vector2.Angle(vec, Vector2.up) <= 45) return Vector2.up;
+        else if (Vector2.Angle(vec, Vector2.down) <= 45) return Vector2.down;
+        else if (Vector2.Angle(vec, Vector2.left) <= 45) return Vector2.left;
+        else return Vector2.right;
     }
 }

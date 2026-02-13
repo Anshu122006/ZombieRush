@@ -14,27 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: grenade
   gunSprite: {fileID: 21300000, guid: c5002722fe2bc214c8d12a4c73d08c7e, type: 3}
-  startLevel: 8
+  startLevel: 12
   maxLevel: 70
   expThreshold:
-    init: 20
-    final: 350
+    init: 10
+    final: 250
     pow: 1
   damage:
-    init: 18
-    final: 200
+    init: 24
+    final: 240
     pow: 1
   accuracy:
-    init: 8
-    final: 60
+    init: 18
+    final: 100
     pow: 1
   range:
     init: 6
     final: 12
     pow: 1
   fireDelay:
-    init: 1.5
-    final: 0.8
+    init: 1.2
+    final: 0.6
     pow: 1
   weight:
     init: 5
@@ -50,5 +50,5 @@ MonoBehaviour:
     pow: 1
   explosionRadius:
     init: 2
-    final: 6
+    final: 4
     pow: 1

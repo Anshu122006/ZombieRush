@@ -21,28 +21,28 @@ MonoBehaviour:
   maxLevel: 70
   maxCountPerSpawnPoint: 6
   expThreshold:
-    init: 10
-    final: 400
+    init: 3
+    final: 120
     pow: 1
   expDrop:
-    init: 12
-    final: 120
+    init: 20
+    final: 140
     pow: 1
   expGain:
     init: 10
     final: 180
     pow: 1
   mhp:
-    init: 30
-    final: 800
+    init: 40
+    final: 1200
     pow: 1
   def:
-    init: 1
-    final: 100
+    init: 3
+    final: 120
     pow: 1
   atk:
-    init: 10
-    final: 140
+    init: 14
+    final: 180
     pow: 1
   atkRate:
     init: 1
@@ -57,6 +57,6 @@ MonoBehaviour:
     final: 30
     pow: 1
   baseSpeed:
-    init: 4
-    final: 6
+    init: 6
+    final: 10
     pow: 1

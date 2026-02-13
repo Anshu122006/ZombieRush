@@ -197,7 +197,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Shock Wave 8_0: -5212834512583415558
+      Shock Wave 8_1: -3070319194112193140
+      Shock Wave 8_2: -1114828772448985040
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

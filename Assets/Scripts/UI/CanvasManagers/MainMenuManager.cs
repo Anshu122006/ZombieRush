@@ -28,7 +28,8 @@ public class MainMenuManager : MonoBehaviour {
     public GameObject playMenu;
     public GameObject exitMenu;
     public TextMeshProUGUI hudText;
-    public TextMeshProUGUI fullscreen;
+    public TextMeshProUGUI fullscreenText;
+    public TextMeshProUGUI mouseAimText;
     public Slider musicSlider;
     public Slider sfxSlider;
     public Image flashOverlay;
@@ -59,6 +60,9 @@ public class MainMenuManager : MonoBehaviour {
 
         musicSlider.value = PlayerPrefs.GetFloat(PrefKeys.musicVolume);
         sfxSlider.value = PlayerPrefs.GetFloat(PrefKeys.sfxVolume);
+        fullscreenText.text = Screen.fullScreen ? "ON" : "OFF";
+        hudText.text = PlayerPrefs.GetInt(PrefKeys.showHud) == 1 ? "ON" : "OFF";
+        mouseAimText.text = PlayerPrefs.GetInt(PrefKeys.mouseAim) == 1 ? "ON" : "OFF";
 
         SetThemeColors();
         InvokeRepeating("RandomFlickEffect", 0.3f, checkRate);
@@ -144,7 +148,7 @@ public class MainMenuManager : MonoBehaviour {
     public void ToggleFullscreen() {
         Screen.fullScreen = !Screen.fullScreen;
         PlayerPrefs.SetInt(PrefKeys.fullscreen, Screen.fullScreen ? 1 : 0);
-        fullscreen.text = Screen.fullScreen ? "ON" : "OFF";
+        fullscreenText.text = Screen.fullScreen ? "ON" : "OFF";
     }
 
     public void ToggleHud() {
@@ -153,6 +157,16 @@ public class MainMenuManager : MonoBehaviour {
         else PlayerPrefs.SetInt(PrefKeys.showHud, 1);
         showHud = PlayerPrefs.GetInt(PrefKeys.showHud) == 1;
         hudText.text = showHud ? "ON" : "OFF";
+    }
+
+    public void ToggleMouseAim() {
+        bool mouseAim = PlayerPrefs.GetInt(PrefKeys.mouseAim) == 1;
+        if (mouseAim) PlayerPrefs.SetInt(PrefKeys.mouseAim, 0);
+        else PlayerPrefs.SetInt(PrefKeys.mouseAim, 1);
+        GlobalVariables.Instance?.SwitchControlType();
+        mouseAim = !mouseAim;
+        Debug.Log(mouseAim);
+        mouseAimText.text = mouseAim ? "ON" : "OFF";
     }
 
     // audio sliders

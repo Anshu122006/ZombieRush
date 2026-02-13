@@ -65,7 +65,7 @@ public class CharacterEffectsManager : MonoBehaviour {
         if (randomSoundCoroutine != null) return;
         int chance = Random.Range(1, 101);
         if (chance < 40) return;
-        Debug.Log("Random sound played");
+        // Debug.Log("Random sound played");
         AudioClip audioEffect = randomSounds[Random.Range(0, randomSounds.Count)];
         GameAudioManager.Instance.PlaySound(audioEffect, transform.position);
         randomSoundCoroutine = StartCoroutine(DelayRandomSound());

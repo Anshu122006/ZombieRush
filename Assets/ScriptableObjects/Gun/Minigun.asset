@@ -14,27 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: minigun
   gunSprite: {fileID: 21300000, guid: 790cb054b91234345b086a37284b51b9, type: 3}
-  startLevel: 10
+  startLevel: 15
   maxLevel: 70
   expThreshold:
-    init: 20
-    final: 350
+    init: 15
+    final: 260
     pow: 1
   damage:
-    init: 12
-    final: 160
+    init: 14
+    final: 200
     pow: 1
   accuracy:
-    init: 8
-    final: 60
+    init: 14
+    final: 100
     pow: 1
   range:
     init: 6
     final: 12
     pow: 1
   fireDelay:
-    init: 0.3
-    final: 0.03
+    init: 0.2
+    final: 0.02
     pow: 1
   weight:
     init: 6

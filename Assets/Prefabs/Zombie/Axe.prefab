@@ -215,8 +215,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.038796853, y: -0.21846507}
-  m_Size: {x: 0.46851397, y: 1.2230719}
+  m_Offset: {x: 0.016953448, y: -0.1638563}
+  m_Size: {x: 0.67238814, y: 1.3322903}
   m_Direction: 0
 --- !u!114 &2680961399802763192
 MonoBehaviour:
@@ -236,8 +236,8 @@ MonoBehaviour:
   statsManager: {fileID: 5498166962378646876}
   wanderStateConfig: {fileID: 11400000, guid: 900f4ffc6b0e51a4eb851c5414d3bfc6, type: 2}
   chaseStateConfig: {fileID: 11400000, guid: 8db378368adf10a499f1e9c3dc920579, type: 2}
-  attackStateConfig: {fileID: 11400000, guid: 262360da28e06d147b33f80ec1311662, type: 2}
-  deathStateConfig: {fileID: 0}
+  attackStateConfig: {fileID: 11400000, guid: f3a83448460322548810ce56dc508b3c, type: 2}
+  deathStateConfig: {fileID: 11400000, guid: dcbb6e02a740eed438fc8bbc51319d0f, type: 2}
   detectors:
   - {fileID: 5705546690894233437}
   - {fileID: 6269107749209105201}

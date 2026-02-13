@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eee91b3541568594c9c4eed85aeadf06, type: 3}
-  m_Name: WanderStateConfig
+  m_Script: {fileID: 11500000, guid: f17be3d1c73395243942cf07d2947cfe, type: 3}
+  m_Name: Axe
   m_EditorClassIdentifier: 
-  speedFactor: 0.8
-  wanderRadius: 10
-  collisionRadius: 1
+  speedFactor: 1.4
+  chaseRadius: 7
+  collisionRadius: 0.8
+  targetReachedThreshold: 1
   acceleration: 50
   deacceleration: 100
-  moveDuration: 0.2
-  waitDuration: 0.4

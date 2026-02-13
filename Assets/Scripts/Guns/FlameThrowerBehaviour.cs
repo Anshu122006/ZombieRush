@@ -33,6 +33,7 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
             return (int)curFuel;
         }
         set {
+            curFuel = Mathf.Clamp(value, 0, 100);
             HudManager.Instance?.UpdateAmmo(this);
         }
     }
@@ -67,12 +68,12 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.U)) {
-            LevelUp();
-        }
+        // if (Input.GetKeyDown(KeyCode.U)) {
+        //     LevelUp();
+        // }
     }
 
-    public void Refill(int amount) => CurAmmo = Mathf.Clamp(CurAmmo + amount, 0, 100);
+    public void Refill(int amount) => CurAmmo += amount;
 
     public void Shoot(Vector2 dir) {
         if (CurAmmo <= 5) {
@@ -80,8 +81,8 @@ public class FlameThrowerBehaviour : MonoBehaviour, IGunBehaviour {
             return;
         }
         Vector2 start = GetFirePosition(dir);
-        emitter.GetComponent<Emitter>().StartEmitting(start, dir);
-        emitter.GetComponent<Emitter>().UpdateDirecttion(start, dir);
+        emitter.GetComponent<Emitter>().UpdateDirection(start, dir);
+        emitter.GetComponent<Emitter>().StartEmitting();
         if (delayShootCoroutine == null) {
             curFuel = Mathf.Clamp(curFuel - FuelConsumptionRate, 0, 100);
             CurAmmo = (int)curFuel;

@@ -14,27 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: smg
   gunSprite: {fileID: 21300000, guid: 659505c9be6b5fb43ab9eb603e55c438, type: 3}
-  startLevel: 2
+  startLevel: 6
   maxLevel: 70
   expThreshold:
-    init: 15
-    final: 300
+    init: 12
+    final: 220
     pow: 1
   damage:
     init: 10
-    final: 140
+    final: 160
     pow: 1
   accuracy:
-    init: 8
-    final: 60
+    init: 12
+    final: 80
     pow: 1
   range:
     init: 6
     final: 12
     pow: 1
   fireDelay:
-    init: 0.4
-    final: 0.04
+    init: 0.3
+    final: 0.03
     pow: 1
   weight:
     init: 3

@@ -18,7 +18,7 @@ public class ItemsGlobalData : MonoBehaviour {
 
     private void Start() {
         foreach (IItem item in prefs) {
-            data[item.Name] = item;
+            data[item.ItemName] = item;
             totalProb += item.chance;
         }
         if (totalProb == 0) totalProb = 1;

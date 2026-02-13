@@ -77,8 +77,8 @@ public class ShotgunBehaviour : MonoBehaviour, IGunBehaviour {
         if (CurAmmo < 1) return;
         Debug.Log(CurAmmo);
         if (delayShootCoroutine == null) {
-            int c = Mathf.Max(PelletsPerShot, packetAmmo);
-            int n = Random.Range(1, c);
+            int n = Random.Range(1, PelletsPerShot);
+            if (packetAmmo < n) n = packetAmmo;
             ShowMuzzleFlash(dir);
             for (int i = 0; i < n; i++) {
                 RaycastBullet(dir);

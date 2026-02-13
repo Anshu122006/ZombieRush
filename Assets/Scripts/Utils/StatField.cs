@@ -14,6 +14,7 @@ public class StatField<Tval, Tpow> {
     }
 
     public Tval EvaluateStat(int curLevel, int maxLevel) {
+        if (maxLevel == 0) maxLevel = 1;
         curLevel = Mathf.Clamp(curLevel, 0, maxLevel);
         float t = Mathf.Pow((float)curLevel / maxLevel, System.Convert.ToSingle(this.pow));
 

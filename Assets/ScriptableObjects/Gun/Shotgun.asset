@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: shotgun
   gunSprite: {fileID: 21300000, guid: 698cbe8cd05f32e4e998cf2be835eaad, type: 3}
-  startLevel: 3
+  startLevel: 6
   maxLevel: 70
   expThreshold:
-    init: 15
-    final: 300
+    init: 12
+    final: 220
     pow: 1
   damage:
-    init: 16
-    final: 160
+    init: 14
+    final: 180
     pow: 1
   accuracy:
     init: 8
@@ -33,8 +33,8 @@ MonoBehaviour:
     final: 8
     pow: 1
   fireDelay:
-    init: 1.2
-    final: 0.2
+    init: 1
+    final: 0.1
     pow: 1
   weight:
     init: 5

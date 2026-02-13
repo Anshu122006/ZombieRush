@@ -79,8 +79,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1399635587
-  m_SortingLayer: 3
+  m_SortingLayerID: 87138635
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9b183b3d9a7f4aa42aecbea4fcd27ba2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -177,7 +177,7 @@ MonoBehaviour:
   fadeTime: 0.6
   chance: 0.4
   gunName: flamethrower
-  ammoAmount: 10
+  ammoAmount: 20
 --- !u!114 &3989980056586935826
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ public class ItemSpawner : MonoBehaviour {
         globalData = ItemsGlobalData.Instance;
 
         foreach (var item in itemPrefs) {
-            string itemName = item.GetComponent<IItem>().Name;
+            string itemName = item.GetComponent<IItem>().ItemName;
             itemPrefsDict[itemName] = item;
             itemCount[itemName] = 0;
         }
@@ -47,7 +47,6 @@ public class ItemSpawner : MonoBehaviour {
                 isOccupied.Add(false);
             }
         }
-
         delayCoroutine = StartCoroutine(DelaySpawn());
     }
 

@@ -9,9 +9,9 @@ public abstract class IItem : MonoBehaviour {
     [SerializeField] protected float speed = 3;
     [SerializeField] protected float accleration = 0.3f;
     [SerializeField] protected float stayTime = 2f;
-    [SerializeField] protected float fadeTime = 0.6f;
+    [SerializeField] protected float fadeTime = 0.03f;
 
-    public string Name => itemName;
+    public string ItemName => itemName;
     public float chance = 0.1f;
     public int MaxItemPerSpawnArea => maxItemPerSpawnArea;
     public Action onDestroyed;
@@ -30,7 +30,7 @@ public abstract class IItem : MonoBehaviour {
 
     private void FixedUpdate() {
         if (target == null) return;
-        if (Vector2.Distance(target.position, transform.position) > 1f) {
+        if (Vector2.Distance(target.position, transform.position) > 0.8f) {
             Vector2 dir = (target.position - transform.position).normalized;
             float dist = speed * Time.fixedDeltaTime;
             rb.MovePosition((Vector2)transform.position + dir * dist);
@@ -50,7 +50,6 @@ public abstract class IItem : MonoBehaviour {
     }
 
     protected void DestroySelf() {
-        onDestroyed?.Invoke();
         destroyed = true;
         OnCollect(target.GetComponent<CharacterComponents>());
         GameAudioManager.Instance.PlaySound(pickupAudio, transform.position);
@@ -74,6 +73,8 @@ public abstract class IItem : MonoBehaviour {
             yield return null;
         }
         spriteRenderer.color = new Color(color.r, color.g, color.b, 0);
+
+        onDestroyed?.Invoke();
         Destroy(gameObject);
     }
 }

@@ -872,7 +872,37 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      blood - right 1_0: -7336506510412476426
+      blood - right 1_1: 7035682538281487583
+      blood - right 1_10: -4788357366121104632
+      blood - right 1_11: -2488442803822426042
+      blood - right 1_12: 7257381640184513880
+      blood - right 1_13: 1592427856532025339
+      blood - right 1_14: -1268717704111855543
+      blood - right 1_15: -3987586899009512491
+      blood - right 1_16: 6963095524289565475
+      blood - right 1_17: -3940635289894962717
+      blood - right 1_18: -1754385366164592689
+      blood - right 1_19: 3265940205753737247
+      blood - right 1_2: -188996038136595501
+      blood - right 1_20: -9077399353713811176
+      blood - right 1_21: 8902081967066592556
+      blood - right 1_22: 4140778828938147327
+      blood - right 1_23: 2124920323471728836
+      blood - right 1_24: -3249313626593471425
+      blood - right 1_25: -1985397450066528438
+      blood - right 1_26: -13445719878063234
+      blood - right 1_27: 5413737445454756522
+      blood - right 1_28: -1473955904547097319
+      blood - right 1_29: -3455429351519313479
+      blood - right 1_3: 4784968139454420541
+      blood - right 1_4: 6192467095571555035
+      blood - right 1_5: 1610197959838507024
+      blood - right 1_6: -4855575508499350106
+      blood - right 1_7: -1410017201401717877
+      blood - right 1_8: -6796105515102715488
+      blood - right 1_9: 5381840666752756910
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

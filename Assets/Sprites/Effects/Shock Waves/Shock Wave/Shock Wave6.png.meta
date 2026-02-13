@@ -197,7 +197,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Shock Wave6_0: -625634644777136862
+      Shock Wave6_1: -3386031797718506395
+      Shock Wave6_2: -4038339265184050943
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,6 +13,9 @@ public class GameInputManager : MonoBehaviour {
 
     private InputActions inputActions;
     private readonly List<Vector2> activeDirs = new();
+
+    private float weaponSwitchDelay = 0.1f;
+    private Coroutine weaponSwitchCoroutine;
     public static GameInputManager Instance { get; private set; }
 
     private void Awake() {
@@ -25,8 +29,6 @@ public class GameInputManager : MonoBehaviour {
 
         inputActions.Player.Shoot.performed += Input_OnShootPerformed;
         inputActions.Player.TestButton.performed += Input_OnTestPerformed;
-        inputActions.Player.PrevWeapon.performed += Input_OnPrevWeaponPerformed;
-        inputActions.Player.NextWeapon.performed += Input_OnNextWeaponPerformed;
         inputActions.UI.Pause.performed += Input_OnPausePerformed;
 
         RegisterDir(inputActions.Player.Up, Vector2.up);
@@ -38,6 +40,10 @@ public class GameInputManager : MonoBehaviour {
     private void OnDisable() {
         inputActions.Player.Disable();
         inputActions.UI.Disable();
+    }
+
+    private void Update() {
+        HandleWeaponSwitch();
     }
 
     private void RegisterDir(InputAction action, Vector2 dir) {
@@ -69,14 +75,29 @@ public class GameInputManager : MonoBehaviour {
         return inputActions.Player.Shoot.ReadValue<float>() > 0.3f;
     }
 
+    public void DisablePlayerControls() => inputActions.Player.Disable();
+    public void EnablePlayerControls() => inputActions.Player.Enable();
+
+    public void HandleWeaponSwitch() {
+        bool prev = inputActions.Player.PrevWeapon.ReadValue<float>() > 0.3f;
+        bool next = inputActions.Player.NextWeapon.ReadValue<float>() > 0.3f;
+        if (weaponSwitchCoroutine == null) {
+            if (next) weaponSwitchCoroutine = StartCoroutine(SwitchWeapon(true));
+            else if (prev) weaponSwitchCoroutine = StartCoroutine(SwitchWeapon(false));
+        }
+    }
+
     private void Input_OnShootPerformed(InputAction.CallbackContext context)
         => OnShootPerformed?.Invoke(this, EventArgs.Empty);
     private void Input_OnTestPerformed(InputAction.CallbackContext context)
         => OnTestPerformed?.Invoke(this, EventArgs.Empty);
-    private void Input_OnPrevWeaponPerformed(InputAction.CallbackContext context)
-        => OnPrevWeaponPerformed?.Invoke(this, EventArgs.Empty);
-    private void Input_OnNextWeaponPerformed(InputAction.CallbackContext context)
-        => OnNextWeaponPerformed?.Invoke(this, EventArgs.Empty);
     private void Input_OnPausePerformed(InputAction.CallbackContext context)
     => OnPausePerformed?.Invoke(this, EventArgs.Empty);
+
+    private IEnumerator SwitchWeapon(bool next) {
+        yield return new WaitForSeconds(weaponSwitchDelay);
+        if (next) OnNextWeaponPerformed?.Invoke(this, EventArgs.Empty);
+        else OnPrevWeaponPerformed?.Invoke(this, EventArgs.Empty);
+        weaponSwitchCoroutine = null;
+    }
 }

@@ -84,14 +84,14 @@ public class Emitter : MonoBehaviour {
     }
 
 
-    public void UpdateDirecttion(Vector2 start, Vector2 dir) {
+    public void UpdateDirection(Vector2 start, Vector2 dir) {
         if ((Vector2)transform.position != start)
             transform.position = start;
         if ((Vector2)transform.right != dir)
             transform.right = dir;
     }
 
-    public void StartEmitting(Vector2 start, Vector2 dir) {
+    public void StartEmitting() {
         if (!emitting) {
             flameParticles.Play();
             smokeParticles.Play();
@@ -108,6 +108,7 @@ public class Emitter : MonoBehaviour {
         if (emitting) {
             flameParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             smokeParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            startAudioSource.Stop();
             loopAudioSource.Stop();
 
             emitting = false;

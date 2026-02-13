@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalVariables : MonoBehaviour {
+    public enum ControlType { mouse, keyboard }
     public static GlobalVariables Instance;
 
     [SerializeField] private int initGold;
@@ -12,6 +13,7 @@ public class GlobalVariables : MonoBehaviour {
     private int zombieCount;
     private int zombiesKilled;
 
+    [SerializeField] private ControlType controlType = ControlType.mouse;
     private Dictionary<string, int> variables;
     public int Gold {
         get { return gold; }
@@ -49,5 +51,17 @@ public class GlobalVariables : MonoBehaviour {
         Gold = initGold;
         ZombieCount = 0;
         ZombiesKilled = 0;
+        bool mouseAim = PlayerPrefs.GetInt(PrefKeys.mouseAim) == 1;
+        if (mouseAim) controlType = ControlType.mouse;
+        else controlType = ControlType.keyboard;
+    }
+
+    public void SwitchControlType() {
+        if (controlType == ControlType.mouse) controlType = ControlType.keyboard;
+        else controlType = ControlType.mouse;
+    }
+
+    public bool isMouseBased() {
+        return controlType == ControlType.mouse;
     }
 }

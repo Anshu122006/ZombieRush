@@ -20,6 +20,7 @@ public class GameMenuManager : MonoBehaviour {
     public GameObject playerStats;
     public TextMeshProUGUI fullscreenText;
     public TextMeshProUGUI hudText;
+    public TextMeshProUGUI mouseAimText;
     public Slider musicSlider;
     public Slider sfxSlider;
     public Image fadeOverlay;
@@ -56,6 +57,7 @@ public class GameMenuManager : MonoBehaviour {
         sfxSlider.value = PlayerPrefs.GetFloat(PrefKeys.sfxVolume);
         fullscreenText.text = Screen.fullScreen ? "ON" : "OFF";
         hudText.text = PlayerPrefs.GetInt(PrefKeys.showHud) == 1 ? "ON" : "OFF";
+        mouseAimText.text = PlayerPrefs.GetInt(PrefKeys.mouseAim) == 1 ? "ON" : "OFF";
 
         input.OnPausePerformed += OnPausePressed;
     }
@@ -114,9 +116,20 @@ public class GameMenuManager : MonoBehaviour {
         hudText.text = showHud ? "ON" : "OFF";
     }
 
+    public void ToggleMouseAim() {
+        bool mouseAim = PlayerPrefs.GetInt(PrefKeys.mouseAim) == 1;
+        if (mouseAim) PlayerPrefs.SetInt(PrefKeys.mouseAim, 0);
+        else PlayerPrefs.SetInt(PrefKeys.mouseAim, 1);
+        GlobalVariables.Instance?.SwitchControlType();
+        mouseAim = !mouseAim;
+        Debug.Log(mouseAim);
+        mouseAimText.text = mouseAim ? "ON" : "OFF";
+    }
+
     public void PauseGame() {
         hud.SetActive(false);
         settings.SetActive(true);
+        GameInputManager.Instance.DisablePlayerControls();
         Time.timeScale = 0;
     }
 
@@ -125,6 +138,7 @@ public class GameMenuManager : MonoBehaviour {
         Time.timeScale = 1;
         settings.SetActive(false);
         hud.SetActive(true);
+        GameInputManager.Instance.EnablePlayerControls();
         DisableExitMessage();
 
         if (showHud) playerStats.SetActive(true);

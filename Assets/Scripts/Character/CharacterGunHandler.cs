@@ -18,14 +18,6 @@ public class CharacterGunHandler : MonoBehaviour {
     public IGunBehaviour Gun => unlocked[activeIndex].GetComponent<IGunBehaviour>();
     public float GunWeight => unlocked[activeIndex].GetComponent<IGunBehaviour>().Weight;
 
-
-    public void Previous(System.Object sender, EventArgs e) {
-        if (activeIndex > 0) Equip(activeIndex - 1);
-    }
-    public void Next(System.Object sender, EventArgs e) {
-        if (activeIndex < unlocked.Count - 1) Equip(activeIndex + 1);
-    }
-
     private void Awake() {
         foreach (var x in guns) {
             IGunBehaviour gun = x.GetComponent<IGunBehaviour>();
@@ -44,6 +36,13 @@ public class CharacterGunHandler : MonoBehaviour {
         input.OnPrevWeaponPerformed += Previous;
     }
 
+    public void Previous(System.Object sender, EventArgs e) {
+        if (activeIndex > 0) Equip(activeIndex - 1);
+    }
+    public void Next(System.Object sender, EventArgs e) {
+        if (activeIndex < unlocked.Count - 1) Equip(activeIndex + 1);
+    }
+
     private void Equip(int i) {
         if (i < 0 || i >= unlocked.Count) return;
 
@@ -57,7 +56,7 @@ public class CharacterGunHandler : MonoBehaviour {
     }
 
     public void Refill(string gunName, int amount) {
-        Debug.Log(unlocked);
+        // Debug.Log(unlocked);
         IGunBehaviour gun = unlocked.Find(x => x.GetComponent<IGunBehaviour>().Name == gunName)?.GetComponent<IGunBehaviour>();
         Debug.Log(gun);
         if (gun == null) return;
@@ -73,25 +72,25 @@ public class CharacterGunHandler : MonoBehaviour {
                 ItemsGlobalData.Instance.AddItem(gunName);
                 HudManager.Instance?.ShowLog(gunName + " has been unlocked");
                 break;
-            case 4:
+            case 3:
                 gunName = "shotgun";
                 unlocked.Add(gunsDict[gunName]);
                 ItemsGlobalData.Instance.AddItem(gunName);
                 HudManager.Instance?.ShowLog(gunName + " has been unlocked");
                 break;
-            case 7:
+            case 5:
                 gunName = "grenade";
                 unlocked.Add(gunsDict[gunName]);
                 ItemsGlobalData.Instance.AddItem(gunName);
                 HudManager.Instance?.ShowLog(gunName + " has been unlocked");
                 break;
-            case 10:
+            case 6:
                 gunName = "flamethrower";
                 unlocked.Add(gunsDict[gunName]);
                 ItemsGlobalData.Instance.AddItem(gunName);
                 HudManager.Instance?.ShowLog(gunName + " has been unlocked");
                 break;
-            case 15:
+            case 10:
                 gunName = "minigun";
                 unlocked.Add(gunsDict[gunName]);
                 ItemsGlobalData.Instance.AddItem(gunName);
